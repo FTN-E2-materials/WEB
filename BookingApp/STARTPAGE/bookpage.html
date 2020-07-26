@@ -1,0 +1,52 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Booking kod Jelene i Danice</title>
+    <link rel="stylesheet" href="bookpage.css" />
+</head>
+
+<body>
+        <div class = "navigation-area">
+            <ul class = "nav navbar">
+                <li class = "menu"><a href="homepage.html">Početna</a></li>
+                <li class = "menu"><a href="">Preporučeno</a></li>
+                <li class = "menu"><a href="bookpage.html">Rezerviši sada</a></li>
+                <li class = "menu"><a href="">Moje rezervacije</a></li>
+                <li class = "menu"><a href="">Moji apartmani</a></li>
+                <li class = "menu" style="float:right"><a href="startpage.html">Prijavi se</a></li>
+                <li class = "menu" style="float:right"><a href="">Profil</a></li>
+            </ul>
+        </div>
+
+        <div class = "booking-section">
+            <form class="form-inline" action="">
+                <div class = "row">
+                    <div class = "column">
+                        <label for="destination">Destinacija:</label>
+                        <input type="text" id="email" placeholder="Mesto, Država" name="dest">
+                    </div>
+                    <div class = "column">
+                        <label for="rooms">Broj soba:</label>
+                        <input type="number" id="roomNumber" class = "number" name="roomNumber">
+                    </div>
+                    <div class = "column">
+                        <label for="guests">Broj gostiju:</label>
+                        <input type="number" id="guestNumber" class = "number" name="guestNumber">
+                        </div>
+                    <div class="column" >
+                        <label for="startDate">Početni datum:</label>
+                        <input type="date" id="startdate" name="start">
+                    </div>
+                    <div class = "column">
+                        <label for="endDate">Krajnji datum:</label>
+                        <input type="date" id="enddate" name="end">
+                    </div>
+
+            </div>
+            <button type="submit" class = "form_button">Pretraži</button>
+        </div>
+              </form>
+        </div>
+
+</body>
+</html>
