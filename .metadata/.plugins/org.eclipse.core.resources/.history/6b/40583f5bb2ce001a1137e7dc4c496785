@@ -1,0 +1,10 @@
+package model;
+
+public class Guest extends User {
+	private List<Apartment> rentedApartment;
+
+	public Guest(String username, String password, String name, String surname, Gender gender, UserRole role) {
+		super(username, password, name, surname, gender, role);
+	}
+
+}
