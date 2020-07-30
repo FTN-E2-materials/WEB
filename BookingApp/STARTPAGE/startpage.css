@@ -104,6 +104,17 @@ label span{
     text-transform: uppercase;
 }
 
+.form-part {
+  width: 1000px;
+  height: 800px;
+  opacity: 0.9;
+  margin-bottom: 20px;
+  margin-top: 70px;
+  border-radius: 10px;
+  align-content: center;
+  background-color: #fff;
+  box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
 input{
     display: block;
     width: 100%;

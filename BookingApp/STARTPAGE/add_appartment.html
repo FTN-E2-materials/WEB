@@ -1,0 +1,57 @@
+<html>
+
+<head>
+
+    <title>Booking kod Jelene i Danice</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="bookpage.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+    <div class = "navigation-area">
+        <ul class = "nav navbar">
+            <li class = "menu"><a href="homepage.html">Početna</a></li>
+            <li class = "menu"><a href="">Preporučeno</a></li>
+            <li class = "menu"><a href="bookpage.html">Rezerviši sada</a></li>
+            <li class = "menu"><a href="reservations.html">Moje rezervacije</a></li>
+            <li class = "menu"><a href="myapartments.html">Moji apartmani</a></li>
+            <li class = "menu" style="float:right"><a href="startpage.html">Prijavi se</a></li>
+            <li class = "menu" style="float:right"><a href="">Profil</a></li>
+        </ul>
+    </div>
+
+    <div class="form-part">
+        <h1>Dodajte novi apartman</h1>
+        <div class="form-apt">
+            <div class="col-add">
+            <p class = info-apt>Naziv</p>
+            <input type="text" id="apt-name" class = "details">
+            <p class = "info-apt">Tip apartmana</p>
+            <div class = "col-type-radio">
+                <div class = "col-date">
+                    <input type="radio" id="type-apt" class = "radio-apt" name="sortbydate" value="Najnovije">
+                    <p class = "sortbydate-font">Soba</p>
+                </div>
+                <div class = "col-date">
+                    <input type="radio" id="type-apt" class = "radio-apt" name="sortbydate" value="Najstarije">
+                    <p class = "sortbydate-font">Ceo apartman</p>
+                </div>
+            </div>
+            <p class = info-apt>Broj gostiju</p>
+            <input type="number" id="apt-num" class = "details">
+            <p class = info-apt>Država</p>
+            <input type="number" id="apt-num" class = "details">
+            <p class = info-apt>Mesto</p>
+            <input type="number" id="apt-num" class = "details">
+            </div>
+        
+    </div>
+    <button type="button" class="submit">Registrujte se</button>
+    </div>
+
+</body>
+</html>

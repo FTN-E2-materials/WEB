@@ -1,3 +1,5 @@
+
+
 body {
     position: relative;
     font-size: 14px;
@@ -45,7 +47,6 @@ ul {
   }
   
   li a {
-      
     display: block;
     color: white;
     height: 100%;
@@ -70,15 +71,14 @@ p {
     position: relative;
     height: 200px;
     width: 1200px;
+    opacity: 0.9;
     margin-top: 100px;
     background-size: cover;
     background-position: center;
     border-radius: 10px;
     align-content: center;
     background-color: #fff;
-
     box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
-
 }
 
 label {
@@ -117,6 +117,9 @@ input:focus {
     padding-bottom: 5px;
     padding-left: 0;
     position: relative;
+    border: none;
+    outline: none;
+    background: none;
     border: transparent;
     border-bottom: 1px solid rgba(109, 93, 93, 0.4);
     text-align: left;
@@ -130,7 +133,70 @@ input:focus {
     width: 200px;
 }
 
+
+.add_btn {
+    display: block;
+    margin: 0 auto;
+    width: 260px;   
+    text-transform: uppercase;
+    border: none;
+    outline: none;
+    background: none;
+    height: 40px;
+    border-radius: 30px;
+    border-color: transparent;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: -webkit-linear-gradient(left, #BE95C4, #E0B1CB);
+    font-size: 15px;
+    cursor: pointer;
+
+}
+
+.submit {
+    display: block;
+    margin: 0 auto;
+    width: 260px;
+    border: none;
+    outline: none;
+    background: none;
+    height: 40px;
+    border-radius: 30px;
+    border-color: transparent;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: -webkit-linear-gradient(left, #BE95C4, #E0B1CB);
+    font-size: 15px;
+    cursor: pointer;
+}
+
 .form_button {
+    display: block;
+    margin: 0 auto;
+    width: 260px;
+    border: none;
+    outline: none;
+    background: none;
+    height: 40px;
+    border-radius: 30px;
+    border-color: transparent;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: -webkit-linear-gradient(left, #BE95C4, #E0B1CB);
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.filter-aparments-btn {
     display: block;
     margin: 0 auto;
     width: 260px;
@@ -155,6 +221,7 @@ button:hover {
  .destinations-show {
       width: 1000px;
       height: 400px;
+      opacity: 0.9;
       margin: 70px;
       border-radius: 10px;
       align-content: center;
@@ -276,6 +343,31 @@ button:hover {
     box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
 
+.apartment-filter {
+    width: 1000px;
+    height: 1400px;
+    opacity: 0.9;
+    margin-bottom: 20px;
+    margin-top: 70px;
+    border-radius: 10px;
+    align-content: left;
+    background-color: #fff;
+    box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.form-part {
+    width: 1000px;
+    height: 800px;
+    opacity: 0.9;
+    display: block;
+    margin-bottom: 20px;
+    margin-top: 70px;
+    border-radius: 10px;
+    align-content: center;
+    background-color: #fff;
+    box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
 .bydate {
     display: flex;
 
@@ -392,3 +484,78 @@ input[type='radio']:checked:after {
     display: flex;
 }
 
+.active-or-not {
+    margin-top: 20px;
+    display: flex;
+}
+
+.apartment-row {
+    display: flex;
+}
+
+.apartment-name {
+    font-size: 17px;
+    font-weight: 400;    
+    margin-left: 70px;
+}
+
+.apartment-column-image {
+    align-content: center;
+}
+
+.image-apartment {
+    background-image: url("italy.jpg");
+    margin-top: 20px;
+    width: 400px;
+    height: 250px;
+    border-radius: 10px;
+    background-size: contain;
+    margin-left: 70px;
+}
+
+.more-buttons-ap {
+    display: flex;
+    margin-left: 70px;
+    margin-top: 20px;
+}
+
+.one-button-ap {
+    display: flex;
+    margin-left: 10px;
+}
+
+.radio_btns {
+    display: flex;
+}
+
+
+
+.info-apt {
+    font-size: 14px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    font-weight: 500;
+    text-align: center;
+    color: #5E548E;
+    text-transform: uppercase;
+}
+.details {
+    margin-left: 30px;
+}
+.col-add {
+    margin-left: 30px;
+    align-content: center;
+}
+
+.form-apt {
+    display: flex;
+}
+
+.radio-apt {
+    width: auto;
+}
+
+.col-type-radio {
+    display: flex;
+    margin-left: 20px;
+}
