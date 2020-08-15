@@ -1,0 +1,13 @@
+package controllers;
+
+import services.UsersService;
+
+public class UsersController {
+	private UsersService usersService;
+	public UsersController(UsersService usersService) {
+		
+	}
+	post("user/login", (req, res) -> {
+		User tryLogin = user
+	});
+}

@@ -1,6 +1,6 @@
 package dto;
 
-import model.Gender;
+import beans.Gender;
 
 public class RegisterDTO {
 	private String name;

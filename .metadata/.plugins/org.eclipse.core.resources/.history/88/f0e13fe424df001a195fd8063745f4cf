@@ -1,0 +1,11 @@
+package dao;
+
+import beans.User;
+
+public class UsersDao extends JSONRepository<User, String> {
+
+	UsersDao(String path) {
+		super(path);
+	}
+
+}

@@ -1,0 +1,88 @@
+package controllers;
+
+import static spark.Spark.post;
+import static spark.Spark.get;
+
+import com.google.gson.Gson;
+
+import beans.User;
+import dto.LoginDTO;
+import services.UsersService;
+import spark.Session;
+
+public class UsersController {
+	private UsersService usersService;
+	private static Gson gs = new Gson();
+	
+	public UsersController(UsersService usersService) {
+		this.usersService = usersService;
+
+		post("/user/login", (req, res) -> {
+			res.type("application/json");
+			
+			try {
+				User tryLogin = usersService.login(gs.fromJson(req.body(), LoginDTO.class));
+				if (tryLogin != null) {
+					if (tryLogin.isBlocked()) {
+						return "";
+					}
+					
+					Session session = req.session(true);
+					User isLoggedIn = session.attribute("user");
+					if (isLoggedIn == null) {
+						session.attribute("user", tryLogin);
+					}
+					
+				} else {
+					return "";
+				}
+				return gs.toJson(tryLogin);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/user/logout", (req, res) -> {
+			res.type("application/json");
+			Session session = req.session(true);
+			if (session.attribute("user") != null) {
+				session.invalidate();
+			}
+			return "";
+		});
+		
+		get("/user/seeIfLogged", (req, res) -> {
+			res.type("application/json");
+			Session session = req.session(true);
+			User user = session.attribute("user");
+			return gs.toJson(user);
+		});
+		
+		post("/user/register", (req, res) -> {
+			res.type("application/json");
+
+			try {
+				User tryRegister = usersService.register(gs.fromJson(req.body(), RegistrationDTO.class));
+				if (tryLogin != null) {
+					if (tryLogin.isBlocked()) {
+						return "";
+					}
+					
+					Session session = req.session(true);
+					User isLoggedIn = session.attribute("user");
+					if (isLoggedIn == null) {
+						session.attribute("user", tryLogin);
+					}
+					
+				} else {
+					return "";
+				}
+				return gs.toJson(tryLogin);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+	}
+}

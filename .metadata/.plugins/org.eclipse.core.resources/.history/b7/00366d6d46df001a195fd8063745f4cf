@@ -1,0 +1,48 @@
+const login = { template : '<login></login>' }
+
+
+const router = new VueRouter({
+    mode : 'hash',
+    routes : [
+        { path : '/login', component: login }
+    ]
+});
+
+var app = new Vue({
+    router: router, 
+    el: '#webApp',
+    data: {
+    	mod : 'plsWork'
+    },
+    mounted() {
+    	axios
+	    	.get('/user/seeIfLogged')
+	    	.then(response => {
+	    		if (response.data == null) {
+	    			this.mod = 'notLogged';
+	    		} else 
+	    		{
+	    			if (response.data.role == "Guest") {
+	    				this.mod = 'guest';
+	    			} else if (response.data.role == "Host") {
+		    			this.mod = 'host';
+		    		} else if (response.data.role == "Admin") {
+		    			this.mod = 'admin';
+		    		} else {
+		    			this.mod = 'notLogged';
+		    		}
+	    		}
+	    	})
+    },
+    methods : {
+    	logOut : function() {
+    		axios 
+    			.get('/user/logout', JSON.stringify(loginParameters))
+    			.then(response => {
+    				if (response.data != "") {
+    					this.mode = "notLogged";
+    				}
+    			})
+    	}
+    }
+});
