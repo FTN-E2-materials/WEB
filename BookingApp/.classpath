@@ -6,57 +6,57 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/aopalliance-repackaged-2.2.0.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/asm-all-repackaged-2.2.0.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/gson-2.2.2.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/hk2-api-2.2.0.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/hk2-locator-2.2.0.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/hk2-utils-2.2.0.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jackson-core-asl-1.9.13.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jackson-jaxrs-1.9.13.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jackson-mapper-asl-1.9.13.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jackson-xc-1.9.13.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/javassist-3.18.1-GA.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/javax.annotation-api-1.2.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/javax.inject-2.2.0.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/javax.servlet-api-3.1.0.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/javax.ws.rs-api-2.0.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/javaxt-core.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jaxb-api-2.2.7.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jersey-client.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jersey-common.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jersey-container-servlet.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jersey-container-servlet-core.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jersey-guava-2.8.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jersey-media-json-jackson-2.0-m07.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jersey-server.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jetty-http-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jetty-io-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jetty-security-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jetty-server-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jetty-servlet-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jetty-util-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jetty-webapp-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jetty-xml-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jjwt-api-0.11.1.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jjwt-gson-0.11.1.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jjwt-impl-0.11.1.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/jsp-api.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/opencv-310.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/org.osgi.core-4.2.0.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/osgi-resource-locator-1.0.1.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/persistence-api-1.0.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/slf4j-api-1.7.13.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/slf4j-api-1.7.21.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/slf4j-simple-1.7.21.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/spark-core-2.5.5.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/standard.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/sun.misc.BASE64Decoder.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/validation-api-1.1.0.Final.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/websocket-api-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/websocket-client-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/websocket-common-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/websocket-server-9.3.6.v20151106.jar"/>
-	<classpathentry kind="lib" path="D:/Jelena Fax/Treca/WEB/Projekat/BookingApp/lib/websocket-servlet-9.3.6.v20151106.jar"/>
+	<classpathentry kind="lib" path="lib/aopalliance-repackaged-2.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/asm-all-repackaged-2.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/gson-2.2.2.jar"/>
+	<classpathentry kind="lib" path="lib/hk2-api-2.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/hk2-locator-2.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/hk2-utils-2.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-core-asl-1.9.13.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-jaxrs-1.9.13.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-mapper-asl-1.9.13.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-xc-1.9.13.jar"/>
+	<classpathentry kind="lib" path="lib/javassist-3.18.1-GA.jar"/>
+	<classpathentry kind="lib" path="lib/javax.annotation-api-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/javax.inject-2.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/javax.servlet-api-3.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/javax.ws.rs-api-2.0.jar"/>
+	<classpathentry kind="lib" path="lib/javaxt-core.jar"/>
+	<classpathentry kind="lib" path="lib/jaxb-api-2.2.7.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-client.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-common.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-container-servlet-core.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-container-servlet.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-guava-2.8.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-media-json-jackson-2.0-m07.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-server.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-http-9.3.6.v20151106.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-io-9.3.6.v20151106.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-security-9.3.6.v20151106.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-server-9.3.6.v20151106.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-servlet-9.3.6.v20151106.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-util-9.3.6.v20151106.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-webapp-9.3.6.v20151106.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-xml-9.3.6.v20151106.jar"/>
+	<classpathentry kind="lib" path="lib/jjwt-api-0.11.1.jar"/>
+	<classpathentry kind="lib" path="lib/jjwt-gson-0.11.1.jar"/>
+	<classpathentry kind="lib" path="lib/jjwt-impl-0.11.1.jar"/>
+	<classpathentry kind="lib" path="lib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="lib/opencv-310.jar"/>
+	<classpathentry kind="lib" path="lib/org.osgi.core-4.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/osgi-resource-locator-1.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/persistence-api-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.7.13.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.7.21.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-simple-1.7.21.jar"/>
+	<classpathentry kind="lib" path="lib/spark-core-2.5.5.jar"/>
+	<classpathentry kind="lib" path="lib/standard.jar"/>
+	<classpathentry kind="lib" path="lib/sun.misc.BASE64Decoder.jar"/>
+	<classpathentry kind="lib" path="lib/validation-api-1.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="lib/websocket-api-9.3.6.v20151106.jar"/>
+	<classpathentry kind="lib" path="lib/websocket-client-9.3.6.v20151106.jar"/>
+	<classpathentry kind="lib" path="lib/websocket-common-9.3.6.v20151106.jar"/>
+	<classpathentry kind="lib" path="lib/websocket-server-9.3.6.v20151106.jar"/>
+	<classpathentry kind="lib" path="lib/websocket-servlet-9.3.6.v20151106.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

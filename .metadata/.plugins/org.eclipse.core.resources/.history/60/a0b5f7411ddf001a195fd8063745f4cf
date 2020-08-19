@@ -1,5 +1,0 @@
-package dao;
-
-public class JSONRepository<T, ID> implements DAO<T, ID> {
-
-}

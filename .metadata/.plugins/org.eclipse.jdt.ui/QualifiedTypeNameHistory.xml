@@ -2,6 +2,12 @@
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="com.sun.tools.javac.util.List"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="spark.Spark"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="beans.Gender"/>
+    <fullyQualifiedTypeName name="beans.User"/>
+    <fullyQualifiedTypeName name="com.sun.jdi.Type"/>
+    <fullyQualifiedTypeName name="spark.Session"/>
+    <fullyQualifiedTypeName name="beans.UserRole"/>
 </qualifiedTypeNameHistroy>

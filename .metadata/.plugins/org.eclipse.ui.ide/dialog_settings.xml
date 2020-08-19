@@ -6,6 +6,7 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="D:\Jelena Fax\Treca\WEB\WebAirbnb-master"/>
 			<item value="D:\Jelena Fax\Treca\WEB\ROMANA\Veb programiranje\Projekat\Projekat\WebProjekat-sw58-sw60"/>
 		</list>
 	</section>
