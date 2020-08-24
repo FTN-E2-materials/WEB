@@ -8,10 +8,12 @@ Vue.component("login", {
 		    	usernameRegister: '',
 		    	passwordRegister: '',
 		    	nameRegister: '',
-		    	surnameRegister: '',
+				surnameRegister: '',
+				genderRegister:'',
 		    	passwordRepeat: '',
 			    passwordLog:'',
-			    errorMessage:''
+				errorMessage:'',
+				registrationFormError: 'lalala'
 		    }
 	},
 	
@@ -51,7 +53,7 @@ Vue.component("login", {
 </div>
 
 <div class="form sign-up">
-    <h1>Registrujte se</h1>
+    <h1>Registracija</h1>
     <label>
         <span>Ime</span>
         <input type="text" v-model="nameRegister"  name="name">
@@ -71,7 +73,27 @@ Vue.component("login", {
     <label>
         <span>Ponovite lozinku</span>
         <input type="password" name="passwordRepeat" v-model="passwordRepeat">
-    </label>
+	</label>
+	<label>
+	<span>Pol</span>
+	
+	<tr class="radio_button">
+	<td>
+	<input type="radio" id="male" name="gender" value="Muško" v-model="genderRegister" style="width:70px;">
+	<span for="male" style="width:70px;">Muško</span>
+	</td>
+	<td>
+	<input type="radio" id="female" name="gender" value="Žensko" v-model="genderRegister"  style="width:70px;">
+	<span for="female"  style="width:70px;">Žensko</span>
+	</td>
+	<td>
+	<input type="radio" id="other" name="gender" value="Ostalo" v-model="genderRegister"  style="width:70px;">
+	<span for="other"  style="width:70px;">Ostalo</span>
+	</td>
+	</tr>
+	</label>
+	
+	<p style="color:red">{{registrationError}}</p>
     <button type="button" class="submit" v-on:click="registerUser">Registrujte se</button>
 </div>
 
@@ -124,13 +146,19 @@ Vue.component("login", {
     		
     	}, 
     	registerUser : function() {
-    		let registrationParameters = {
+			if(this.nameRegistration=="" ||this.surnameRegistration=="" ||this.usernameRegistration=="" ||this.passwordRegistration=="" || this.genderRegister=="")
+			{
+				registrationFormError="Morate popuniti sva polja u formi.";
+			}
+			else
+			{
+				let registrationParameters = {
     				name : this.nameRegistration,
     				surname : this.surnameRegistration,
     				username : this.usernameRegistration,
     				password : this.passwordRegistration,
     				role : 'Guest',
-    				gender : 'Female'
+    				gender : this.genderRegister
     		};
 
     		axios 
@@ -142,6 +170,8 @@ Vue.component("login", {
     					window.location.href = "http://localhost:8088/";
     				}
     			})
+			}
+    		
 		},
 		
 		signalChange : function()

@@ -378,6 +378,10 @@ button:hover {
 
 }
 
+.radio button{
+    margin-left: 200px;
+}
+
 .bycost {
     display: flex;
 }
