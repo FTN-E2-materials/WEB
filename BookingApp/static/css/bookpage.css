@@ -1,0 +1,623 @@
+
+
+body {
+    position: relative;
+    font-size: 14px;
+    background: #fff;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: scroll;
+    margin: 0 auto;
+    background-size: cover;
+    background-attachment: fixed;
+    background-image: url(../images/bora-bora-sunset.jpg);
+}
+
+h1,h2,h3,h4,h5,h6 { 
+    margin-top: 15px;
+	color:#222222;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.navigation-area{
+    width: 100%;
+    position: fixed;
+    height: 50px;
+    z-index: 99;
+    background: -webkit-linear-gradient(left, #BE95C4, #E0B1CB);
+}
+
+ul {    
+    list-style-type : none;
+    margin : 0;
+    padding : 0;
+    width: 100%;
+    height: 100%;
+    overflow : hidden;
+    background: -webkit-linear-gradient(left, #BE95C4, #E0B1CB);
+  }
+
+  li{
+    float: left;
+    height: 100%;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    height: 100%;
+    text-align: center;
+    padding: 12px 13px;
+    text-decoration: none;
+    font-size: 17px;
+    text-transform: uppercase;
+  }
+  
+  li a:hover {
+    background: -webkit-linear-gradient(left, #E0B1CB, #BE95C4);
+  }
+
+p {
+	margin: 0;
+	color:#666666;
+	font-size:15px;
+}
+
+.booking-section {
+    position: relative;
+    height: 200px;
+    width: 1200px;
+    opacity: 0.9;
+    margin-top: 100px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    align-content: center;
+    background-color: #fff;
+    box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+label {
+    display: block;
+    width: 260px;
+    margin: 5px 5px 5px 0px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    text-align: left;
+}
+
+label span{
+    font-size: 15px;
+    font-weight: 600;
+    color: #5E548E;
+    text-transform: uppercase;
+}
+
+.number {
+    width: 50px;
+}
+input{
+    font-size: 16px;
+    padding-bottom: 5px;
+    padding-left: 0;
+    position: relative;
+    border: transparent;
+    border-bottom: 1px solid rgba(109, 93, 93, 0.4);
+    text-align: left;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+input:focus {
+    font-size: 16px;
+    padding-bottom: 5px;
+    padding-left: 0;
+    position: relative;
+    border: none;
+    outline: none;
+    background: none;
+    border: transparent;
+    border-bottom: 1px solid rgba(109, 93, 93, 0.4);
+    text-align: left;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.row {
+    display: flex;
+}
+.column {
+    margin: 40px 0px 40px 40px;
+    width: 200px;
+}
+
+
+.add_btn {
+    display: block;
+    margin: 0 auto;
+    width: 260px;   
+    text-transform: uppercase;
+    border: none;
+    outline: none;
+    background: none;
+    height: 40px;
+    border-radius: 30px;
+    border-color: transparent;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: -webkit-linear-gradient(left, #BE95C4, #E0B1CB);
+    font-size: 15px;
+    cursor: pointer;
+
+}
+
+.submit {
+    display: block;
+    margin: 0 auto;
+    margin-top: 5px;
+    width: 260px;
+    border: none;
+    outline: none;
+    background: none;
+    height: 40px;
+    border-radius: 30px;
+    border-color: transparent;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: -webkit-linear-gradient(left, #BE95C4, #E0B1CB);
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.form_button {
+    display: block;
+    margin: 0 auto;
+    width: 260px;
+    border: none;
+    outline: none;
+    background: none;
+    height: 40px;
+    border-radius: 30px;
+    border-color: transparent;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: -webkit-linear-gradient(left, #BE95C4, #E0B1CB);
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.form_apt {
+    align-content: center;
+}
+
+.filter-aparments-btn {
+    display: block;
+    margin: 0 auto;
+    width: 260px;
+    height: 40px;
+    border-radius: 30px;
+    border-color: transparent;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: -webkit-linear-gradient(left, #BE95C4, #E0B1CB);
+    font-size: 15px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: -webkit-linear-gradient(left, #E0B1CB, #BE95C4);
+  }
+
+
+ .destinations-show {
+      width: 1000px;
+      height: 400px;
+      opacity: 0.9;
+      margin: 70px;
+      border-radius: 10px;
+      align-content: center;
+      background-color: #fff;
+      box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+  }
+
+  .img-row {
+      display: flex;
+      align-content: center;
+  }
+
+  .spain {
+    margin: 10px;
+    width: 310px;
+    border-radius: 10px;
+    height: 200px;    
+    object-fit: cover;
+    background-image: url("spain.jpg");
+    background-size: contain;
+
+  }
+
+  .italy {    
+    margin: 10px;
+    width: 310px;
+    border-radius: 10px;
+    height: 200px;    
+    object-fit: cover;
+    background-image: url("italy.jpg");
+    background-size: contain;
+}
+
+.uk {
+    margin: 10px;
+    width: 310px;
+    border-radius: 10px;
+    height: 200px;    
+    background-image: url("uk.jpg");
+    background-size: contain;
+}
+.cuba {
+    margin: 10px;
+    width: 310px;
+    border-radius: 10px;
+    height: 200px;    
+    background-image: url("cuba.jpg");
+    background-size: contain;
+}
+.bali {
+    margin: 10px;
+    width: 310px;
+    border-radius: 10px;
+    height: 200px;    
+    background-image: url("bali.jpg");
+    background-size: contain;
+}
+.zealand {
+    margin: 10px;
+    width: 310px;
+    border-radius: 10px;
+    height: 200px;    
+    background-image: url("novi-zeland.jpg");
+    background-size: contain;
+}
+
+.img:hover .uk{
+    filter: blur(4px);
+}
+
+.img:hover .spain{
+    filter: blur(4px);
+}
+
+.img:hover .italy{
+    filter: blur(4px);
+}
+.img:hover .cuba{
+    filter: blur(4px);
+}
+.img:hover .zealand{
+    filter: blur(4px);
+}
+.img:hover .bali{
+    filter: blur(4px);
+}
+
+.img:hover .description {
+    visibility: visible;
+    position: relative;
+    opacity: 40;
+}
+
+.description {
+    position: relative;
+    visibility: collapse;
+}
+
+
+.reservations {
+    width: 1000px;
+    height: 1000px;
+    margin-top: 100px;
+    opacity: 0.9;
+    border-radius: 10px;
+    align-content: center;
+    background-color: #fff;
+    box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.filters {
+    width: 1000px;
+    height: 200px;
+    opacity: 0.9;
+    margin-top: 70px;
+    border-radius: 10px;
+    align-content: left;
+    background-color: #fff;
+    box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.apartment-filter {
+    width: 1000px;
+    height: 1400px;
+    opacity: 0.9;
+    margin-bottom: 20px;
+    margin-top: 70px;
+    border-radius: 10px;
+    align-content: left;
+    background-color: #fff;
+    box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.form-part {
+    width: 1000px;
+    height: 800px;
+    opacity: 0.9;
+    display: block;
+    margin-bottom: 20px;
+    margin-top: 70px;
+    border-radius: 10px;
+    align-content: center;
+    background-color: #fff;
+    box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.bydate {
+    display: flex;
+
+}
+
+.bycost {
+    display: flex;
+}
+
+.filter-reservations {
+    font-size: 15px;
+    text-align: left;
+    width: 100px;
+    margin: 10px;
+}
+
+.sortbydate-font {
+    font-size: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-transform: uppercase;
+    text-align: left;
+    margin-left: 5px;
+}
+
+.col-date {
+    display: flex;
+    text-align: center;
+    align-content: center;
+    margin: 5px;
+}
+
+.col-filters {
+    width: 200px;
+    display: flex;
+}
+
+input[type='file'] {
+}
+
+input[type='radio']:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #E0B1CB;
+    content: '';
+    margin-right: 5px;
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+}
+
+input[type='radio']:checked:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    margin-right: 5px;
+    position: relative;
+    background-color: #BE95C4;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+}
+
+.reservation-destination {
+    text-align: left;
+    margin: 10px;
+}
+
+.reservation-image {
+    background-image: url("spain.jpg");
+    width: 300px;   
+    margin: 10px;
+    border-radius: 10px;
+    height: 200px;
+    background-size: contain;
+}
+
+.reservation-date {
+    margin: 10px;
+}
+
+.col-informations {
+    margin-top: 70px;
+    margin-left: 10px;
+}
+
+.info-reservation {
+    text-align: left;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 10px;
+}
+
+.row-reservations {
+    display: flex;
+}
+
+
+.icons {
+    border-color: black;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    align-content: center;
+}
+
+.one-button {
+    display: flex;
+}
+
+.row-pagination {
+    display: flex;
+}
+
+.active-or-not {
+    margin-top: 20px;
+    display: flex;
+}
+
+.apartment-row {
+    display: flex;
+}
+
+.apartment-name {
+    font-size: 17px;
+    font-weight: 400;    
+    margin-left: 70px;
+}
+
+.apartment-column-image {
+    align-content: center;
+}
+
+.image-apartment {
+    background-image: url("italy.jpg");
+    margin-top: 20px;
+    width: 400px;
+    height: 250px;
+    border-radius: 10px;
+    background-size: contain;
+    margin-left: 70px;
+}
+
+.more-buttons-ap {
+    display: flex;
+    margin-left: 70px;
+    margin-top: 20px;
+}
+
+.one-button-ap {
+    display: flex;
+    margin-left: 10px;
+}
+
+.radio_btns {
+    display: flex;
+}
+
+
+
+.info-apt {
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: 500;
+    text-align: center;
+    color: #5E548E;
+    text-transform: uppercase;
+}
+.details {
+    margin-left: 150px;
+    position: relative;
+    align-self: center;
+    align-content: center;
+}
+.col-add {
+    margin-left: 30px;
+    align-content: center;
+    width: 50%;
+}
+
+.form-apt {
+    display: flex;
+}
+
+.radio-apt {
+    width: auto;
+}
+
+.col-type-radio {
+    display: flex;
+    margin-left: 145px;
+    align-content: center;
+}
+
+.submit-apt {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    width: 260px;
+    border: none;
+    outline: none;
+    background: none;
+    height: 40px;
+    border-radius: 30px;
+    border-color: transparent;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: -webkit-linear-gradient(left, #BE95C4, #E0B1CB);
+    font-size: 15px;
+    cursor: pointer;
+
+}
+
+.apt-images {
+    display: flex;
+    margin-top: 30px;
+    margin-left: 100px;
+}
+
+.form-part-pics {
+    width: 1000px;
+    height: 800px;
+    opacity: 0.9;
+    display: block;
+    margin-bottom: 20px;
+    margin-top: 70px;
+    border-radius: 10px;
+    align-content: center;
+    background-color: #fff;
+    box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+
+}
+
+.apt-stuff {
+    display: flex;
+    margin-top: 20px;
+    margin-left: 60px;
+}
