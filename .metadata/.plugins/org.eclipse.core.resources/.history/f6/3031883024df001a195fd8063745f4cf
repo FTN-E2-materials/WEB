@@ -1,0 +1,19 @@
+package services;
+
+import beans.User;
+import dao.UsersDao;
+import dto.LoginDTO;
+
+public class UsersService {
+	private UsersDao userDao;
+	
+	public UsersService(UsersDao usersDao) {
+		this.userDao = usersDao;
+	}
+	
+	public User login(LoginDTO tryLoginUser) {
+		User triedLoginUser = usersDao.getByID(tryLoginUser.getUsername());
+	}
+
+
+}

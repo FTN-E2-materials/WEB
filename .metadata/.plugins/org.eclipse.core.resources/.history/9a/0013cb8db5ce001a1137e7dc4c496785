@@ -1,0 +1,14 @@
+package model;
+
+import java.util.Date;
+
+public class Reservation {
+	private Apartment apartment;
+	private Date startDate;
+	private int numberOfNights;
+	private double cost;
+	private String message;
+	private Guest guest;
+	private ReservationStatus status;
+	
+}

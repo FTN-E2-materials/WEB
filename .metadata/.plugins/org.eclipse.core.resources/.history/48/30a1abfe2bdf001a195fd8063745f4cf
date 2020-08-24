@@ -1,0 +1,10 @@
+package beans;
+
+import com.sun.jdi.Type;
+
+public interface IIdentifiable<ID> {
+	ID getID();
+	void setID(ID id);
+	boolean compareTo(ID id);
+	Type getClassType();
+}

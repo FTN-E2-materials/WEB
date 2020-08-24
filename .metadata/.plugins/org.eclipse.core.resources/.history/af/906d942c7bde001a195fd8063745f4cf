@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="css/table.css" rel="stylesheet" />
+<link href="css/toast.css" rel="stylesheet" />
+	<meta charset="utf-8"/>
+</head> 
+
+	<body>
+		<div id="webApp">
+			<h1> Hello </h1>
+			<router-view></router-view>
+		</div>
+		
+		<script src="js/vue.js"></script>
+		<script src="js/vue-router.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/axios.js"></script>
+		<script src="js/toast.js"></script>
+		<script src="app/app.js"></script>
+		
+		<script src="app/login.js"></script>
+		<script src="app/izmenaOrganizacija.js"></script>
+		<script src="app/izmenaBrisanjeKorisnika.js"></script>
+		<script src="app/izmenaProfila.js"></script>
+		<script src="app/VMView.js"></script>
+
+	</body>
+</html>

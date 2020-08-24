@@ -1,0 +1,5 @@
+package gson.extras;
+
+public class RuntimeTypeAdapterFactory {
+
+}

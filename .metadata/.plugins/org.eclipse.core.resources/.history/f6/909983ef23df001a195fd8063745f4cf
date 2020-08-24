@@ -1,0 +1,14 @@
+package services;
+
+import beans.User;
+import dto.LoginDTO;
+
+public class UsersService {
+	private UserDao userDao;
+	public User login(LoginDTO tryLoginUser) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+}
