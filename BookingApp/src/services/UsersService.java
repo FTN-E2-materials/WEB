@@ -19,7 +19,13 @@ public class UsersService {
 	}
 	
 	public User login(LoginDTO tryLoginUser) throws JsonSyntaxException, IOException {
-		User triedLoginUser = userDao.getByID(tryLoginUser.getUsername());
+		User triedLoginUser=null;
+		if(tryLoginUser.getUsername()!=null) 
+		{
+			triedLoginUser = userDao.getByID(tryLoginUser.getUsername());
+		}
+		
+		
 		if(triedLoginUser != null) {
 			if(triedLoginUser.getPassword().equals(tryLoginUser.getPassword())) {
 				return triedLoginUser;

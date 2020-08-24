@@ -88,11 +88,14 @@ public class JSONRepository<T extends IIdentifiable<ID>, ID> implements IDao<T, 
 	public T getByID(ID id) throws JsonSyntaxException, IOException {
 		T wantedEntity = null;
 		ArrayList<T> entities = (ArrayList<T>) getAll();
-		for(T el : entities) {
-			if(el.compareTo(id)) {
-				entities.remove(entities.indexOf(el));
-				wantedEntity = el;
-				break;
+		if(entities.size()!=0)
+		{
+			for(T el : entities) {
+				if(el.compareTo(id)) {
+					entities.remove(entities.indexOf(el));
+					wantedEntity = el;
+					break;
+				}
 			}
 		}
 		return wantedEntity;

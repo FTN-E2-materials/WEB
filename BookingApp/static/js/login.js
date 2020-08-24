@@ -10,9 +10,8 @@ Vue.component("login", {
 		    	nameRegister: '',
 		    	surnameRegister: '',
 		    	passwordRepeat: '',
-		    	usernameError:'',
 			    passwordLog:'',
-			    passwordError:''
+			    errorMessage:''
 		    }
 	},
 	
@@ -23,11 +22,12 @@ Vue.component("login", {
         <h1>Prijavi se</h1>
         <label>
             <span> Korisničko ime </span>
-            <input type="text" name = "username" v-model="usernameLog">
+			<input type="text" name = "username" v-on:change="signalChange" v-model="usernameLog">
         </label>
         <label>
             <span> Lozinka </span>
-            <input type="password" name="password" v-model="passwordLog">
+			<input type="password" name="password" v-model="passwordLog" v-on:change="signalChange">
+			<p style="color:red">{{errorMessage}}</p>
         </label>
         <button class="submit" v-on:click="tryToLogin" type="button"> Prijavi se </button>
     </div>
@@ -54,7 +54,7 @@ Vue.component("login", {
     <h1>Registrujte se</h1>
     <label>
         <span>Ime</span>
-        <input type="text" v-model="nameRegister" name="name">
+        <input type="text" v-model="nameRegister"  name="name">
     </label>
     <label>
         <span>Prezime</span>
@@ -96,7 +96,15 @@ Vue.component("login", {
     	},
     	
     	tryToLogin : function() {
-    		let loginParameters = {
+
+			if(this.usernameLog=='' || this.passwordLog=='')
+			{
+				this.errorMessage="Morate popuniti sva polja.";
+			}
+			else
+			{
+
+				let loginParameters = {
     				username : this.usernameLog,
     				password : this.passwordLog
     		};
@@ -104,12 +112,15 @@ Vue.component("login", {
     		axios 
     			.post('/user/login', JSON.stringify(loginParameters))
     			.then(response => {
-    				if (response.data == null) {
-    					window.location.href = "#/login";
+    				if (response.data == "") {
+						this.errorMessage="Neispravno korisničko ime ili lozinka.";
     				} else {
     					window.location.href = "http://localhost:8088/";
     				}
-    			})
+				})
+			}
+			
+    		
     		
     	}, 
     	registerUser : function() {
@@ -131,6 +142,11 @@ Vue.component("login", {
     					window.location.href = "http://localhost:8088/";
     				}
     			})
-    	}
+		},
+		
+		signalChange : function()
+		{
+			this.errorMessage="";
+		}
     }
 });
