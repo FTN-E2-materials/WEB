@@ -18,17 +18,17 @@ Vue.component("login", {
 	},
 	
     template: `
-
+<div class = "bg-login">
 <div class = "page">
     <div class = "form sign-in">
-        <h1>Prijavi se</h1>
-        <label>
+        <h1 class = "login-h1">Prijavi se</h1>
+        <label class = "login-label">
             <span> Korisničko ime </span>
-			<input type="text" name = "username" v-on:change="signalChange" v-model="usernameLog">
+			<input class = "login-input" type="text" name = "username" v-on:change="signalChange" v-model="usernameLog">
         </label>
-        <label>
+        <label class = "login-label">
             <span> Lozinka </span>
-			<input type="password" name="password" v-model="passwordLog" v-on:change="signalChange">
+			<input class = "login-input" type="password" name="password" v-model="passwordLog" v-on:change="signalChange">
 			<p style="color:red">{{errorMessage}}</p>
         </label>
         <button class="submit" v-on:click="tryToLogin" type="button"> Prijavi se </button>
@@ -37,14 +37,15 @@ Vue.component("login", {
 
 <div class="sub-page">
     <div class = "bground">
-        <div class = "bground-text m-up">
-            <h1>Nemate nalog?</h1>
-            <p>Registrujte se i rezervišite sebi apartman!</p>
+        <div
+         class = "bground-text m-up">
+            <h1 class = "login-h1">Nemate nalog?</h1>
+            <p class = "login-p">Registrujte se i rezervišite sebi apartman!</p>
         </div>
     
         <div class="bground-text m-in">
-            <h1>Već imate nalog?</h1>
-            <p>Ako već imate nalog, prijavite se i rezervišite sebi apartman!</p>
+            <h1 class = "login-h1" >Već imate nalog?</h1>
+            <p class = "login-p">Ako već imate nalog, prijavite se i rezervišite sebi apartman!</p>
         </div>
         <div class="bground-btn"  v-on:click="slideToOther">
             <span class="m-up">Registrujte se</span>
@@ -56,21 +57,21 @@ Vue.component("login", {
     <h1>Registracija</h1>
     <label>
         <span>Ime</span>
-        <input type="text" v-model="nameRegister"  name="name">
+        <input class = "login-input" type="text" v-model="nameRegister"  name="name">
     </label>
-    <label>
+    <label class = "login-label">
         <span>Prezime</span>
-        <input type="text" name="surname" v-model="surnameRegister">
+        <input class = "login-input" type="text" name="surname" v-model="surnameRegister">
     </label>
-    <label>
+    <label class = "login-label" >
         <span>Korisničko ime</span>
-        <input type="text" name="username" v-model="usernameRegister">
+        <input class = "login-input" type="text" name="username" v-model="usernameRegister">
     </label>
-    <label>
+    <label class = "login-label">
         <span>Lozinka</span>
-        <input type="password" name="password" v-model="passwordRegister">
+        <input class = "login-input" type="password" name="password" v-model="passwordRegister">
     </label>
-    <label>
+    <label class = "login-label">
         <span>Ponovite lozinku</span>
         <input type="password" name="passwordRepeat" v-model="passwordRepeat">
 	</label>
@@ -97,6 +98,7 @@ Vue.component("login", {
     <button type="button" class="submit" v-on:click="registerUser">Registrujte se</button>
 </div>
 
+</div>
 </div>
 </div>
     `, 
@@ -137,7 +139,7 @@ Vue.component("login", {
     				if (response.data == "") {
 						this.errorMessage="Neispravno korisničko ime ili lozinka.";
     				} else {
-    					window.location.href = "http://localhost:8088/";
+    					window.location.href = "http://localhost:8088/#/profile-view";
     				}
 				})
 			}
@@ -167,7 +169,7 @@ Vue.component("login", {
     				if (response.data == null) {
     					window.location.href = "#/login";
     				} else {
-    					window.location.href = "http://localhost:8088/";
+    					window.location.href = "http://localhost:8088/#/profile-view";
     				}
     			})
 			}

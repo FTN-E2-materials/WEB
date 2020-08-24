@@ -1,8 +1,0 @@
-package dao;
-
-import java.util.List;
-
-public interface DAO<T, ID> {
-	List<T> getAll();
-	T getById()
-}

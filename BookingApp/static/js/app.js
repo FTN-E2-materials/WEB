@@ -1,12 +1,12 @@
 const login = { template : '<login></login>' }
-const profile_view = { template : '<profile_view></profile_view>' }
+const profile_view = { template : '<profile-view></profile-view>' }
 
 
 const router = new VueRouter({
     mode : 'hash',
     routes : [
 		{ path : '/login', component: login },
-		{ path : '/profile_view', component: profile_view }
+		{ path : '/profile-view', component: profile_view }
     ]
 });
 
@@ -28,7 +28,7 @@ var app = new Vue({
 	    				this.mode = 'guest';
 	    			} else if (response.data.role == "Host") {
 		    			this.mode = 'host';
-		    		} else if (response.data.role == "Admin") {
+		    		} else if (response.data.role == "Administrator") {
 		    			this.mode = 'admin';
 		    		} else {
 		    			this.mode = 'notLogged';
@@ -44,6 +44,7 @@ var app = new Vue({
     			.get('/user/logout')
     			.then(response => {
     				window.location.hred = "#/login";
+    				this.mode = 'notLogged';
     			})
     	}
     }
