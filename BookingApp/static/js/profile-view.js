@@ -11,33 +11,29 @@ Vue.component("profile-view", {
     template: `
     <div class="form-part">
     <h2>Informacije o profilu</h2>
-  <div class = "row-reservations">
-        <div class="col-with-picture">
-            <div class = "profile-image"> </div>
-        </div>
+  <div class="row-reservations">
         <div class="col-informations">
             <div class = "username">
                 <label class="username2">Ime:</label>
                     <div class = "col-username2">
-                        <p v-bind:"name"/>
+                        <p>{{name}}</p>
                     </div>
                
             </div>
-        
             <div class = "username">
                 <label class="username2">Prezime:</label>
                 <div class = "col-filters">
                     <div class = "col-username2">
-                        <p>Neko prezime</p>
+                        <p>{{surname}}</p>
                     </div>
                 </div>
             </div>
 
             <div class = "username">
-                <label class="username2">Korisnicko ime:</label>
+                <label>Korisnicko ime:</label>
                 <div class = "col-filters">
                     <div class = "col-username2">
-                        <p>Neko korisnicko ime</p>
+                        <p>{{username}}</p>
                     </div>
                 </div>
             </div>
@@ -46,7 +42,7 @@ Vue.component("profile-view", {
                 <label class="username2">Pol:</label>
                 <div class = "col-filters">
                     <div class = "col-username2">
-                        <p>M/Z</p>
+                        <p>{{gender}}</p>
                     </div>
                 </div>
             </div>
@@ -60,12 +56,12 @@ Vue.component("profile-view", {
         
   
         <div>
-            <label class="username2">Moje Rezervacije:</label>
+            <label class="username">Moje Rezervacije:</label>
             
         </div>
 
         <div>
-            <label class="username2">Moji apartmani:</label>
+            <label class="username">Moji apartmani:</label>
             
         </div>
     </div> ` ,

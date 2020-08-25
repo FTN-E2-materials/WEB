@@ -362,7 +362,7 @@ button:hover {
 
 .form-part {
     width: 1000px;
-    height: 800px;
+    height: 600px;
     opacity: 0.9;
     display: block;
     margin-bottom: 20px;
@@ -371,6 +371,55 @@ button:hover {
     align-content: center;
     background-color: #fff;
     box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.sidenav {
+    width: 160px; /* Set the width of the sidebar */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    right: 0;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px;
+  }
+
+  .profile-image {
+    background-image: url("marko.jpg");
+    width: 200px;   
+    margin: 20px;
+    margin-top: 50px;
+    margin-left: 80px;
+    border-radius: 10px;
+    height: 200px;
+    background-size: contain;
+}
+
+.side-menu-button {
+    display: block;
+    width: 150px;
+    border: none;
+    outline: none;
+    background: none;
+    height: 40px;
+    border-radius: 30px;
+    border-color: transparent;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: -webkit-linear-gradient(left, #BE95C4, #E0B1CB);
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.row-reservations {
+    display: flex;
+    
+}
+
+.col-informations {
+    margin-top: 50px;
+    margin-left: 10px;
 }
 
 .bydate {
@@ -620,4 +669,8 @@ input[type='radio']:checked:after {
     display: flex;
     margin-top: 20px;
     margin-left: 60px;
+}
+
+.username {
+    margin-left: 100px;
 }
