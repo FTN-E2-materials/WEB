@@ -49,8 +49,8 @@ Vue.component("profile-view", {
             </div>
 
             <div class="sidenav">
-                <button class="side-menu-button" type="button"> Izmena profila </button>
-                <button class="side-menu-button" type="button"> Promena lozinke </button>
+                <button class="side-menu-button" type="button" v-on:click="editProfile"> Izmena profila </button>
+                <button class="side-menu-button" type="button" v-on:click="changePass"> Promena lozinke </button>
               </div>
         </div>
         
@@ -62,12 +62,11 @@ Vue.component("profile-view", {
 
         <div>
             <label class="username">Moji apartmani:</label>
-            
         </div>
     </div> ` ,
 
     mounted () {
-        axios
+        axios 
         .get('/user/seeIfLogged')
         .then(response => {
             if(response.data != null)
@@ -82,5 +81,16 @@ Vue.component("profile-view", {
 
         	console.log("hello");
         })
+    },
+    methods : {
+        changePass: function()
+        {
+            this.$router.push("/change_pass");
+        },
+
+        editProfile: function()
+        {
+            this.$router.push("/edit_profile");
+        }
     }
 });

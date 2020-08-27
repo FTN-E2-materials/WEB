@@ -148,11 +148,19 @@ Vue.component("login", {
     		
     	}, 
     	registerUser : function() {
+			let flag1=true;
+			let flag2=true;
 			if(this.nameRegistration=="" ||this.surnameRegistration=="" ||this.usernameRegistration=="" ||this.passwordRegistration=="" || this.genderRegister=="")
 			{
 				registrationFormError="Morate popuniti sva polja u formi.";
+				flag1=false;
 			}
-			else
+			else if(this.passwordRegister!=this.passwordRepeat)
+			{
+				registrationFormError="Lozinke se ne slažu.";
+				flag2=false;
+			}
+			if(flag1 && flag2)
 			{
 				let registrationParameters = {
     				name : this.nameRegistration,

@@ -46,5 +46,7 @@ public class UsersService {
 		return newUser;
 	}
 
+//public User changePassword(string password) throws JsonSyntaxException, IOException {}
+
 
 }

@@ -674,3 +674,11 @@ input[type='radio']:checked:after {
 .username {
     margin-left: 100px;
 }
+
+.box
+{
+    display: flex;
+    margin-top: 50px;
+    position: absolute;
+    right: 150px;
+}
