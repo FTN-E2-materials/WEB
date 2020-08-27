@@ -3,15 +3,15 @@ package dao;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.reflect.Type;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-
 
 import beans.IIdentifiable;
 
@@ -28,11 +28,14 @@ public class JSONRepository<T extends IIdentifiable<ID>, ID> implements IDao<T, 
 	
 	@Override
 	public List<T> getAll() throws JsonSyntaxException, IOException {
-		return gs.fromJson((Files.readAllLines(Paths.get(path), 
+		ArrayList<T> allEntities = gs.fromJson((Files.readAllLines(Paths.get(path), 
 				Charset.defaultCharset()).size() == 0) ? "" : 
 					Files.readAllLines(Paths.get(path),
 							Charset.defaultCharset()).get(0), 
 								classType);
+		if (allEntities == null) 
+			return new ArrayList<T>();
+		return  allEntities;
 	}
 	
 	@Override
@@ -74,6 +77,7 @@ public class JSONRepository<T extends IIdentifiable<ID>, ID> implements IDao<T, 
 	public void save(T entity) throws JsonSyntaxException, IOException {
 		ArrayList<T> entities = (ArrayList<T>) getAll();
 		entities.add(entity);
+		saveAll(entities);
 	}
 
 	@Override

@@ -1,0 +1,19 @@
+package dao;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import beans.Apartment;
+import beans.User;
+
+public class ApartmentDao extends JSONRepository<Apartment, Integer> {
+
+	public ApartmentDao(String path, Type classType, Gson gs) {
+		super(path, new TypeToken<List<Apartment>>(){}.getType(), createJSONSerializer());
+
+	}
+
+}

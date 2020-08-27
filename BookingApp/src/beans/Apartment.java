@@ -1,8 +1,11 @@
 package beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Apartment {
+public class Apartment implements IIdentifiable<Integer> {
+	private int id;
+	private String apartmentTitle;
 	private ApartmentType type;
 	private int numberOfRooms;
 	private int numberOfGuests;
@@ -12,10 +15,14 @@ public class Apartment {
 	private boolean active;
 	private int checkInTime;
 	private int checkOutTime;
+	private List<String> apartmentPictures;
 	
-	public Apartment(ApartmentType type, int numberOfRooms, int numberOfGuests, Location location,
-			List<ApartmentComment> comments, double costForNight, boolean active, int checkInTime, int checkOutTime) {
+	public Apartment() {}
+	
+	public Apartment(String apartmentTitle, ApartmentType type, int numberOfRooms, int numberOfGuests, Location location,
+			List<ApartmentComment> comments, double costForNight, boolean active, int checkInTime, int checkOutTime, List<String> apartmentPictures) {
 		super();
+		this.apartmentTitle = apartmentTitle;
 		this.type = type;
 		this.numberOfRooms = numberOfRooms;
 		this.numberOfGuests = numberOfGuests;
@@ -25,6 +32,24 @@ public class Apartment {
 		this.active = active;
 		this.checkInTime = checkInTime;
 		this.checkOutTime = checkOutTime;
+		this.apartmentPictures = apartmentPictures;
+	}
+	
+
+	public String getApartmentTitle() {
+		return apartmentTitle;
+	}
+
+	public void setApartmentTitle(String apartmentTitle) {
+		this.apartmentTitle = apartmentTitle;
+	}
+
+	public List<String> getApartmentPictures() {
+		return apartmentPictures;
+	}
+
+	public void setApartmentPictures(List<String> apartmentPictures) {
+		this.apartmentPictures = apartmentPictures;
 	}
 
 	public ApartmentType getType() {
@@ -97,6 +122,24 @@ public class Apartment {
 
 	public void setCheckOutTime(int checkOutTime) {
 		this.checkOutTime = checkOutTime;
+	}
+
+	@Override
+	public Integer getID() {
+		return id;
+	}
+
+	@Override
+	public void setID(Integer id) {
+		this.id = id;
+		
+	}
+
+	@Override
+	public boolean compareTo(Integer id) {
+		if (this.id == id)
+			return true;
+		return false;
 	}
 	
 	

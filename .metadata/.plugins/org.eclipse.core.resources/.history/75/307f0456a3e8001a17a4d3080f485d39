@@ -1,0 +1,43 @@
+package application;
+
+import static spark.Spark.get;
+import static spark.Spark.port;
+import static spark.Spark.staticFiles;
+
+import java.io.File;
+import java.io.IOException;
+
+import beans.City;
+import beans.State;
+import controllers.UsersController;
+import dao.CityDao;
+import dao.StateDao;
+import dao.UsersDao;
+import services.UsersService;
+
+public class Application {
+
+	public static void main(String[] args) throws IOException {
+
+		port(8088);
+		staticFiles.externalLocation(new File("./static").getCanonicalPath());
+
+		UsersDao usersDao = new UsersDao("./files/users.json");
+		UsersService usersService = new UsersService(usersDao);
+		UsersController usersController = new UsersController(usersService);
+		
+		CityDao cityDao = new CityDao("./files/cities.json");
+		StateDao stateDao = new StateDao("./files/states.json");
+		
+		State state1 = new State("Serbia");
+		City city1 = new City("Novi Sad", 21000, state1);
+		
+		stateDao.save(state1);
+		cityDao.save(city1);
+		
+		get("/test", (req, res) -> {
+			return "Works";
+		});
+	}
+
+}

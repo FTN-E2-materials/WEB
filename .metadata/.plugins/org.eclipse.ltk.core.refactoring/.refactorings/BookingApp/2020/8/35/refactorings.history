@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;BookingApp/static/js/apartments&apos; to &apos;apartments.js&apos;" description="Rename resource &apos;apartments&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="static/js/apartments" name="apartments.js" stamp="1598560328938" updateReferences="true"/>
+</session>

@@ -14,6 +14,7 @@ INDEX VERSION 1.131+D:\Jelena Fax\Treca\WEB\Projekat\.metadata\.plugins\org.ecli
 710710265.index
 1943124142.index
 3759254309.index
+564558550.index
 1429215439.index
 241759395.index
 1691104311.index
@@ -33,8 +34,8 @@ INDEX VERSION 1.131+D:\Jelena Fax\Treca\WEB\Projekat\.metadata\.plugins\org.ecli
 3304409892.index
 2413072240.index
 2342958655.index
-1582637612.index
 2249746915.index
+1582637612.index
 3344029417.index
 481760417.index
 2687603964.index
@@ -50,8 +51,8 @@ INDEX VERSION 1.131+D:\Jelena Fax\Treca\WEB\Projekat\.metadata\.plugins\org.ecli
 61275964.index
 3341142214.index
 299998172.index
-3295813079.index
 1070606850.index
+3295813079.index
 4033766299.index
 327420551.index
 4255663361.index
@@ -78,8 +79,8 @@ INDEX VERSION 1.131+D:\Jelena Fax\Treca\WEB\Projekat\.metadata\.plugins\org.ecli
 3510481682.index
 1279340687.index
 819600766.index
-4280590736.index
 2920456420.index
+4280590736.index
 1675789109.index
 1494364203.index
 3545179565.index

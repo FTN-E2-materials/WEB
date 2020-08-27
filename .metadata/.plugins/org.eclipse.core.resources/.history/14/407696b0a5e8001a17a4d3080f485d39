@@ -1,0 +1,10 @@
+Vue.component("apartments", {
+	data: function() {
+		return {
+			apartments : null;
+		
+		}
+	
+	},
+
+});

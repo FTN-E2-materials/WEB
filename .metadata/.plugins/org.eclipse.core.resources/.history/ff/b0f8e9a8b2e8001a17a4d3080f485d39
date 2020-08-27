@@ -1,0 +1,26 @@
+package controllers;
+
+import services.ApartmentService;
+import static spark.Spark.get;
+
+public class ApartmentController {
+	private ApartmentService apartmentService;
+	private static Gson gs = new Gson();
+	
+	public ApartmentController(ApartmentService apartmentService) {
+		this.apartmentService = apartmentService;
+	}
+	
+	get("/apartments/getActive", (req, res) -> {
+		res.type("application/json");
+		
+		try {
+			return gs.
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	});
+	
+
+}

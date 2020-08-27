@@ -1,0 +1,18 @@
+package services;
+
+import beans.Apartment;
+import dao.ApartmentDao;
+import dto.ApartmentDTO;
+
+public class ApartmentService {
+
+	private ApartmentDao apartmentDao;
+	
+	public ApartmentService(ApartmentDao apartmentDao) {
+		this.apartmentDao = apartmentDao;
+	}
+	
+	public Apartment saveNewApartment(ApartmentDTO apartmentParameters) {
+		return null;
+	}
+}

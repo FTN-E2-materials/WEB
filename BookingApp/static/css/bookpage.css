@@ -497,12 +497,10 @@ input[type='radio']:checked:after {
 }
 
 .reservation-image {
-    background-image: url("spain.jpg");
     width: 300px;   
     margin: 10px;
     border-radius: 10px;
     height: 200px;
-    background-size: contain;
 }
 
 .reservation-date {

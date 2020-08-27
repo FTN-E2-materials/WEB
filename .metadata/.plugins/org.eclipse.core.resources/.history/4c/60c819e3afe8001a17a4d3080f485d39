@@ -1,0 +1,51 @@
+package application;
+
+import static spark.Spark.get;
+import static spark.Spark.port;
+import static spark.Spark.staticFiles;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import beans.Apartment;
+import beans.ApartmentComment;
+import beans.ApartmentType;
+import controllers.ApartmentController;
+import controllers.UsersController;
+import dao.ApartmentDao;
+import dao.CityDao;
+import dao.StateDao;
+import dao.UsersDao;
+import services.ApartmentService;
+import services.UsersService;
+
+public class Application {
+
+	public static void main(String[] args) throws IOException {
+
+		port(8088);
+		staticFiles.externalLocation(new File("./static").getCanonicalPath());
+
+		UsersDao usersDao = new UsersDao("./files/users.json");
+		UsersService usersService = new UsersService(usersDao);
+		UsersController usersController = new UsersController(usersService);
+		
+		CityDao cityDao = new CityDao("./files/cities.json");
+		StateDao stateDao = new StateDao("./files/states.json");
+
+		ApartmentDao apartmentDao = new ApartmentDao("./files/apartments.json");
+		ApartmentService apartmentService = new ApartmentService(apartmentDao);
+		ApartmentController apartmentControlle = new ApartmentController(apartmentService);
+		
+		
+		Apartment apartment = new Apartment("Apartman Jelena", ApartmentType.FullApartment, 3, 5, new Location(), new ArrayList<ApartmentComment>(), 
+				50, true, 9, 12, new ArrayList<String>());
+		
+		
+		get("/test", (req, res) -> {
+			return "Works";
+		});
+	}
+
+}

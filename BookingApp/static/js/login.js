@@ -19,7 +19,7 @@ Vue.component("login", {
 	
     template: `
 <div class = "bg-login">
-<div class = "page">
+<div class = "page-login">
     <div class = "form sign-in">
         <h1 class = "login-h1">Prijavi se</h1>
         <label class = "login-label">
