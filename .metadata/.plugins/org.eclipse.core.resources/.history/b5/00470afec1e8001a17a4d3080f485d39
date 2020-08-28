@@ -1,7 +1,6 @@
 package controllers;
 
 import static spark.Spark.get;
-import static spark.Spark.post;
 
 import com.google.gson.Gson;
 
@@ -27,14 +26,6 @@ public class ApartmentController {
 				e.printStackTrace();
 				return "";
 			}
-		});
-		
-		post("/apartments/sort", (req, res) -> {
-			return "";
-		});
-		
-		get("apartment/get", (req, res) -> {
-			return "";
 		});
 		
 

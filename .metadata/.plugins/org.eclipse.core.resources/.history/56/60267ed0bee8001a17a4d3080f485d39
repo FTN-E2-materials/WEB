@@ -82,10 +82,7 @@ public class ApartmentService {
 		return false;
 	}
 	
-	public List<Apartment> sortNewest() throws JsonSyntaxException, IOException {
-		ArrayList<Apartment> allApartments = (ArrayList<Apartment>) apartmentDao.getAll();
-		ArrayList<Apartment> sortedList = new ArrayList<Apartment>();
-		
+	public List<Apartment> sortNewest() {
 		return null;
 	}
 	

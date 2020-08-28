@@ -1,0 +1,55 @@
+package algorithms;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import beans.Apartment;
+
+public class MergeSort {
+	
+	public static List<Apartment> sortApartments(ArrayList<Apartment> apartments, SortType type, SortAscDesc ascDesc) {
+		/*
+		int i = 0, j = 0, k = 0;
+		
+	    if (n < 2) {
+	        return;
+	    }
+	    int mid = n / 2;
+	    int[] l = new int[mid];
+	    int[] r = new int[n - mid];
+	 
+	    for (int i = 0; i < mid; i++) {
+	        l[i] = a[i];
+	    }
+	    for (int i = mid; i < n; i++) {
+	        r[i - mid] = a[i];
+	    }
+	    mergeSort(l, mid);
+	    mergeSort(r, n - mid);
+	 
+	    merge(a, l, r, mid, n - mid);
+	    
+		while (i < left && j < right) {
+			if (l[i] <= r[j]) {
+				a[k++] = l[i++];
+		    }
+			else {
+				a[k++] = r[j++];
+		    }
+		}
+		while (i < left) {
+			a[k++] = l[i++];
+		}
+		while (j < right) {
+			a[k++] = r[j++];
+		W}
+		*/
+		// #TODO!
+		return null;
+	}
+	
+	public static void merge(ArrayList<Apartment> a, ArrayList<Apartment> l, ArrayList<Apartment> r, int left, int right) {
+		// #TODO!
+	}
+
+}

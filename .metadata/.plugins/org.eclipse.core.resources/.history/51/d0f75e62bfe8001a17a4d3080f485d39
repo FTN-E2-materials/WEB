@@ -1,0 +1,3 @@
+package algorithms;
+
+public enum SORT_TYPE { byDate, byPrice }

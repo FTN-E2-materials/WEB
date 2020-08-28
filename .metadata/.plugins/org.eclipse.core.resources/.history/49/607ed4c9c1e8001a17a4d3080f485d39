@@ -9,8 +9,8 @@ Vue.component("apartments", {
 	},
 	
 	template: `
-	<div>
-    
+		
+    <div>
         <div class="filters">
             <h1>Sortiraj po:</h1>
             <div class = "bydate">
@@ -21,7 +21,7 @@ Vue.component("apartments", {
                         <p class = "sortbydate-font">Najnovije</p>
                     </div>
                     <div class = "col-date">
-                        <input v-on:change="oldestSort" type="radio" id="oldest" class = "sortbydate" name="sortbydate" value="Najstarije">
+                        <input type="radio" id="oldest" class = "sortbydate" name="sortbydate" value="Najstarije">
                         <p class = "sortbydate-font">Najstarije</p>
                     </div>
                 </div>
@@ -31,11 +31,11 @@ Vue.component("apartments", {
                 <h1 class="filter-reservations">Ceni:</h1>
                 <div class = "col-filters">
                     <div class = "col-date">
-                        <input v-on:change="mostExpensiveSort" type="radio" id="highest" class = "sortbycost" name="sortbycost" value="Najskuplje">
+                        <input type="radio" id="highest" class = "sortbycost" name="sortbycost" value="Najskuplje">
                         <p class = "sortbydate-font">Najskuplje</p>
                     </div>
                     <div class = "col-date">
-                        <input v-on:change="cheapestSort" type="radio" id="lowest" class = "sortbycost" name="sortbycost" value="Najjeftinije">
+                        <input type="radio" id="lowest" class = "sortbycost" name="sortbycost" value="Najjeftinije">
                         <p class = "sortbydate-font">Najjeftinije</p>
                     </div>
                 </div>
@@ -97,7 +97,8 @@ Vue.component("apartments", {
 
         </div>
         
-        </div>
+     </div>
+   
 	`,
 	
 	mounted ()  {
@@ -138,22 +139,6 @@ Vue.component("apartments", {
 						this.apartments = response.data;
 					}
 				})
-		},
-		
-		cheapestSort : function() {
-			
-		}, 
-		
-		mostExpensiveSort : function() {
-			
-		},
-		
-		newestSort : function() {
-			
-		},
-		
-		oldestSort : function() {
-			
 		}
 	}
 	

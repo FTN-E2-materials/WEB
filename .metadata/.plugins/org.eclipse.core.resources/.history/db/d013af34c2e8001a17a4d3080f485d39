@@ -33,10 +33,6 @@ public class ApartmentController {
 			return "";
 		});
 		
-		get("apartment/get", (req, res) -> {
-			return "";
-		});
-		
 
 		
 		
