@@ -23,6 +23,33 @@ h1,h2,h3,h4,h5,h6 {
     text-align: center;
 }
 
+.save-button {
+    
+    margin: 15px;
+    width: 150px;
+    border: none;
+    outline: none;
+    background: none;
+    height: 40px;
+    border-radius: 30px;
+    border-color: transparent;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: -webkit-linear-gradient(left, #BE95C4, #E0B1CB);
+    font-size: 15px;
+    cursor: pointer;
+}
+.box
+{
+    display: flex;
+    margin-top: 50px;
+    position: absolute;
+    right: 200px;
+}
+
 .navigation-area{
     width: 100%;
     position: fixed;
@@ -468,8 +495,6 @@ button:hover {
     display: flex;
 }
 
-input[type='file'] {
-}
 
 input[type='radio']:after {
     width: 15px;

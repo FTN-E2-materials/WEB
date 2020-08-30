@@ -4,19 +4,22 @@ Vue.component("profile-view", {
             name:'',
             surname: '',
             username: '',
-            gender: ''
+            gender: '',
+            editMode:false
         }
     },
 
     template: `
     <div class="form-part">
-    <h2>Informacije o profilu</h2>
+    <h2 v-bind:hidden="editMode==true">Informacije o profilu</h2>
+    <h2 v-bind:hidden="editMode!=true">Izmena profila</h2>
   <div class="row-reservations">
         <div class="col-informations">
             <div class = "username">
                 <label class="username2">Ime:</label>
                     <div class = "col-username2">
-                        <p>{{name}}</p>
+                    <p v-bind:hidden="editMode==true">{{name}}</p>
+                    <input v-bind:hidden="editMode!=true" type="text" name = "name" v-model="name">
                     </div>
                
             </div>
@@ -24,7 +27,8 @@ Vue.component("profile-view", {
                 <label class="username2">Prezime:</label>
                 <div class = "col-filters">
                     <div class = "col-username2">
-                        <p>{{surname}}</p>
+                    <p v-bind:hidden="editMode==true">{{surname}}</p>
+                    <input v-bind:hidden="editMode!=true" type="text" name = "surname" v-model="surname">
                     </div>
                 </div>
             </div>
@@ -33,7 +37,8 @@ Vue.component("profile-view", {
                 <label>Korisnicko ime:</label>
                 <div class = "col-filters">
                     <div class = "col-username2">
-                        <p>{{username}}</p>
+                        <p v-bind:hidden="editMode==true">{{username}}</p>
+                        <input v-bind:hidden="editMode!=true" type="text" name = "username" v-model="username">
                     </div>
                 </div>
             </div>
@@ -42,15 +47,29 @@ Vue.component("profile-view", {
                 <label class="username2">Pol:</label>
                 <div class = "col-filters">
                     <div class = "col-username2">
-                        <p>{{gender}}</p>
+                        <p v-bind:hidden="editMode==true">{{gender}}</p>
                     </div>
+                    <tr v-bind:hidden="editMode!=true" class="radio_button">
+                    <td>
+                    <input type="radio" id="male" name="gender" value="Muško" v-bind:checked="gender=='Male'" style="width:70px;">
+                    <span for="male" style="width:70px;">Muško</span>
+                    </td>
+                    <td>
+                    <input type="radio" id="female" name="gender" value="Žensko" v-bind:checked="gender=='Female'"   style="width:70px;">
+                    <span for="female"  style="width:70px;">Žensko</span>
+                    </td>
+                    <td>
+                    <input type="radio" id="other" name="gender" value="Ostalo" v-bind:checked="gender=='Other'"  style="width:70px;">
+                    <span for="other"  style="width:70px;">Ostalo</span>
+                    </td>
+                    </tr>
                 </div>
             </div>
             </div>
 
-            <div class="sidenav">
+            <div class="sidenav" v-bind:hidden="editMode==true">
                 <button class="side-menu-button" type="button" v-on:click="editProfile"> Izmena profila </button>
-                <button class="side-menu-button" type="button" v-on:click="changePass"> Promena lozinke </button>
+                <button class="side-menu-button"" type="button" v-on:click="changePass"> Promena lozinke </button>
               </div>
         </div>
         
@@ -63,7 +82,15 @@ Vue.component("profile-view", {
         <div>
             <label class="username">Moji apartmani:</label>
         </div>
-    </div> ` ,
+        
+    
+        <div v-bind:hidden="editMode!=true" class="box">
+        <button class="save-button" v-bind:hidden="editMode!=true" style="float:left" type="button"> Sacuvaj izmene </button>
+        <button class="save-button" v-bind:hidden="editMode!=true" v-on:click="cancelEdit" style="float:left" type="button"> Odustani</button>
+        </div>
+
+    </div>
+     ` ,
 
     mounted () {
         axios 
@@ -90,7 +117,11 @@ Vue.component("profile-view", {
 
         editProfile: function()
         {
-            this.$router.push("/edit_profile");
+            this.editMode=true;
+        },
+        cancelEdit: function()
+        {
+            this.editMode=false;
         }
     }
 });

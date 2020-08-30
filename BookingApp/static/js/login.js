@@ -21,7 +21,7 @@ Vue.component("login", {
 <div class = "bg-login">
 <div class = "page-login">
     <div class = "form sign-in">
-        <h1 class = "login-h1">Prijavi se</h1>
+        <h1 class = "login-h1">Prijava</h1>
         <label class = "login-label">
             <span> Korisničko ime </span>
 			<input class = "login-input" type="text" name = "username" v-on:change="signalChange" v-model="usernameLog">

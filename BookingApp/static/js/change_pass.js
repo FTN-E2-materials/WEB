@@ -10,8 +10,9 @@ Vue.component("change_pass",{
     } ,
 
     template: `<div class="form-part">
+    <h2>Promena lozinke</h2>
     <div class = "form sign-in">
-    <h1 class = "login-h1">Promena lozinke</h1>
+    
     <label class = "login-label">
         <span> Stara lozinka:</span>
         <input class = "login-input" type="password" name = "username" v-on:change="signalChange" v-model="oldPass">
@@ -25,8 +26,15 @@ Vue.component("change_pass",{
         <input class = "login-input" type="password" name="password" v-model="newPassRepeat" v-on:change="signalChange">
     </label>
     <p style="color:red" class = "login-label">{{errorMessage}}</p>
-    <button class="submit"  type="button" v-on:click="changePassword"> Promeni lozinku </button>
-</div>
+    <tr>
+    <td style="padding-left:125px">
+    <button class="side-menu-button"  type="button" v-on:click="changePassword"> Promeni lozinku </button>
+    </td>
+    <td style="padding-left:15px">
+    <button class="side-menu-button"  type="button" v-on:click="changePassword" v-on:click="CancelChangePass"> Odustani</button>
+    </td>
+    </tr>
+    </div>
     </div>`,
     mounted() {
         axios
@@ -47,24 +55,28 @@ Vue.component("change_pass",{
 		},
         
         changePassword : function() {
-        let flag1=true;
-        let flag2=true;
-        let flag3=true;
+        let flag=true;
+        
         if(this.oldPass=="" || this.newPass=="" || this.newPassRepeat=="")
         {
             this.errorMessage="Morate popuniti sva polja.";
-            flag1=false;
+            flag=false;
         }
         else if(this.usersPass!=this.oldPass){
             this.errorMessage="Neispravna lozinka.";
-            flag2=false;
+            flag=false;
         }
         else if(this.newPass!=this.newPassRepeat)
         {
             this.errorMessage="Lozinke se ne slažu.";
-            flag3=false;
+            flag=false;
         }
-        else if(flag1 && flag2 && flag3)
+        else if(this.newPass==this.oldPass)
+        {
+            this.errorMessage="Nova lozinka mora da se razlikuje od stare.";
+            flag=false;
+        }
+        else if(flag)
         {
             window.location.href = "http://localhost:8088/#/profile-view";
     /*    axios 
@@ -78,7 +90,10 @@ Vue.component("change_pass",{
             })
         }*/
         
-        }
+        } 
+    },
+    CancelChangePass: function (){
+        this.$router.push("/profile-view");
     }
 
 }});
