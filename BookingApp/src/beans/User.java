@@ -8,6 +8,8 @@ public abstract class User implements IIdentifiable<String> {
 	private Gender gender;
 	private UserRole role;
 	private boolean blocked;
+	private String profilePicture;
+	
 	
 	public User() {}
 	
@@ -26,6 +28,14 @@ public abstract class User implements IIdentifiable<String> {
 		return username;
 	}
 	
+	public String getProfilePicture() {
+		return profilePicture;
+	}
+
+	public void setProfilePicture(String profilePicture) {
+		this.profilePicture = profilePicture;
+	}
+
 	public void setUsername(String username) {
 		this.username = username;
 	}

@@ -5,22 +5,30 @@ Vue.component("profile-view", {
             surname: '',
             username: '',
             gender: '',
-            editMode:false
+            editMode:false,
+            profileImage: ''
         }
     },
 
     template: `
-    <div class="form-part">
+    <div class="profile-view-part">
     <h2 v-bind:hidden="editMode==true">Informacije o profilu</h2>
     <h2 v-bind:hidden="editMode!=true">Izmena profila</h2>
   <div class="row-reservations">
+                 <div class = "col-profile-pic">
+                        <div>
+							<img :src="profileImage" class= "profile-image" alt = "Profile Image">
+                        </div>
+                    </div>
         <div class="col-informations">
             <div class = "username">
                 <label class="username2">Ime:</label>
+                <div class = "col-filters">
                     <div class = "col-username2">
                     <p v-bind:hidden="editMode==true">{{name}}</p>
                     <input v-bind:hidden="editMode!=true" type="text" name = "name" v-model="name">
                     </div>
+                </div>
                
             </div>
             <div class = "username">
@@ -67,7 +75,7 @@ Vue.component("profile-view", {
             </div>
             </div>
 
-            <div class="sidenav" v-bind:hidden="editMode==true">
+            <div class="dugmici-izmena" v-bind:hidden="editMode==true">
                 <button class="side-menu-button" type="button" v-on:click="editProfile"> Izmena profila </button>
                 <button class="side-menu-button"" type="button" v-on:click="changePass"> Promena lozinke </button>
               </div>
@@ -84,9 +92,9 @@ Vue.component("profile-view", {
         </div>
         
     
-        <div v-bind:hidden="editMode!=true" class="box">
-        <button class="save-button" v-bind:hidden="editMode!=true" style="float:left" type="button"> Sacuvaj izmene </button>
-        <button class="save-button" v-bind:hidden="editMode!=true" v-on:click="cancelEdit" style="float:left" type="button"> Odustani</button>
+        <div v-bind:hidden="editMode!=true" class="button-save-profile-view">
+        <button class="save-button" style="float:left" type="button"> Sacuvaj izmene </button>
+        <button class="save-button" v-on:click="cancelEdit" style="float:left" type="button"> Odustani</button>
         </div>
 
     </div>
@@ -101,7 +109,13 @@ Vue.component("profile-view", {
                 this.name=response.data.name;
                 this.surname=response.data.surname;
                 this.username=response.data.username;
-                this.gender=response.data.gender;
+                this.profileImage=response.data.profilePicture;
+                if (response.data.gender == 'Female') {
+                	this.gender = "Ženski";
+                } else {
+                	this.gender = "Muški";
+                }
+                this.editMode = false;
 
             }
             

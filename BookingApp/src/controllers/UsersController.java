@@ -83,9 +83,10 @@ public class UsersController {
 		});
 
 		//change password
-	//	post("/user/changePassword", (req, res) -> {
-		//	 res.type("application/json");
+		post("/user/changePassword", (req, res) -> {
+			res.type("application/json");
+			return "";
 
-	//		});
+		});
 	}
 }

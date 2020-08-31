@@ -295,6 +295,19 @@ button:hover {
     background-image: url("uk.jpg");
     background-size: contain;
 }
+
+.col-profile-pic {
+    width: 200px;   
+    margin-top: 70px;
+    margin-left: 40px;
+    border-radius: 30px;
+    height: 200px;
+}
+.profile-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 30px;
+}
 .cuba {
     margin: 10px;
     width: 310px;
@@ -410,6 +423,23 @@ button:hover {
     box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
 
+.profile-view-part {
+    
+    width: 1000px;
+    height: 600px;
+    opacity: 0.9;
+    margin-bottom: 20px;
+    margin-top: 70px;
+    border-radius: 10px;
+    align-content: center;
+    background-color: #fff;
+    box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+    
+}
+
+.button-save-profile-view {
+    margin-left: 430px;
+}
 .sidenav {
     width: 160px; /* Set the width of the sidebar */
     z-index: 1; /* Stay on top */
@@ -419,16 +449,12 @@ button:hover {
     padding-top: 20px;
   }
 
-  .profile-image {
-    background-image: url("marko.jpg");
-    width: 200px;   
-    margin: 20px;
-    margin-top: 50px;
-    margin-left: 80px;
-    border-radius: 10px;
-    height: 200px;
-    background-size: contain;
-}
+  .dugmici-izmena {
+      margin-top: 70px;
+      align-content: right;
+      margin-left: 60px;
+  }
+
 
 .side-menu-button {
     display: block;
@@ -455,8 +481,7 @@ button:hover {
 }
 
 .col-informations {
-    margin-top: 50px;
-    margin-left: 10px;
+    margin-left: 2px;
 }
 
 .bydate {
@@ -717,13 +742,13 @@ input[type='radio']:checked:after {
 }
 
 .username {
-    margin-left: 100px;
+    margin-left: 5px;
+    display: flex;
+    margin-right: 0;
+    width: 300px;
 }
 
 .box
 {
-    display: flex;
-    margin-top: 50px;
-    position: absolute;
-    right: 150px;
+    
 }
