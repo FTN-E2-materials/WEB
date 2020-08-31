@@ -16,6 +16,17 @@ body {
     background-image: url("bora-bora-sunset.jpg");
 }
 
+.image-column {
+    align-content: center;
+}
+
+.image-source {
+    width: 1000px;
+    height: 400px;
+    background-size: cover;
+}
+
+
 h1,h2,h3,h4,h5,h6 { 
     margin-top: 15px;
 	color:#222222;
@@ -337,6 +348,55 @@ button:hover {
     box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
 
+.other-image-line {
+    width: 500px;
+    margin-left: 245px;
+    display: table;
+}
+
+.one-image-row {
+    display: flex;
+}
+
+.comments {
+    margin-left: 20px;
+    width: 960px;
+}
+
+.comment-row {
+    margin-top: 10px;
+    border-width:1px;
+    border-style:solid;
+    border-color:black;
+}
+
+.comment-from {
+    margin-left: 10px;
+}
+
+.comment-desc {
+    margin-left: 10px;
+    text-align: justify;
+    margin-right: 10px;
+}
+.one-image {
+    border-radius: 10px;
+    background-size: cover;
+    margin: 10px;
+    height: 150px;
+    width: 150px;
+}
+
+.reservations-details {
+    width: 1000px;
+    display: table;
+    opacity: 0.9;
+    border-radius: 10px;
+    align-content: center;
+    background-color: #fff;
+    box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
 .filters {
     width: 1000px;
     height: 200px;
@@ -346,6 +406,34 @@ button:hover {
     align-content: left;
     background-color: #fff;
     box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.apartment-details {
+    align-content: center;
+}
+
+.details-column {
+    display: flex;
+    width: 900px;
+    margin-left: 50px;
+    border: #222222;
+}
+.title-desc {
+    text-align: center;
+}
+
+.ap-desc {
+    margin-top: 20px;
+    text-align: justify;
+    width: 500px;
+    margin-left: 250px;
+}
+.one-info {
+    margin: 10px;
+    width: 180px;
+    align-content: center;
+    text-align: center;
+    border: #222222;
 }
 
 .apartment-filter {

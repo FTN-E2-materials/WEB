@@ -47,6 +47,10 @@ public class ApartmentService {
 		return activeApartments;
 	}
 	
+	public Apartment getApartmentById(String id) throws JsonSyntaxException, IOException {
+		return apartmentDao.getByID(Integer.parseInt(id));
+	}
+	
 	public boolean checkIfReservedForDate(Date wantedDate) {
 		return false;
 	}
