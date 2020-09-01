@@ -2,7 +2,6 @@ Vue.component("apartment-details", {
 	data: function() {
 		return {
 			apartment: null,
-			mainPicture: "",
 			pictures: "",
 			numOfRows: "",
 			picNum: "",
@@ -30,7 +29,7 @@ Vue.component("apartment-details", {
         <div class = "apartment-details">
             <div class = "image-column">
                 <div>
-                	<img :src="mainPicture" class = "image-source" alt = "Glavna slika">
+                	<img :src="pictures[0]" class = "image-source" alt = "Glavna slika">
                 </div>
             </div>
             <div class = "details-column">
@@ -126,7 +125,6 @@ Vue.component("apartment-details", {
 			.get("/apartments/" + this.$route.query.id)
 			.then(response => {
 				this.apartment = response.data;
-				this.mainPicture = response.data.apartmentPictures[0];
 				this.checkInTime = response.data.checkInTime;
 				this.checkOutTime = response.data.checkOutTime;
 				this.numOfGuests = response.data.numberOfGuests;
@@ -214,10 +212,6 @@ Vue.component("apartment-details", {
 					}
 				})
 			
-		},
-		changeImage : function(next) {
-			this.mainPicture = this.pictures[next];
-			console.log(next);
 		}
 	}
 });
