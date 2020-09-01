@@ -50,7 +50,7 @@ public class UsersService {
 		return null;
 	}
 	
-	public User getByID(String username) throws JsonSyntaxException, IOException {
+	public User getByID(String username) {
 		return userDao.getByID(username);
 	}
 

@@ -102,7 +102,7 @@ Vue.component("profile-view", {
 
     mounted () {
         axios 
-        .get('/user/' + this.$route.query.id)
+        .get('/user/seeIfLogged')
         .then(response => {
             if(response.data != null)
             {
@@ -119,7 +119,6 @@ Vue.component("profile-view", {
 
             }
             
-            console.log(this.$route.query.id);
 
         	console.log("hello");
         })

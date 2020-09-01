@@ -140,7 +140,6 @@ Vue.component("login", {
 						this.errorMessage="Neispravno korisničko ime ili lozinka.";
     				} else {
     					window.location.href = "http://localhost:8088/#/profile-view?id=" + response.data.username;
-    					console.log(response.data.username);
     				}
 				})
 			}

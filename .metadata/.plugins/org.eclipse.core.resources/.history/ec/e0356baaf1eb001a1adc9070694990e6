@@ -22,8 +22,7 @@ var app = new Vue({
     router: router, 
     el: '#webApp',
     data: {
-    	mode : 'plsWork',
-    	user : null
+    	mode : 'plsWork'
     },
     mounted() {
     	axios
@@ -42,7 +41,6 @@ var app = new Vue({
 		    		} else {
 		    			this.mode = 'notLogged';
 		    		}
-	    			this.user = response.data;
 	    		}
 	    		
 	    		console.log(this.mode);

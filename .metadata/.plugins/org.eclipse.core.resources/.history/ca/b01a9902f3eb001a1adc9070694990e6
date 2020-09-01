@@ -119,7 +119,6 @@ Vue.component("profile-view", {
 
             }
             
-            console.log(this.$route.query.id);
 
         	console.log("hello");
         })
