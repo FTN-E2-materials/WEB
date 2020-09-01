@@ -6,6 +6,7 @@ import static spark.Spark.post;
 import com.google.gson.Gson;
 
 import beans.Apartment;
+import dto.CommentDTO;
 import services.ApartmentService;
 
 public class ApartmentController {
@@ -43,6 +44,16 @@ public class ApartmentController {
 			
 		});
 		
+		post("apartments/leaveComment", (req, res) -> {
+			try {
+				res.type("application/json");
+				return gs.toJson(apartmentService.addComment(gs.fromJson(req.body(), CommentDTO.class)));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+			
+		});
 
 		
 		

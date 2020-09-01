@@ -1,0 +1,11 @@
+package dto;
+
+public class CommentDTO {
+	private String username;
+	private String apartment;
+	private String grade;
+	private String text;
+	
+	public CommentDto
+
+}

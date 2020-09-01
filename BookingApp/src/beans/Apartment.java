@@ -16,6 +16,9 @@ public class Apartment implements IIdentifiable<Integer> {
 	private int checkInTime;
 	private int checkOutTime;
 	private List<String> apartmentPictures;
+	private String shortDescription;
+	private Currency costCurrency;
+	private boolean commentsEnabled;
 	
 	public Apartment() {}
 	
@@ -33,6 +36,7 @@ public class Apartment implements IIdentifiable<Integer> {
 		this.checkInTime = checkInTime;
 		this.checkOutTime = checkOutTime;
 		this.apartmentPictures = apartmentPictures;
+		this.commentsEnabled = true;
 	}
 	
 
@@ -141,6 +145,31 @@ public class Apartment implements IIdentifiable<Integer> {
 			return true;
 		return false;
 	}
+
+	public String getShortDescription() {
+		return shortDescription;
+	}
+
+	public void setShortDescription(String shortDescrtiption) {
+		this.shortDescription = shortDescrtiption;
+	}
+
+	public Currency getCostCurrency() {
+		return costCurrency;
+	}
+
+	public void setCostCurrency(Currency costCurrenct) {
+		this.costCurrency = costCurrenct;
+	}
+
+	public boolean isCommentsEnabled() {
+		return commentsEnabled;
+	}
+
+	public void setCommentsEnabled(boolean commentsEnabled) {
+		this.commentsEnabled = commentsEnabled;
+	}
+	
 	
 	
 }

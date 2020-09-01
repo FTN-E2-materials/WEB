@@ -2,8 +2,8 @@ Vue.component("apartment-details", {
 	data: function() {
 		return {
 			apartment: null,
-			picture: "",
-			rowNum: "",
+			pictures: "",
+			numOfRows: "",
 			picNum: "",
 			checkInTime: "",
 			checkOutTime: "",
@@ -12,7 +12,15 @@ Vue.component("apartment-details", {
 			numOfRooms: "",
 			host: "",
 			apartmentDesc: "",
-			costForNight: ""
+			costForNight: "", 
+			currency: "",
+			canEdit : false, 
+			canReserve: false,
+			comments: null,
+			canComment: true,
+			textComment: "",
+			grade: "",
+			user: null
 		}
 	},
 	template: `
@@ -21,7 +29,7 @@ Vue.component("apartment-details", {
         <div class = "apartment-details">
             <div class = "image-column">
                 <div>
-                	<img :src="picture" class = "image-source" alt = "Glavna slika">
+                	<img :src="pictures[0]" class = "image-source" alt = "Glavna slika">
                 </div>
             </div>
             <div class = "details-column">
@@ -43,126 +51,71 @@ Vue.component("apartment-details", {
                 </div>
                 <div class = "one-info">
                     <p>Cena po noći: </p>
-                    <p>{{costForNight}}</p>
+                    <p>{{costForNight}} {{currency}}</p>
                 </div>
             </div>
             <div class = "ap-desc">
                 <p class="title-desc">OPIS APARTMANA</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla interdum est justo, sagittis efficitur magna scelerisque ac. Vivamus eleifend, nunc ut porttitor convallis, orci orci sollicitudin mi, et hendrerit ipsum massa sit amet velit. Donec aliquam lectus quis bibendum consequat. Maecenas et sollicitudin mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut volutpat magna. Vivamus consectetur nulla turpis, eget fermentum nisi scelerisque ut. Quisque in enim dignissim, rhoncus justo et, vestibulum dui. Sed luctus malesuada ligula sit amet faucibus. Proin scelerisque placerat sem vitae lobortis.
-
-                    Vestibulum dignissim orci ut libero luctus, vitae vehicula nibh gravida. Phasellus non velit vitae eros imperdiet venenatis vitae at metus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Phasellus tincidunt nec dui ac faucibus. Integer consectetur ipsum id purus posuere vehicula. Pellentesque vitae viverra lacus. Suspendisse consectetur lectus risus, id interdum justo tempus vitae. Fusce sollicitudin sed justo id eleifend. Nunc mi magna, dignissim quis dolor non, blandit dapibus ante. Aenean lectus tellus, ullamcorper sit amet augue eget, suscipit dapibus lectus. Nulla feugiat lobortis ornare. Donec tincidunt dolor sed mauris sollicitudin elementum. Vivamus pharetra imperdiet magna, vitae mattis orci vehicula ultrices. Nam lobortis libero eget condimentum tristique.</p>
-            </div>
+                <p>{{apartmentDesc}}</p>
+                </div>
         </div>
 
         <div class = "other-image-line">
-            <div class = "one-image-row">
-                <div class = "one-image">
-
-                </div>
-                <div class = "one-image">
-                    
-                </div>
-                <div class = "one-image">
-                    
-                </div>
-
-            </div>
-            <div class = "one-image-row">
-                <div class = "one-image">
-
-                </div>
-                <div class = "one-image">
-                    
-                </div>
-                <div class = "one-image">
-                    
-                </div>
-
-            </div>
-            <div class = "one-image-row">
-                <div class = "one-image">
-
-                </div>
-                <div class = "one-image">
-                    
-                </div>
-                <div class = "one-image">
-                    
-                </div>
-
-            </div>
-            <div class = "one-image-row">
-                <div class = "one-image">
-
-                </div>
-                <div class = "one-image">
-                    
-                </div>
-                <div class = "one-image">
-                    
+            <div class = "one-image-row" v-for='i in numOfRows' :key='i'>
+                <div v-for='j in 3' :key='j'>
+					<img class = "one-image" :src="pictures[j+(i-1)*2]" >
                 </div>
 
             </div>
         </div>
-
-        <button class="submit">Rezerviši?</button>
-
+		<div v-bind:hidden="canReserve===false">
+        <button  class="submit">Rezerviši?</button>
+        </div>
+        <div v-bind:hidden="canEdit===false">
+        <button  class="submit">Izmeni apartman?</button>
+		</div>
         <div class = "comments">
             <p>Komentari:</p>
-            <div class = "comment-row">
+            <div class = "comment-row"  v-for="c in comments">
                 <div class = "comment-from">
-                    <a href = "">Neko Nekic</a>
+                    <a href = "">{{c.guest.username}} </a>
                 </div>
                 <div class = "comment-desc">
-                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla interdum est justo, sagittis efficitur magna scelerisque ac. Vivamus eleifend, nunc ut porttitor convallis, orci orci sollicitudin mi, et hendrerit ipsum massa sit amet velit. Donec aliquam lectus quis bibendum consequat. Maecenas et sollicitudin mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut volutpat magna. Vivamus consectetur nulla turpis, eget fermentum nisi scelerisque ut. Quisque in enim dignissim, rhoncus justo et, vestibulum dui. Sed luctus malesuada ligula sit amet faucibus. Proin scelerisque placerat sem vitae lobortis.</p>
-                </div>
-
+                 	<p> {{c.text}} </p>
+                 </div>
             </div>
-            <div class = "comment-row">
-                <div class = "comment-from">
-                    <a href = "">Neko Nekic</a>
-                </div>
-                <div class = "comment-desc">
-                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla interdum est justo, sagittis efficitur magna scelerisque ac. Vivamus eleifend, nunc ut porttitor convallis, orci orci sollicitudin mi, et hendrerit ipsum massa sit amet velit. Donec aliquam lectus quis bibendum consequat. Maecenas et sollicitudin mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut volutpat magna. Vivamus consectetur nulla turpis, eget fermentum nisi scelerisque ut. Quisque in enim dignissim, rhoncus justo et, vestibulum dui. Sed luctus malesuada ligula sit amet faucibus. Proin scelerisque placerat sem vitae lobortis.</p>
-                </div>
-
+            <div class = "leave-comment" >
+                <p>Ako ste posetili ovaj apartman, ostavite Vaše utiske</p>
+                <input type="text" v-model="textComment" class = "add-comment">
+                
+                <div class="grade">
+                <p>Ocena apartmana:</p> 
+                <div class = "col-grades">
+                    <div class = "col-grade">
+                        <input type="radio"  id="grade"  v-model="grade" name="grade" value="Nedovoljan">
+                        <p>Nedovoljan</p>
+                    </div>
+                    <div class = "col-grade">
+                        <input type="radio" id="grade" v-model="grade" name="grade" value="Dovoljan">
+                        <p>Dovoljan</p>
+                    </div>                    
+                    <div class = "col-grade">
+                        <input type="radio" id="grade" v-model="grade" name="grade" value="Dobar">
+                        <p>Dobar</p>
+                    </div>
+                    <div class = "col-grade">
+                        <input type="radio" id="grade" v-model="grade" name="grade" value="Vrlo dobar">
+                        <p>Vrlo dobar</p>
+                    </div>
+                    <div class = "col-grade">
+                        <input type="radio" id="grade" v-model="grade" name="grade" value="Odlican">
+                        <p>Odličan</p>
+                    </div>
+                 </div>
             </div>
-            <div class = "comment-row">
-                <div class = "comment-from">
-                    <a href = "">Neko Nekic</a>
-                </div>
-                <div class = "comment-desc">
-                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla interdum est justo, sagittis efficitur magna scelerisque ac. Vivamus eleifend, nunc ut porttitor convallis, orci orci sollicitudin mi, et hendrerit ipsum massa sit amet velit. Donec aliquam lectus quis bibendum consequat. Maecenas et sollicitudin mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut volutpat magna. Vivamus consectetur nulla turpis, eget fermentum nisi scelerisque ut. Quisque in enim dignissim, rhoncus justo et, vestibulum dui. Sed luctus malesuada ligula sit amet faucibus. Proin scelerisque placerat sem vitae lobortis.</p>
-                </div>
+            <button class="submit-comment" v-on:click="leaveComment">Ostavi komentar</button>
+        </div>
 
-            </div>
-            <div class = "comment-row">
-                <div class = "comment-from">
-                    <a href = "">Neko Nekic</a>
-                </div>
-                <div class = "comment-desc">
-                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla interdum est justo, sagittis efficitur magna scelerisque ac. Vivamus eleifend, nunc ut porttitor convallis, orci orci sollicitudin mi, et hendrerit ipsum massa sit amet velit. Donec aliquam lectus quis bibendum consequat. Maecenas et sollicitudin mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut volutpat magna. Vivamus consectetur nulla turpis, eget fermentum nisi scelerisque ut. Quisque in enim dignissim, rhoncus justo et, vestibulum dui. Sed luctus malesuada ligula sit amet faucibus. Proin scelerisque placerat sem vitae lobortis.</p>
-                </div>
-
-            </div>
-            <div class = "comment-row">
-                <div class = "comment-from">
-                    <a href = "">Neko Nekic</a>
-                </div>
-                <div class = "comment-desc">
-                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla interdum est justo, sagittis efficitur magna scelerisque ac. Vivamus eleifend, nunc ut porttitor convallis, orci orci sollicitudin mi, et hendrerit ipsum massa sit amet velit. Donec aliquam lectus quis bibendum consequat. Maecenas et sollicitudin mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut volutpat magna. Vivamus consectetur nulla turpis, eget fermentum nisi scelerisque ut. Quisque in enim dignissim, rhoncus justo et, vestibulum dui. Sed luctus malesuada ligula sit amet faucibus. Proin scelerisque placerat sem vitae lobortis.</p>
-                </div>
-
-            </div>
-            <div class = "comment-row">
-                <div class = "comment-from">
-                    <a href = "">Neko Nekic</a>
-                </div>
-                <div class = "comment-desc">
-                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla interdum est justo, sagittis efficitur magna scelerisque ac. Vivamus eleifend, nunc ut porttitor convallis, orci orci sollicitudin mi, et hendrerit ipsum massa sit amet velit. Donec aliquam lectus quis bibendum consequat. Maecenas et sollicitudin mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut volutpat magna. Vivamus consectetur nulla turpis, eget fermentum nisi scelerisque ut. Quisque in enim dignissim, rhoncus justo et, vestibulum dui. Sed luctus malesuada ligula sit amet faucibus. Proin scelerisque placerat sem vitae lobortis.</p>
-                </div>
-
-            </div>
         </div>
     
     </div>
@@ -172,16 +125,93 @@ Vue.component("apartment-details", {
 			.get("/apartments/" + this.$route.query.id)
 			.then(response => {
 				this.apartment = response.data;
-				this.picture = "";
 				this.checkInTime = response.data.checkInTime;
 				this.checkOutTime = response.data.checkOutTime;
 				this.numOfGuests = response.data.numberOfGuests;
 				this.titleOfApartment= response.data.apartmentTitle;
 				this.numOfRooms = response.data.numberOfRooms;
 				this.costForNight = response.data.costForNight;
-				this.picture = response.data.apartmentPictures[0];
-				
-			})
+				this.pictures = response.data.apartmentPictures;
+				if (response.data.costCurrency == "Euro") {
+					this.currency = "€";
+				} else if (response.data.costCurrency == "Dollar") {
+					this.currency = "$";
+				} else {
+					this.currency = "RSD";
+				}
+				this.comments = response.data.comments;
+				this.apartmentDesc = response.data.shortDescription;
+				this.numOfRows = response.data.apartmentPictures.length / 3 + 1;
+			});
+	    axios
+	    	.get('/user/seeIfLogged')
+	    	.then(response => {
+	    		if (response.data == null) {
+	    			canEdit = false;
+	    			canReserve = false;
+	    			canComment = true;
+	    		} else 
+	    		{
+	    			if (response.data.role == "Guest") {
+	    				canEdit = false;
+	    				canReserve = true;
+	    			} else if (response.data.role == "Host") {
+		    			canEdit = false;
+		    			canReserve = false;
+		    		} else if (response.data.role == "Administrator") {
+		    			canEdit = false;
+		    			canReserve = false;
+		    		
+		    		} else {
+		    			canEdit = false;
+		    			canReserve = false;
+		    		
+		    		}
+	    			this.user = response.data;
+	    			
+	    		}
+
+    			console.log(canEdit);
+	    	})
+	},
+	methods : {
+		leaveComment : function() {
+			let commentParameters = {
+					text : this.textComment,
+					username : "volim-da-putujem",
+					grade : this.grade,
+					apartment : this.apartment.id
+					
+					
+			};
 			
+			axios 
+				.post("/apartments/leaveComment", JSON.stringify(commentParameters))
+				.then(response => {
+					if (response.data != null) {
+
+						this.apartment = response.data;
+						this.checkInTime = response.data.checkInTime;
+						this.checkOutTime = response.data.checkOutTime;
+						this.numOfGuests = response.data.numberOfGuests;
+						this.titleOfApartment= response.data.apartmentTitle;
+						this.numOfRooms = response.data.numberOfRooms;
+						this.costForNight = response.data.costForNight;
+						this.pictures = response.data.apartmentPictures;
+						if (response.data.costCurrency == "Euro") {
+							this.currency = "€";
+						} else if (response.data.costCurrency == "Dollar") {
+							this.currency = "$";
+						} else {
+							this.currency = "RSD";
+						}
+						this.comments = response.data.comments;
+						this.apartmentDesc = response.data.shortDescription;
+						this.numOfRows = response.data.apartmentPictures.length / 3 + 1;
+					
+					}
+				})
+			
+		}
 	}
 });

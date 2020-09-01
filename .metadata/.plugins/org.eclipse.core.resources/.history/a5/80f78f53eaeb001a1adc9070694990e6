@@ -1,0 +1,108 @@
+package services;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import com.google.gson.JsonSyntaxException;
+
+import beans.Apartment;
+import beans.ApartmentComment;
+import beans.Reservation;
+import dao.ApartmentDao;
+import dto.ApartmentDTO;
+import dto.CommentDTO;
+import dto.ReservationDTO;
+
+public class ApartmentService {
+
+	private ApartmentDao apartmentDao;
+	
+	public ApartmentService(ApartmentDao apartmentDao) {
+		this.apartmentDao = apartmentDao;
+	}
+	
+	public Apartment saveNewApartment(ApartmentDTO apartmentParameters) throws JsonSyntaxException, IOException {
+		int nextID = apartmentDao.generateNextID();
+		
+		Apartment newApartment = new Apartment(apartmentParameters.getApartmentTitle(), apartmentParameters.getType(), apartmentParameters.getNumberOfRooms(), 
+				apartmentParameters.getNumberOfGuests(), apartmentParameters.getLocation(), new ArrayList<ApartmentComment>(), 
+				apartmentParameters.getCostForNight(), true, apartmentParameters.getCheckInTime(), apartmentParameters.getCheckOutTime(), apartmentParameters.getApartmentPictures());
+		newApartment.setID(nextID);
+		apartmentDao.save(newApartment);
+		return newApartment;
+	}
+	
+	public List<Apartment> getActive() throws JsonSyntaxException, IOException {
+		ArrayList<Apartment> apartments = (ArrayList<Apartment>) apartmentDao.getAll();
+		ArrayList<Apartment> activeApartments = new ArrayList<Apartment>();
+		for (Apartment a : apartments) {
+			if (a.isActive()) {
+				activeApartments.add(a);
+			}
+			
+		}
+		
+		return activeApartments;
+	}
+	
+	public Apartment getApartmentById(String id) throws JsonSyntaxException, IOException {
+		return apartmentDao.getByID(Integer.parseInt(id));
+	}
+	
+	public boolean checkIfReservedForDate(Date wantedDate) {
+		return false;
+	}
+	
+	public List<Apartment> getAllApartments() throws JsonSyntaxException, IOException {
+		return apartmentDao.getAll();
+	}
+	
+	public List<Apartment> getNewestApartments() throws JsonSyntaxException, IOException {
+		return apartmentDao.getAll();
+	}
+	
+	public List<Apartment> getMostPopularApartments() throws JsonSyntaxException, IOException {
+		return apartmentDao.getAll();
+	}
+	
+	public boolean reserveApartment(ReservationDTO reservation) {
+		return false;
+	}
+	
+	public void cancelReservation(Reservation reservation) {
+	}
+	
+	public Apartment addComment(CommentDTO commentDTO) {
+		return null;
+	}
+	
+	public boolean disableComments(Apartment apartment) {
+		return false;
+	}
+	
+	public boolean enableComments(Apartment apartment) {
+		return false;
+	}
+	
+	public List<Apartment> sortNewest() throws JsonSyntaxException, IOException {
+		ArrayList<Apartment> allApartments = (ArrayList<Apartment>) apartmentDao.getAll();
+		ArrayList<Apartment> sortedList = new ArrayList<Apartment>();
+		
+		return null;
+	}
+	
+	public List<Apartment> sortOldest() {
+		return null;
+	}
+	
+	public List<Apartment> sortCheapest() {
+		return null;
+	}
+	
+	public List<Apartment> sortMostExpensive() {
+		return null;
+	}
+	
+}
