@@ -25,7 +25,9 @@ var app = new Vue({
     el: '#webApp',
     data: {
     	mode : 'plsWork',
-    	user : null
+    	user : {
+    		username : ""
+    	}
     },
     mounted() {
     	axios
@@ -55,9 +57,11 @@ var app = new Vue({
     		axios 
     			.get('/user/logout')
     			.then(response => {
-    				window.location.hred = "#/login";
+    				window.location.href = "#/login";
     				this.mode = 'notLogged';
     			})
+    	},
+    	viewProfile : function() {
     	}
     }
 });

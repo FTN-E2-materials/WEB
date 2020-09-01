@@ -22,7 +22,7 @@
 				<li class = "menu"><a href="#/users_preview">Pregled korisnika</a></li>
 		        <li class = "menu" style="float:right" v-bind:hidden="mode!='notLogged'" ><a href="#/login" v-bind:hidden="mode!='notLogged'">Prijavi se</a></li>
 		        <li class = "menu" style="float:right" v-bind:hidden="mode=='notLogged'" v-on:click = "logOut"><a href="#/login" v-bind:hidden="mode=='notLogged'" >Odjavi se</a></li>
-		        <li class = "menu" style="float:right" v-bind:hidden="mode=='notLogged'" ><a href="'#/profile_view?id=' + user.username"v-bind:hidden ="mode=='notLogged'">Profil</a></li>
+		        <li class = "menu" style="float:right" v-bind:hidden="mode=='notLogged'"  v-on:click = "viewProfile" ><a :href="'#/profile-view?id=' + user.username" v-bind:hidden ="mode=='notLogged'">Profil</a></li>
 			</ul>
             </div>
 			<router-view></router-view>

@@ -108,6 +108,7 @@ public class UsersController {
 		get("/user/:id", (req, res) -> {
 			res.type("application/json");
 			try {
+				System.out.println(req.params("id"));
 				return gs.toJson(usersService.getByID(req.params("id"))); 
 			} catch (Exception e) {
 				e.printStackTrace();

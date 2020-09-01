@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gson.JsonSyntaxException;
 
+import beans.Gender;
 import beans.Guest;
 import beans.User;
 import beans.UserRole;
@@ -40,9 +41,11 @@ public class UsersService {
 		if (seeIfExists != null) {
 			return null;
 		}
+		
 		User newUser = new Guest(tryRegisterUser.getName(), tryRegisterUser.getSurname(),
 				tryRegisterUser.getUsername(), tryRegisterUser.getPassword(), 
 				tryRegisterUser.getGender(), UserRole.Guest);
+		System.out.println(tryRegisterUser.getUsername());
 		userDao.create(newUser);
 		return newUser;
 	}

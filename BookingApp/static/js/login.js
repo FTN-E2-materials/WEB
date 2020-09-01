@@ -13,7 +13,7 @@
 		    	passwordRepeat: '',
 			    passwordLog:'',
 				errorMessage:'',
-				registrationFormError: ''
+				registrationError: ''
 		    }
 	},
 	
@@ -31,16 +31,15 @@
 			<input class = "login-input" type="password" name="password" v-model="passwordLog" v-on:change="signalChange">
 			<p style="color:red">{{errorMessage}}</p>
         </label>
-        <button class="submit" v-on:click="tryToLogin" type="button"> Prijavi se </button>
+        <button class="submit-login" v-on:click="tryToLogin" type="button"> Prijavi se </button>
     </div>
 
 
 <div class="sub-page">
     <div class = "bground">
-        <div
-         class = "bground-text m-up">
-            <h1 class = "login-h1">Nemate nalog?</h1>
-            <p class = "login-p">Registrujte se i rezervišite sebi apartman!</p>
+        <div class = "bground-text m-up">
+            <h1 class = "login-h1">Nemate <br> nalog?</h1>
+            <p class = "login-p">Registrujte se i <br> rezervišite sebi apartman!</p>
         </div>
     
         <div class="bground-text m-in">
@@ -55,8 +54,8 @@
 
 <div class="form sign-up">
     <h1>Registracija</h1>
-    <label>
-        <span>Ime</span>
+    <label class = "login-label">
+        <span >Ime</span>
         <input class = "login-input" type="text" v-model="nameRegister"  name="name">
     </label>
     <label class = "login-label">
@@ -73,18 +72,18 @@
     </label>
     <label class = "login-label">
         <span>Ponovite lozinku</span>
-        <input type="password" name="passwordRepeat" v-model="passwordRepeat">
+        <input type="password" class = "login-input"  name="passwordRepeat" v-model="passwordRepeat">
 	</label>
-	<label>
+	<label class = "login-label">
 	<span>Pol</span>
 	
 	<tr class="radio_button">
 	<td>
-	<input type="radio" id="male" name="gender" value="Muško" v-model="genderRegister" style="width:70px;">
+	<input type="radio" id="male" name="gender" value="Musko" v-model="genderRegister" style="width:70px;">
 	<span for="male" style="width:70px;">Muško</span>
 	</td>
 	<td>
-	<input type="radio" id="female" name="gender" value="Žensko" v-model="genderRegister"  style="width:70px;">
+	<input type="radio" id="female" name="gender" value="Zensko" v-model="genderRegister"  style="width:70px;">
 	<span for="female"  style="width:70px;">Žensko</span>
 	</td>
 	<td>
@@ -95,7 +94,7 @@
 	</label>
 	
 	<p style="color:red">{{registrationError}}</p>
-    <button type="button" class="submit" v-on:click="registerUser">Registrujte se</button>
+    <button type="button" class="submit-reg" v-on:click="registerUser">Registrujte se</button>
 </div>
 
 </div>
@@ -116,7 +115,7 @@
     }, 
     methods : {
     	slideToOther : function() {
-    		document.querySelector('.page').classList.toggle('s-signup');
+    		document.querySelector('.page-login').classList.toggle('s-signup');
     	},
     	
     	tryToLogin : function() {
@@ -139,7 +138,7 @@
     				if (response.data == "") {
 						this.errorMessage="Neispravno korisničko ime ili lozinka.";
     				} else {
-    					window.location.href = "http://localhost:8088/#/profile-view";
+    					window.location.href = "http://localhost:8088/";
     				}
 				})
 			}
@@ -150,25 +149,31 @@
     	registerUser : function() {
 			let flag=true;
 			
-			if(this.nameRegistration=="" ||this.surnameRegistration=="" ||this.usernameRegistration=="" ||this.passwordRegistration=="" || this.genderRegister=="")
+			if(this.nameRegister=="" ||this.surnameRegister=="" ||this.usernameRegister=="" ||this.passwordRegister=="" || this.genderRegister=="")
 			{
-				registrationFormError="Morate popuniti sva polja u formi.";
+				registrationError="Morate popuniti sva polja u formi.";
 				flag=false;
 			}
 			else if(this.passwordRegister!=this.passwordRepeat)
 			{
-				registrationFormError="Lozinke se ne slažu.";
+				registrationError="Lozinke se ne slažu.";
 				flag=false;
 			}
 			if(flag)
 			{
+				let genderReg;
+				if (this.genderRegister == 'Musko') {
+					genderReg = 'Male';
+				} else {
+					genderReg = 'Female';
+				}
 				let registrationParameters = {
-    				name : this.nameRegistration,
-    				surname : this.surnameRegistration,
-    				username : this.usernameRegistration,
-    				password : this.passwordRegistration,
+    				name : this.nameRegister,
+    				surname : this.surnameRegister,
+    				username : this.usernameRegister,
+    				password : this.passwordRegister,
     				role : 'Guest',
-    				gender : this.genderRegister
+    				gender : genderReg
     		};
 
     		axios 
@@ -177,7 +182,7 @@
     				if (response.data == null) {
     					window.location.href = "#/login";
     				} else {
-    					window.location.href = "http://localhost:8088/#/profile-view";
+    					window.location.href = "http://localhost:8088/";
     				}
     			})
 			}

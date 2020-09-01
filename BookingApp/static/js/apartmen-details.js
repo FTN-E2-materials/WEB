@@ -79,7 +79,7 @@ Vue.component("apartment-details", {
             <p>Komentari:</p>
             <div class = "comment-row"  v-for="c in comments">
                 <div class = "comment-from">
-                    <a href = "'#/profile-view?id=' + c.guest.username">{{c.guest.username}} </a>
+                    <a :href = "'#/profile-view?id=' + c.guest.username">{{c.guest.username}} </a>
                 </div>
                 <div class = "comment-desc">
                  	<p> {{c.text}} </p>

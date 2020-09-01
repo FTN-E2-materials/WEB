@@ -6,7 +6,8 @@ Vue.component("profile-view", {
             username: '',
             gender: '',
             editMode:false,
-            profileImage: ''
+            profileImage: '',
+            isThisMe : false
         }
     },
 
@@ -90,13 +91,13 @@ Vue.component("profile-view", {
         </div>
         
   
-        <div style="margin-top:10px">
-        <label class="Button" v-on:click="editProfile" >Izmeni profil</label>
+        <div style="margin-top:10px"  v-bind:hidden="isThisMe == false">
+        <label class="Button" v-on:click="editProfile">Izmeni profil</label>
         
             
         </div>
 
-        <div>
+        <div  v-bind:hidden="isThisMe == false">
         <label class="Button" v-on:click="changePass">Promeni lozinku </label>
         </div>
         
@@ -111,7 +112,7 @@ Vue.component("profile-view", {
 
     mounted () {
         axios 
-        .get('/user/seeIfLogged')
+        .get('/user/' + this.$route.query.id)
         .then(response => {
             if(response.data != null)
             {
@@ -129,12 +130,31 @@ Vue.component("profile-view", {
                     this.gender = "Ostalo";
                 }
                 this.editMode = false;
+                
 
+            } else {
+
+                console.log(this.$route.query.id);
             }
             
 
         	console.log("hello");
-        })
+        });
+        axios
+        	.get('user/seeIfLogged')
+        	.then(response =>
+        	{
+        		if (response.data == null) {
+        			this.isThisMe = false;
+        		} else {
+        			if (response.data.username === this.username) {
+        				this.isThisMe = true;
+        			}  else {
+        				this.isThisMe = false;
+        			}
+        		}
+        		console.log(this.isThisMe);
+        	})
     },
     methods : {
         changePass: function()
