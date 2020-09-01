@@ -3,6 +3,7 @@ const profile_view = { template : '<profile-view></profile-view>' }
 const change_pass = { template : '<change_pass></change_pass>' }
 const edit_profile = { template : '<edit_profile></edit_profile>' }
 const apartments = { template : "<apartments></apartments>" }
+const apartmentDetails = {template : "<apartment-details></apartment-details>"}
 
 
 const router = new VueRouter({
@@ -12,7 +13,8 @@ const router = new VueRouter({
 		{ path : '/profile-view', component: profile_view },
 		{ path : '/change_pass', component: change_pass },
 		{ path : '/edit_profile', component: edit_profile }, 
-		{ path : "/apartments", component: apartments }
+		{ path : "/apartments", component: apartments },
+		{ path : "/details", component: apartmentDetails }
     ]
 });
 
@@ -20,7 +22,8 @@ var app = new Vue({
     router: router, 
     el: '#webApp',
     data: {
-    	mode : 'plsWork'
+    	mode : 'plsWork',
+    	user : null
     },
     mounted() {
     	axios
@@ -39,6 +42,7 @@ var app = new Vue({
 		    		} else {
 		    			this.mode = 'notLogged';
 		    		}
+	    			this.user = response.data;
 	    		}
 	    		
 	    		console.log(this.mode);

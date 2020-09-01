@@ -5,9 +5,9 @@ import static spark.Spark.post;
 
 import com.google.gson.Gson;
 
-import beans.User;
+import beans.Apartment;
+import dto.CommentDTO;
 import services.ApartmentService;
-import spark.Session;
 
 public class ApartmentController {
 	private ApartmentService apartmentService;
@@ -33,10 +33,27 @@ public class ApartmentController {
 			return "";
 		});
 		
-		get("apartment/get", (req, res) -> {
-			return "";
+		get("/apartments/:id", (req, res) -> {
+			try {
+				res.type("application/json");
+				return gs.toJson(apartmentService.getApartmentById(req.params("id")));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+			
 		});
 		
+		post("apartments/leaveComment", (req, res) -> {
+			try {
+				res.type("application/json");
+				return gs.toJson(apartmentService.addComment(gs.fromJson(req.body(), CommentDTO.class)));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+			
+		});
 
 		
 		

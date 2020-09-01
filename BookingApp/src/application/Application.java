@@ -6,15 +6,10 @@ import static spark.Spark.staticFiles;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
-import beans.Address;
-import beans.Apartment;
-import beans.ApartmentComment;
-import beans.ApartmentType;
-import beans.City;
-import beans.Location;
-import beans.State;
+import beans.Gender;
+import beans.Guest;
+import beans.UserRole;
 import controllers.ApartmentController;
 import controllers.UsersController;
 import dao.ApartmentDao;
@@ -39,10 +34,9 @@ public class Application {
 		StateDao stateDao = new StateDao("./files/states.json");
 
 		ApartmentDao apartmentDao = new ApartmentDao("./files/apartments.json");
-		ApartmentService apartmentService = new ApartmentService(apartmentDao);
+		ApartmentService apartmentService = new ApartmentService(apartmentDao, usersDao);
 		ApartmentController apartmentControlle = new ApartmentController(apartmentService);
-		
-		
+
 		/*
 		
 		ArrayList<String> pictures = new ArrayList<String>();

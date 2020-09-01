@@ -49,6 +49,10 @@ public class UsersService {
 	public User changePassword(String password) throws JsonSyntaxException, IOException {
 		return null;
 	}
+	
+	public User getByID(String username) throws JsonSyntaxException, IOException {
+		return userDao.getByID(username);
+	}
 
 
 }

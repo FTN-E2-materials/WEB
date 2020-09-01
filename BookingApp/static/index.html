@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="css/startpage.css" rel="stylesheet" />
 <link href="css/bookpage.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -22,7 +21,7 @@
 		        <li class = "menu" v-bind:hidden="mode!='host'" ><a href="myapartments.html" v-bind:hidden = "mode!= 'host'">Moji apartmani</a></li>
 		        <li class = "menu" style="float:right" v-bind:hidden="mode!='notLogged'" ><a href="#/login" v-bind:hidden="mode!='notLogged'">Prijavi se</a></li>
 		        <li class = "menu" style="float:right" v-bind:hidden="mode=='notLogged'" v-on:click = "logOut"><a href="#/login" v-bind:hidden="mode=='notLogged'" >Odjavi se</a></li>
-		        <li class = "menu" style="float:right" v-bind:hidden="mode=='notLogged'" ><a href="http://localhost:8088/#/profile-view" v-bind:hidden ="mode=='notLogged'">Profil</a></li>
+		        <li class = "menu" style="float:right" v-bind:hidden="mode=='notLogged'" ><a href="'#/profile_view?id=' + user.username"v-bind:hidden ="mode=='notLogged'">Profil</a></li>
 			</ul>
             </div>
 			<router-view></router-view>
@@ -40,6 +39,7 @@
 		<script src="js/change_pass.js"></script>
 		<script src="js/edit_profile.js"></script>
 		<script src="js/apartments.js"></script>
+		<script src="js/apartmen-details.js"></script>
 
 	</body>
 </html>

@@ -82,7 +82,7 @@ Vue.component("apartments", {
                                 <div class = "icons">
                                     <i class="material-icons">information</i>
                                 </div>
-                                <a href = "apartment.html" class = "link">Pregledaj apartman</a>
+                                <a :href="'#/details?id=' + a.id" class = "link">Pregledaj apartman</a>
                             </div>                            
                             <div class = "one-button">
                                 <div class = "icons">
@@ -138,6 +138,9 @@ Vue.component("apartments", {
 						this.apartments = response.data;
 					}
 				})
+		},
+		selectApartmentToShow : function(id) {
+			window.location.href = "#/details?id=" + id;
 		},
 		
 		cheapestSort : function() {

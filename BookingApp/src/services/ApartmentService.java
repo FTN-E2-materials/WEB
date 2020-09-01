@@ -9,8 +9,11 @@ import com.google.gson.JsonSyntaxException;
 
 import beans.Apartment;
 import beans.ApartmentComment;
+import beans.Grade;
+import beans.Guest;
 import beans.Reservation;
 import dao.ApartmentDao;
+import dao.UsersDao;
 import dto.ApartmentDTO;
 import dto.CommentDTO;
 import dto.ReservationDTO;
@@ -18,9 +21,11 @@ import dto.ReservationDTO;
 public class ApartmentService {
 
 	private ApartmentDao apartmentDao;
+	private UsersDao userDao;
 	
-	public ApartmentService(ApartmentDao apartmentDao) {
+	public ApartmentService(ApartmentDao apartmentDao, UsersDao userDao) {
 		this.apartmentDao = apartmentDao;
+		this.userDao = userDao;
 	}
 	
 	public Apartment saveNewApartment(ApartmentDTO apartmentParameters) throws JsonSyntaxException, IOException {
@@ -47,6 +52,10 @@ public class ApartmentService {
 		return activeApartments;
 	}
 	
+	public Apartment getApartmentById(String id) throws JsonSyntaxException, IOException {
+		return apartmentDao.getByID(Integer.parseInt(id));
+	}
+	
 	public boolean checkIfReservedForDate(Date wantedDate) {
 		return false;
 	}
@@ -70,8 +79,29 @@ public class ApartmentService {
 	public void cancelReservation(Reservation reservation) {
 	}
 	
-	public boolean addComment(CommentDTO comment) {
-		return false;
+	public Apartment addComment(CommentDTO commentDTO) throws JsonSyntaxException, NumberFormatException, IOException {
+		Apartment apartmentToComment = apartmentDao.getByID(Integer.parseInt(commentDTO.getApartment()));
+		ApartmentComment comment = new ApartmentComment();
+		if (commentDTO.getGrade().equals("Odlican")) {
+			comment.setGrade(Grade.Excellent);
+		} else if (commentDTO.getGrade().equals("Vrlo dobar")) {
+			comment.setGrade(Grade.VeryGood);
+		} else if (commentDTO.getGrade().equals("Dobar")) {
+			comment.setGrade(Grade.Good);
+		} else if (commentDTO.getGrade().equals("Dovoljan")) {
+			comment.setGrade(Grade.Poor);
+		} else {
+			comment.setGrade(Grade.VeryPoor);
+		}
+		comment.setApartment(apartmentToComment.getID());
+		comment.setGuest((Guest)userDao.getByID(commentDTO.getUsername()));
+		comment.setText(commentDTO.getText());
+		List<ApartmentComment> allComments = apartmentToComment.getComments();
+		allComments.add(comment);
+		apartmentToComment.setComments(allComments);
+		apartmentDao.update(apartmentToComment);
+		
+		return apartmentToComment;
 	}
 	
 	public boolean disableComments(Apartment apartment) {

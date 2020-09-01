@@ -88,5 +88,15 @@ public class UsersController {
 			return "";
 
 		});
+		
+		get("/user/:id", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gs.toJson(usersService.getByID(req.params("id"))); 
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
 	}
 }
