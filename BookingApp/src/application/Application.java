@@ -6,16 +6,18 @@ import static spark.Spark.staticFiles;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import beans.Gender;
-import beans.Guest;
-import beans.UserRole;
+import beans.City;
+import beans.State;
 import controllers.ApartmentController;
 import controllers.UsersController;
 import dao.ApartmentDao;
 import dao.CityDao;
 import dao.StateDao;
 import dao.UsersDao;
+import dto.LocationsDTO;
 import services.ApartmentService;
 import services.UsersService;
 
@@ -55,6 +57,37 @@ public class Application {
 		*/
 		get("/test", (req, res) -> {
 			return "Works";
+		});
+		
+		get("/locations", (req, res) -> {
+			res.type("application/json");
+			try {
+				List<City> cities = cityDao.getAll();
+				List<State> states = stateDao.getAll();
+				
+				LocationsDTO locations = new LocationsDTO();
+				locations.setCities(cities);
+				locations.setStates(states);
+				List<String> allFormats = new ArrayList<String>();
+				boolean flag = false;
+				for (State s : states) {
+					flag = false;
+					for (City c : cities) {
+						if (c.getState().getID() == s.getID()) {
+							allFormats.add(s.getState() + "," + c.getCity());
+							flag = true;
+						}
+					}
+					if (!flag) {
+						allFormats.add(s.getState());
+					}
+				}
+				return locations;
+			} catch(Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+			
 		});
 	}
 

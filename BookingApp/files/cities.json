@@ -1,1 +1,1 @@
-[{"id":0,"city":"Novi Sad","zipCode":21000.0,"state":{"state":"Serbia","id":0}},{"id":0,"city":"Novi Sad","zipCode":21000.0,"state":{"state":"Serbia","id":0}},{"id":0,"city":"Budva","zipCode":21000.0,"state":{"state":"Montenegro","id":0}}]
+[{"id":1,"city":"Novi Sad","zipCode":21000.0,"state":{"state":"Srbija","id":1}},{"id":2,"city":"Budva","zipCode":21000.0,"state":{"state":"Crna Gora","id":2}}]
