@@ -21,6 +21,9 @@ Vue.component("profile-view", {
                         </div>
                     </div>
         <div class="col-informations">
+
+        
+
             <div class = "username">
                 <label class="username2">Ime:</label>
                 <div class = "col-filters">
@@ -42,7 +45,7 @@ Vue.component("profile-view", {
             </div>
 
             <div class = "username">
-                <label>Korisnicko ime:</label>
+                <label class="username2">Korisničko ime:</label>
                 <div class = "col-filters">
                     <div class = "col-username2">
                         <p v-bind:hidden="editMode==true">{{username}}</p>
@@ -59,41 +62,47 @@ Vue.component("profile-view", {
                     </div>
                     <tr v-bind:hidden="editMode!=true" class="radio_button">
                     <td>
-                    <input type="radio" id="male" name="gender" value="Muško" v-bind:checked="gender=='Male'" style="width:70px;">
+                    <input type="radio" id="male" name="gender" value="Muško" v-bind:checked="gender=='Muško'" style="width:70px;">
                     <span for="male" style="width:70px;">Muško</span>
                     </td>
                     <td>
-                    <input type="radio" id="female" name="gender" value="Žensko" v-bind:checked="gender=='Female'"   style="width:70px;">
+                    <input type="radio" id="female" name="gender" value="Žensko" v-bind:checked="gender=='Žensko'"   style="width:70px;">
                     <span for="female"  style="width:70px;">Žensko</span>
                     </td>
                     <td>
-                    <input type="radio" id="other" name="gender" value="Ostalo" v-bind:checked="gender=='Other'"  style="width:70px;">
+                    <input type="radio" id="other" name="gender" value="Ostalo" v-bind:checked="gender=='Ostalo '"  style="width:70px;">
                     <span for="other"  style="width:70px;">Ostalo</span>
                     </td>
                     </tr>
                 </div>
             </div>
+
+            <div class = "username">
+            <label class="username2">Moje rezervacije:</label>
             </div>
 
-            <div class="dugmici-izmena" v-bind:hidden="editMode==true">
-                <button class="side-menu-button" type="button" v-on:click="editProfile"> Izmena profila </button>
-                <button class="side-menu-button"" type="button" v-on:click="changePass"> Promena lozinke </button>
-              </div>
+            <div class = "username">
+            <label class="username2">Moji apartmani:</label>
+            </div>
+            </div>
+
+            
         </div>
         
   
-        <div>
-            <label class="username">Moje Rezervacije:</label>
+        <div style="margin-top:10px">
+        <label class="Button" v-on:click="editProfile" >Izmeni profil</label>
+        
             
         </div>
 
         <div>
-            <label class="username">Moji apartmani:</label>
+        <label class="Button" v-on:click="changePass">Promeni lozinku </label>
         </div>
         
     
         <div v-bind:hidden="editMode!=true" class="button-save-profile-view">
-        <button class="save-button" style="float:left" type="button"> Sacuvaj izmene </button>
+        <button class="save-button" style="float:left" type="button" v-on:click="UpdateUser"> Sačuvaj izmene </button>
         <button class="save-button" v-on:click="cancelEdit" style="float:left" type="button"> Odustani</button>
         </div>
 
@@ -102,7 +111,7 @@ Vue.component("profile-view", {
 
     mounted () {
         axios 
-        .get('/user/' + this.$route.query.id)
+        .get('/user/seeIfLogged')
         .then(response => {
             if(response.data != null)
             {
@@ -111,9 +120,9 @@ Vue.component("profile-view", {
                 this.username=response.data.username;
                 this.profileImage=response.data.profilePicture;
                 if (response.data.gender == 'Female') {
-                	this.gender = "Ženski";
+                	this.gender = "Žensko";
                 } else if(response.data.gender == 'Male'){
-                	this.gender = "Muški";
+                	this.gender = "Muško";
                 }
                 else
                 {
@@ -123,7 +132,6 @@ Vue.component("profile-view", {
 
             }
             
-            console.log(this.$route.query.id);
 
         	console.log("hello");
         })
@@ -139,6 +147,10 @@ Vue.component("profile-view", {
             this.editMode=true;
         },
         cancelEdit: function()
+        {
+            this.editMode=false;
+        } ,
+        UpdateUser: function()
         {
             this.editMode=false;
         }

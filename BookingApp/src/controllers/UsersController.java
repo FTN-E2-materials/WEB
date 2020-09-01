@@ -82,6 +82,10 @@ public class UsersController {
 			}
 		});
 
+		post("/user/update", (req, res) -> {
+		 return "";
+		});
+
 		//change password
 		post("/user/changePassword", (req, res) -> {
 			res.type("application/json");

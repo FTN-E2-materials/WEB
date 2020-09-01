@@ -780,7 +780,7 @@ button:hover {
 }
 
 .button-save-profile-view {
-    margin-left: 430px;
+    margin-left: 550px;
 }
 .sidenav {
     width: 160px; /* Set the width of the sidebar */
@@ -1048,10 +1048,10 @@ button:hover {
 }
 
 .username {
-    margin-left: 5px;
+    margin-left:30px;
     display: flex;
     margin-right: 0;
-    width: 300px;
+    width: 400px;
 }
 
 
@@ -1204,4 +1204,14 @@ button:hover {
 
 .grade {
     display: flex;
+}
+
+.username2
+{
+    margin-left: 40px;
+}
+
+.Button{
+    margin-left: 55px;
+    text-decoration: underline;
 }

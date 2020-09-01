@@ -1,4 +1,4 @@
-Vue.component("login", {
+ Vue.component("login", {
 
 	data: function () {
 		    return {
@@ -139,8 +139,7 @@ Vue.component("login", {
     				if (response.data == "") {
 						this.errorMessage="Neispravno korisničko ime ili lozinka.";
     				} else {
-    					window.location.href = "http://localhost:8088/#/profile-view?id=" + response.data.username;
-    					console.log(response.data.username);
+    					window.location.href = "http://localhost:8088/#/profile-view";
     				}
 				})
 			}
@@ -149,19 +148,19 @@ Vue.component("login", {
     		
     	}, 
     	registerUser : function() {
-			let flag1=true;
-			let flag2=true;
+			let flag=true;
+			
 			if(this.nameRegistration=="" ||this.surnameRegistration=="" ||this.usernameRegistration=="" ||this.passwordRegistration=="" || this.genderRegister=="")
 			{
 				registrationFormError="Morate popuniti sva polja u formi.";
-				flag1=false;
+				flag=false;
 			}
 			else if(this.passwordRegister!=this.passwordRepeat)
 			{
 				registrationFormError="Lozinke se ne slažu.";
-				flag2=false;
+				flag=false;
 			}
-			if(flag1 && flag2)
+			if(flag)
 			{
 				let registrationParameters = {
     				name : this.nameRegistration,
