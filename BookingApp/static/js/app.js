@@ -4,6 +4,7 @@ const change_pass = { template : '<change_pass></change_pass>' }
 const edit_profile = { template : '<edit_profile></edit_profile>' }
 const apartments = { template : "<apartments></apartments>" }
 const apartmentDetails = {template : "<apartment-details></apartment-details>"}
+const users_preview = {template : "<users_preview></users_preview>"}
 
 
 const router = new VueRouter({
@@ -14,7 +15,8 @@ const router = new VueRouter({
 		{ path : '/change_pass', component: change_pass },
 		{ path : '/edit_profile', component: edit_profile }, 
 		{ path : "/apartments", component: apartments },
-		{ path : "/details", component: apartmentDetails }
+		{ path : "/details", component: apartmentDetails },
+		{ path : "/users_preview", component: users_preview }
     ]
 });
 

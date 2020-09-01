@@ -92,6 +92,18 @@ public class UsersController {
 			return "";
 
 		});
+
+		get("/user/getAll", (req, res) -> {
+			res.type("application/json");
+			
+			try {
+				return gs.toJson(usersService.getAll());
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
 		
 		get("/user/:id", (req, res) -> {
 			res.type("application/json");

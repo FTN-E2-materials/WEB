@@ -1,6 +1,7 @@
 package services;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -52,6 +53,10 @@ public class UsersService {
 	
 	public User getByID(String username) throws JsonSyntaxException, IOException {
 		return userDao.getByID(username);
+	}
+
+	public List<User> getAll() throws JsonSyntaxException, IOException {
+		return (List<User>) userDao.getAll();
 	}
 
 

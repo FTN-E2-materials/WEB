@@ -13,7 +13,7 @@
 		    	passwordRepeat: '',
 			    passwordLog:'',
 				errorMessage:'',
-				registrationFormError: 'lalala'
+				registrationFormError: ''
 		    }
 	},
 	

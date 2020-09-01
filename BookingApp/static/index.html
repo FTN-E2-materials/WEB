@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
 <link href="css/bookpage.css" rel="stylesheet" />
@@ -17,8 +17,9 @@
 		        <li class = "menu"><a href="#/apartments">Početna</a></li>
 		        <li class = "menu"><a href="">Preporučeno</a></li>
 		        <li class = "menu"><a href="bookpage.html">Rezerviši sada</a></li>
-		        <li class = "menu" v-bind:hidden="mode!='guest'"><a href="reservations.html" v-bind:hidden="mode!='guest'">Moje rezervacije</a></li>
-		        <li class = "menu" v-bind:hidden="mode!='host'" ><a href="myapartments.html" v-bind:hidden = "mode!= 'host'">Moji apartmani</a></li>
+		        <li class = "menu" v-bind:hidden="mode!='guest'"><a href="reservations.html">Moje rezervacije</a></li>
+				<li class = "menu" v-bind:hidden="mode!='host'" ><a href="myapartments.html">Moji apartmani</a></li>
+				<li class = "menu"><a href="#/users_preview">Pregled korisnika</a></li>
 		        <li class = "menu" style="float:right" v-bind:hidden="mode!='notLogged'" ><a href="#/login" v-bind:hidden="mode!='notLogged'">Prijavi se</a></li>
 		        <li class = "menu" style="float:right" v-bind:hidden="mode=='notLogged'" v-on:click = "logOut"><a href="#/login" v-bind:hidden="mode=='notLogged'" >Odjavi se</a></li>
 		        <li class = "menu" style="float:right" v-bind:hidden="mode=='notLogged'" ><a href="'#/profile_view?id=' + user.username"v-bind:hidden ="mode=='notLogged'">Profil</a></li>
@@ -40,6 +41,7 @@
 		<script src="js/edit_profile.js"></script>
 		<script src="js/apartments.js"></script>
 		<script src="js/apartmen-details.js"></script>
+		<script src="js/users_preview.js"></script>
 
 	</body>
 </html>
