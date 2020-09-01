@@ -46,7 +46,7 @@ Vue.component("profile-view", {
                 <div class = "col-filters">
                     <div class = "col-username2">
                         <p v-bind:hidden="editMode==true">{{username}}</p>
-                        <input v-bind:hidden="editMode!=true" type="text" name = "username" v-model="username">
+                        <input disabled v-bind:hidden="editMode!=true" type="text" name = "username" v-model="username">
                     </div>
                 </div>
             </div>
@@ -112,8 +112,12 @@ Vue.component("profile-view", {
                 this.profileImage=response.data.profilePicture;
                 if (response.data.gender == 'Female') {
                 	this.gender = "Ženski";
-                } else {
+                } else if(response.data.gender == 'Male'){
                 	this.gender = "Muški";
+                }
+                else
+                {
+                    this.gender = "Ostalo";
                 }
                 this.editMode = false;
 
