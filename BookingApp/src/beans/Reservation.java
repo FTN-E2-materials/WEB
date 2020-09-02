@@ -2,7 +2,8 @@ package beans;
 
 import java.util.Date;
 
-public class Reservation {
+public class Reservation implements IIdentifiable<Integer> {
+	private int id;
 	private Apartment apartment;
 	private Date startDate;
 	private int numberOfNights;
@@ -77,6 +78,25 @@ public class Reservation {
 
 	public void setStatus(ReservationStatus status) {
 		this.status = status;
+	}
+
+	@Override
+	public Integer getID() {
+		return this.id;
+	}
+
+	@Override
+	public void setID(Integer id) {
+		this.id = id;
+		
+	}
+
+	@Override
+	public boolean compareTo(Integer id) {
+		if (this.id == id) {
+			return true;
+		}
+		return false;
 	}
 	
 	

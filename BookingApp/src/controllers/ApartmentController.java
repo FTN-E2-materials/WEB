@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 
 import beans.Apartment;
 import dto.CommentDTO;
+import dto.SearchDTO;
 import services.ApartmentService;
 
 public class ApartmentController {
@@ -53,6 +54,17 @@ public class ApartmentController {
 				return "";
 			}
 			
+		});
+		
+		post("apartments/getAvailable", (req, res) -> {
+			res.type("application/json");
+			try {
+				//return gs.toJson(apartmentService.findAvailable(gs.fromJson(req.body(), SearchDTO.class)));
+				return gs.toJson(apartmentService.getAllApartments());
+			} catch(Exception e) {
+				e.printStackTrace();
+				return "";
+			}
 		});
 
 		

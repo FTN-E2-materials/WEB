@@ -1,0 +1,11 @@
+Vue.component("search-apartment", {
+	data : function() {
+		return {
+			apartments : null
+		}
+	},
+	tempate: `
+	
+	
+	`,
+});
