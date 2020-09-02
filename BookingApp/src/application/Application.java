@@ -7,14 +7,21 @@ import static spark.Spark.staticFiles;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.print.attribute.standard.DateTimeAtCompleted;
+
 import beans.City;
+import beans.Guest;
+import beans.Reservation;
+import beans.ReservationStatus;
 import beans.State;
 import controllers.ApartmentController;
 import controllers.UsersController;
 import dao.ApartmentDao;
 import dao.CityDao;
+import dao.ReservationDao;
 import dao.StateDao;
 import dao.UsersDao;
 import dto.LocationsDTO;
@@ -36,9 +43,9 @@ public class Application {
 		StateDao stateDao = new StateDao("./files/states.json");
 
 		ApartmentDao apartmentDao = new ApartmentDao("./files/apartments.json");
-		ApartmentService apartmentService = new ApartmentService(apartmentDao, usersDao);
+		ReservationDao reservationDao = new ReservationDao("./files/reservations.json");
+		ApartmentService apartmentService = new ApartmentService(apartmentDao, usersDao, reservationDao);
 		ApartmentController apartmentControlle = new ApartmentController(apartmentService);
-
 		/*
 		
 		ArrayList<String> pictures = new ArrayList<String>();
@@ -55,6 +62,7 @@ public class Application {
 		apartmentDao.save(apartment);
 		
 		*/
+		
 		get("/test", (req, res) -> {
 			return "Works";
 		});

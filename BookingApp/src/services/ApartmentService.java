@@ -1,10 +1,12 @@
 package services;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Apartment;
@@ -13,18 +15,22 @@ import beans.Grade;
 import beans.Guest;
 import beans.Reservation;
 import dao.ApartmentDao;
+import dao.ReservationDao;
 import dao.UsersDao;
 import dto.ApartmentDTO;
 import dto.CommentDTO;
 import dto.ReservationDTO;
+import dto.SearchDTO;
 
 public class ApartmentService {
 
 	private ApartmentDao apartmentDao;
 	private UsersDao userDao;
+	private ReservationDao reservationDao;
 	
-	public ApartmentService(ApartmentDao apartmentDao, UsersDao userDao) {
+	public ApartmentService(ApartmentDao apartmentDao, UsersDao userDao, ReservationDao reservationDao) {
 		this.apartmentDao = apartmentDao;
+		this.reservationDao = reservationDao;
 		this.userDao = userDao;
 	}
 	
@@ -129,6 +135,52 @@ public class ApartmentService {
 	
 	public List<Apartment> sortMostExpensive() {
 		return null;
+	}
+
+	public JsonElement findAvailable(SearchDTO fromJson) {
+		/*
+		try {
+			List<Apartment> availableForDate = new ArrayList<Apartment>();
+			List<Reservation> getFromToday = filterReservationsFromToday(reservationDao.getAll());
+			if (fromJson.getDateFrom() != null) {
+
+			    Date startDate = new SimpleDateFormat("dd.MM.yyyy.").parse(fromJson.getDateFrom());
+			    Date endDate = new SimpleDateFormat("dd.MM.yyyy.").parse(fromJson.getDateTo());
+			    
+			    for (Reservation r : getFromToday) {
+			    	if (r.getStartDate().compareTo(startDate) > 0 && r.getStartDate().compareTo(endDate) > 0) {
+			    		if (isCompatible(r.getApartment(), fromJson)) {
+			    			availableForDate.add(r.getApartment());
+			    		}
+			    	} else if (r.getStartDate().compareTo(startDate) < 0 )
+			    }
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(fromJson.getDateFrom());
+		
+		*/
+		// TODO! Previse je kasno ne razmisljas kako treba : filtriraj prvo apartmane po karakteristikama, pa 
+		// onda uzmi njihove zauzete datume i prodji kroz sve rezervacije za taj apartman,
+		// i preko flaga ako na kraju jeste true dodajes
+	
+		return null;
+	}
+	
+	private boolean isCompatible(Apartment a, SearchDTO fromJson) {
+		return false;
+	}
+	
+	private List<Reservation> filterReservationsFromToday(List<Reservation> allReservations) {
+		List<Reservation> filtered = new ArrayList<Reservation>();
+		Date today = new Date();
+		for (Reservation r : allReservations) {
+			if (r.getStartDate().compareTo(new Date(today.getTime() + 1000*60*60*24)) > 0) {
+				filtered.add(r);
+			}
+		}
+		return filtered;
 	}
 	
 }

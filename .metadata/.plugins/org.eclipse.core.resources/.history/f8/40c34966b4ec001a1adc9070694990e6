@@ -1,0 +1,109 @@
+Vue.component("search-apartment", {
+	data : function() {
+		return {
+			apartments : null,
+			locations : null,
+			locationSearch : "",
+			isOpen : false,
+			allLocations : null,
+			startDate : null,     
+			disabledDates: {
+		          to: new Date(Date.now() - 8640000)
+	        },
+	        roomNum : "",
+	        guestNum : ""
+		}
+	},
+	template: `
+	
+	
+        <div class = "booking-section">
+            <form class="form-inline" action="">
+                <div class = "row">
+                    <div class = "column">
+                        <label for="destination">Destinacija:</label>
+                        <input autocomplete="on" type="text" id="email" placeholder="Mesto, Država" v-model="locationSearch" name="dest">
+                            <ul v-show="isOpen" class="autocomplete-results">
+								<li
+							      v-for="(location, i) in locations"
+							      :key="i"
+							      class="autocomplete-result"
+							    >
+								{{ location }}
+								</li>
+							</ul>
+                    </div>
+                    <div class = "column">
+                        <label for="rooms">Broj soba:</label>
+                        <input type="number" id="roomNumber" class = "number" v-model="roomNum" name="roomNumber">
+                    </div>
+                    <div class = "column">
+                        <label for="guests">Broj gostiju:</label>
+                        <input type="number" id="guestNumber" class = "number" v-model="guestNum" name="guestNumber">
+                        </div>
+                    <div class="column" >
+                        <label for="startDate">Početni datum:</label>
+                        <vuejs-datepicker name="startDate" type="date" v-model="startDate" :disabledDates="disabledDates" format="dd.MM.yyyy."></vuejs-datepicker>
+                    </div>
+                    <div class = "column">
+                        <label for="endDate">Krajnji datum:</label>
+                        <vuejs-datepicker name="startDate" type="date" v-model="endDate" :disabledDates="disabledDates" format="dd.MM.yyyy."></vuejs-datepicker>
+                    </div>
+
+            </div>
+            <button type="submit" v-on:click="findAvailable" class = "form_button">Pretraži</button>
+              </form>
+        </div>
+
+        </div>
+	`,
+	mounted () {
+		axios 
+			.get("/test")
+			.then(response => {
+				console.log("i did it");
+			});
+		axios
+			.get("/locations")
+			.then(response => {
+				this.allLocations = response.data;
+				console.log(this.allLocations.length);
+			})
+	},
+	methods : {
+		autocompleteGet : function() {
+	        this.isOpen = true;
+	        this.filterResults();
+		},
+		filterResults : function() {
+			let suggestions = [];
+			for(l of this.allLocations) {
+				if (l.toLowerCase().includes(this.locationSearch)) {
+					suggestions.push(l);
+				}
+			}
+			this.locations = suggestions;
+			
+		},
+		findAvailable : function() {
+			let searchParameters {
+				location : this.locationSearch,
+				numberOfGuests : this.guestNum,
+				numberOfRooms : this.roomNum,
+				dateFrom : this.startDate,
+				dateTo : this.endDate
+				
+			}
+		}
+		
+	},
+	watch : {
+		locationSearch: function() {
+	        this.isOpen = false;
+	        this.filterResults();
+		}
+	}, 
+	components : { 
+		vuejsDatepicker
+	}
+});
