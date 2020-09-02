@@ -1039,6 +1039,8 @@ button:hover {
 
 .apartment-row {
     display: flex;
+    align-content: center;
+    height:fit-content;
 }
 
 .apartment-name {
@@ -1327,6 +1329,10 @@ button:hover {
 .Button{
     margin-left: 55px;
     text-decoration: underline;
+}
+.list-of-apartments{
+    align-content: center;
+    height: fit-content;
 }
 
 

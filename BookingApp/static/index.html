@@ -18,7 +18,7 @@
 		        <li class = "menu"><a href="">Preporučeno</a></li>
 		        <li class = "menu"><a href="#/search">Rezerviši sada</a></li>
 		        <li class = "menu" v-bind:hidden="mode!='guest'"><a href="reservations.html">Moje rezervacije</a></li>
-				<li class = "menu" v-bind:hidden="mode!='host'" ><a href="myapartments.html">Moji apartmani</a></li>
+				<li class = "menu"  ><a href="#/my_apartments">Moji apartmani</a></li>
 				<li class = "menu" v-bind:hidden="mode!='admin'"><a href="#/users_preview" v-bind:hidden="mode!='admin'">Pregled korisnika</a></li>
 		        <li class = "menu" style="float:right" v-bind:hidden="mode!='notLogged'" ><a href="#/login" v-bind:hidden="mode!='notLogged'">Prijavi se</a></li>
 		        <li class = "menu" style="float:right" v-bind:hidden="mode=='notLogged'" v-on:click = "logOut"><a href="#/login" v-bind:hidden="mode=='notLogged'" >Odjavi se</a></li>
@@ -44,6 +44,8 @@
 		<script src="js/apartmen-details.js"></script>
 		<script src="js/users_preview.js"></script>
 		<script src = "js/searchApartment.js"></script>
+		<script src = "js/my_apartments.js"></script>
+		<script src = "js/add_apartment.js"></script>
 
 	</body>
 </html>
