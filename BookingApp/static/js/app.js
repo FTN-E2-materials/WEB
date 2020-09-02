@@ -27,7 +27,7 @@ var app = new Vue({
     data: {
     	mode : 'plsWork',
     	user : {
-    		username : ""
+    		username : "xxxxxxxxxxxxx"
     	}
     },
     mounted() {
@@ -60,9 +60,12 @@ var app = new Vue({
     			.then(response => {
     				window.location.href = "#/login";
     				this.mode = 'notLogged';
+    				this.user = null;
     			})
     	},
     	viewProfile : function() {
+
+            window.location.href = "http://localhost:8088/#/profile-view?id=" + this.user.username;
     	}
     }
 });

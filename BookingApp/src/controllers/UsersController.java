@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 
 import beans.User;
 import dto.LoginDTO;
+import dto.ProfileViewDTO;
 import dto.RegisterDTO;
 import services.UsersService;
 import spark.Session;
@@ -113,6 +114,28 @@ public class UsersController {
 			} catch (Exception e) {
 				e.printStackTrace();
 				return "";
+			}
+		});
+		
+		get("/user/isThisMe/:id", (req, res) -> {
+			res.type("application/json");
+			try {
+				System.out.println(req.params("id"));
+				Session ss = req.session(true);
+				User loggedIn = ss.attribute("user");
+				User requestedRoute = usersService.getByID(req.params("id")); 
+				if (loggedIn != null) {
+					if(requestedRoute.compareTo(loggedIn.getUsername())) {
+						return gs.toJson(new ProfileViewDTO(requestedRoute, true));
+					} else {
+						return gs.toJson(new ProfileViewDTO(requestedRoute, false));
+					}
+				} else {
+					return gs.toJson(new ProfileViewDTO(requestedRoute, false));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
 			}
 		});
 	}

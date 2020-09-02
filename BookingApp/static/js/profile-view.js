@@ -112,49 +112,40 @@ Vue.component("profile-view", {
 
     mounted () {
         axios 
-        .get('/user/' + this.$route.query.id)
+        .get('/user/isThisMe/' + this.$route.query.id)
         .then(response => {
             if(response.data != null)
-            {
-                this.name=response.data.name;
-                this.surname=response.data.surname;
-                this.username=response.data.username;
-                this.profileImage=response.data.profilePicture;
-                if (response.data.gender == 'Female') {
+            { 
+                this.name=response.data.currentUser.name;
+                this.surname=response.data.currentUser.surname;
+                this.username=response.data.currentUser.username;
+                this.profileImage=response.data.currentUser.profilePicture;
+                if (response.data.currentUser.gender == 'Female') {
                 	this.gender = "Žensko";
-                } else if(response.data.gender == 'Male'){
+                } else if(response.data.currentUser.gender == 'Male'){
                 	this.gender = "Muško";
                 }
                 else
                 {
                     this.gender = "Ostalo";
                 }
-                this.editMode = false;
-                
+                if (response.data.isThisMe) {
+                	this.isThisMe = true;
+                } else {
+                	this.isThisMe = false;
+                }
+        		console.log(this.username);
+        		console.log("adjsadkfjsdkfjsa");
 
             } else {
-
+            	this.isThisMe = false;
+            	console.log("AGASFASFas");
                 console.log(this.$route.query.id);
             }
             
 
         	console.log("hello");
-        });
-        axios
-        	.get('user/seeIfLogged')
-        	.then(response =>
-        	{
-        		if (response.data == null) {
-        			this.isThisMe = false;
-        		} else {
-        			if (response.data.username === this.username) {
-        				this.isThisMe = true;
-        			}  else {
-        				this.isThisMe = false;
-        			}
-        		}
-        		console.log(this.isThisMe);
-        	})
+        })
     },
     methods : {
         changePass: function()
