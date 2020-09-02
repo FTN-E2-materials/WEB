@@ -17,7 +17,8 @@ Vue.component("add_apartment", {
     template: `
     <div class="form-part" v-bind:hidden="next==true">
     <h2>Dodajte novi apartman</h2>
-    <div class="form-apt" v-bind:hidden="next==true">
+    <div v-bind:hidden="next==true">
+    <div class="form-apt">
         <div class="col-add">
         <p class = info-apt>Naziv</p>
         <input type="text" id="apt-name" class = "details" v-model="apartmentName">
@@ -59,10 +60,12 @@ Vue.component("add_apartment", {
         <p class = "info-apt">Vreme odjave</p>
         <input type="text" id="apt-num" class = "details" v-model="checkOutTime">
         </div>
-        <button type="button" class="submit-apt" v-on:click="NextButton" v-bind:hidden="next==true" >Dalje</button> 
+        <button type="button" class="submit-apt" v-on:click="NextButton">Dalje</button> 
+    </div>
     </div>
 
-    <div class="form-part-pics" v-bind:hidden="next==true">
+    <div v-bind:hidden="next==true">
+    <div class="form-part-pics">
     <div class="apt-images">
         <p class="info-apt">Oznacite fotografije apartmana:</p>
         <input type="file" class="details">
@@ -71,6 +74,7 @@ Vue.component("add_apartment", {
         <p class= "info-apt">Dodajte stvari koje se nalaze u apartmanu: </p>
         <input type="text" class="details">
         <button class="submit">Dodaj</button>
+    </div>
     </div>
     </div>
 </div> ` ,
