@@ -99,6 +99,27 @@ public class Reservation implements IIdentifiable<Integer> {
 		return false;
 	}
 	
+	public boolean isDateInIntersection(Date startDate, Date endDate) {
+		if (this.startDate.compareTo(startDate) > 0) {
+			if (this.startDate.compareTo(endDate) > 0) {
+				System.out.println("Asfasfas");
+				if ((new Date(this.startDate.getTime() + 24*60*60*1000*this.numberOfNights).compareTo(endDate)) >= 0) {
+					return false;
+				} else {
+					return true;
+				}
+			} else {
+				System.out.println("Asfasfas");
+				return true;
+			}
+		} else {
+			if ((new Date(this.startDate.getTime() + 24*60*60*1000*this.numberOfNights).compareTo(startDate)) <= 0) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+	}
 	
 	
 }

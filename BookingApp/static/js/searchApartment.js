@@ -25,7 +25,7 @@ Vue.component("search-apartment", {
                 <div class = "row">
                     <div class = "column">
                         <label for="destination">Destinacija:</label>
-                        <input autocomplete="on" type="text" id="email" placeholder="Mesto, Država" v-model="locationSearch" name="dest">
+                        <input type="text" id="email" placeholder="Mesto, Država" v-model="locationSearch" name="dest">
                             <ul v-show="isOpen" class="autocomplete-results">
 								<li
 							      v-for="(location, i) in locations"
@@ -54,8 +54,8 @@ Vue.component("search-apartment", {
                     </div>
 
             </div>
-            <button type="submit" v-on:click="findAvailable" class = "form_button">Pretraži</button>
               </form>
+                          <button type="submit" v-on:click="findAvailable" class = "form_button">Pretraži</button>
         </div>
 
         <div class="reservations-booking" v-bind:hidden="showResults==false">
@@ -136,9 +136,10 @@ Vue.component("search-apartment", {
 				location : this.locationSearch,
 				numberOfGuests : this.guestNum,
 				numberOfRooms : this.roomNum,
-				dateFrom : moment(this.startDate, "dd.MM.yyyy."),
-				dateTo : moment(this.endDate, "dd.MM.yyyy.")
+				dateFrom : moment(this.startDate).format('DD.MM.YYYY.'),
+				dateTo : moment(this.endDate).format('DD.MM.YYYY.')
 			}
+			console.log(searchParameters.dateFrom);
 				
 				axios
 					.post("/apartments/getAvailable", JSON.stringify(searchParameters))
