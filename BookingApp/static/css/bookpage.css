@@ -627,8 +627,7 @@ input:focus {
 
 .submit {
     display: block;
-    margin: 0 auto;
-    margin-top: 5px;
+    margin-top: 30px;
     width: 260px;
     border: none;
     outline: none;
@@ -1102,6 +1101,7 @@ button:hover {
 
 .form-apt {
     display: flex;
+    margin-top:30px;
 }
 
 .radio-apt {
@@ -1117,7 +1117,7 @@ button:hover {
 .submit-apt {
     display: block;
     margin: 0 auto;
-    margin-top: 20px;
+    margin-top: 30px;
     width: 260px;
     border: none;
     outline: none;
@@ -1157,9 +1157,9 @@ button:hover {
 }
 
 .apt-stuff {
-    display: flex;
-    margin-top: 20px;
-    margin-left: 60px;
+    display:flex;
+    margin-top: 50px;
+    margin-left:50px;
 }
 
 .username {
@@ -1333,6 +1333,12 @@ button:hover {
 .list-of-apartments{
     align-content: center;
     height: fit-content;
+}
+.errorMessage{
+    margin-left: 380px;
+    color: red;
+    font-size: medium;
+    margin-top: 20px;
 }
 
 
