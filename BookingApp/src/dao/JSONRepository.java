@@ -65,7 +65,8 @@ public class JSONRepository<T extends IIdentifiable<ID>, ID> implements IDao<T, 
 		ArrayList<T> entities = (ArrayList<T>) getAll();
 		for(T el : entities) {
 			if(el.compareTo(entity.getID())) {
-				entities.remove(entities.indexOf(el));
+				el.setDeleted(true);
+				update(el);
 				retVal = true;
 				break;
 			}
@@ -91,18 +92,30 @@ public class JSONRepository<T extends IIdentifiable<ID>, ID> implements IDao<T, 
 	@Override
 	public T getByID(ID id) throws JsonSyntaxException, IOException {
 		T wantedEntity = null;
-		ArrayList<T> entities = (ArrayList<T>) getAll();
+		ArrayList<T> entities = (ArrayList<T>) getAllNonDeleted();
 		if(entities.size()!=0)
 		{
 			for(T el : entities) {
 				if(el.compareTo(id)) {
-					entities.remove(entities.indexOf(el));
 					wantedEntity = el;
 					break;
 				}
 			}
 		}
 		return wantedEntity;
+	}
+
+	@Override
+	public List<T> getAllNonDeleted() throws JsonSyntaxException, IOException {
+		ArrayList<T> entities = (ArrayList<T>) getAll();
+		ArrayList<T> nonDeleted = new ArrayList<T>();
+		
+		for (T entity : entities) {
+			if (!entity.isDeleted()) {
+				nonDeleted.add(entity);
+			}
+		}
+		return nonDeleted;
 	}
 
 }

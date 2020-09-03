@@ -1025,6 +1025,7 @@ button:hover {
 
 .one-button {
     display: flex;
+    margin: 10px;
 }
 
 .row-pagination {

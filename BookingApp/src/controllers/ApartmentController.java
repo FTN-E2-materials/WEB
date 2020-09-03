@@ -59,8 +59,7 @@ public class ApartmentController {
 		post("apartments/getAvailable", (req, res) -> {
 			res.type("application/json");
 			try {
-				//return gs.toJson(apartmentService.findAvailable(gs.fromJson(req.body(), SearchDTO.class)));
-				return gs.toJson(apartmentService.getAllApartments());
+				return gs.toJson(apartmentService.findAvailable(gs.fromJson(req.body(), SearchDTO.class)));
 			} catch(Exception e) {
 				e.printStackTrace();
 				return "";

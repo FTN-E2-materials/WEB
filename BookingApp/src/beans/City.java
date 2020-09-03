@@ -5,6 +5,7 @@ public class City implements IIdentifiable<Integer> {
 	private String city;
 	private double zipCode;
 	private State state;
+	private boolean deleted;
 	
 	public City(String city, double zipCode, State state) {
 		super();
@@ -45,6 +46,13 @@ public class City implements IIdentifiable<Integer> {
 			return true;
 		
 		return false;
+	}
+	public boolean isDeleted() {
+		return deleted;
+	}
+	@Override
+	public void setDeleted(boolean value) {
+		this.deleted = value;
 	}
 	
 	

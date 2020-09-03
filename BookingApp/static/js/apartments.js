@@ -72,23 +72,27 @@ Vue.component("apartments", {
                     <h1 class = "info-reservation">Cena po noći: {{a.costForNight}}</h1>
 
                     <div class="more-buttons">
-                            <div class = "one-button">
+                    		<div hidden>
+                            <div hidden class = "one-button">
                                 <div class = "icons">
                                     <i class="material-icons">comments</i>
                                 </div>
-                                <a href = "apartment.html" class = "link">Komentari</a>
+                                <a :href="'#/details?comments=1&id=' + a.id" hidden class = "link">Komentari</a>
+                            </div>
                             </div>
                             <div class = "one-button">
                                 <div class = "icons">
                                     <i class="material-icons">information</i>
                                 </div>
                                 <a :href="'#/details?id=' + a.id" class = "link">Pregledaj apartman</a>
-                            </div>                            
-                            <div class = "one-button">
+                            </div>           
+                            <div hidden>                 
+                            <div hidden class = "one-button">
                                 <div class = "icons">
                                     <i class="material-icons">edit</i>
                                 </div>
-                                <a href = "apartment.html" class = "link">Promeni status</a>
+                                <a href = "apartment.html" hidden class = "link">Promeni status</a>
+                            </div>
                             </div>
                         </div>
                     </div>

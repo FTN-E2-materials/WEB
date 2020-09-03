@@ -11,7 +11,7 @@ public class Reservation implements IIdentifiable<Integer> {
 	private String message;
 	private Guest guest;
 	private ReservationStatus status;
-	
+	private boolean deleted;
 	public Reservation(Apartment apartment, Date startDate, int numberOfNights, double cost, String message,
 			Guest guest, ReservationStatus status) {
 		super();
@@ -22,6 +22,7 @@ public class Reservation implements IIdentifiable<Integer> {
 		this.message = message;
 		this.guest = guest;
 		this.status = status;
+		this.deleted = false;
 	}
 
 	public Apartment getApartment() {
@@ -99,6 +100,38 @@ public class Reservation implements IIdentifiable<Integer> {
 		return false;
 	}
 	
+	public boolean isDateInIntersection(Date startDate, Date endDate) {
+		if (this.startDate.compareTo(startDate) > 0) {
+			if (this.startDate.compareTo(endDate) > 0) {
+				System.out.println("Asfasfas");
+				if ((new Date(this.startDate.getTime() + 24*60*60*1000*this.numberOfNights).compareTo(endDate)) >= 0) {
+					return false;
+				} else {
+					return true;
+				}
+			} else {
+				System.out.println("Asfasfas");
+				return true;
+			}
+		} else {
+			if ((new Date(this.startDate.getTime() + 24*60*60*1000*this.numberOfNights).compareTo(startDate)) <= 0) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+	}
+	
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	@Override
+	public void setDeleted(boolean value) {
+		this.deleted = value;
+		
+	}
+
 	
 	
 }

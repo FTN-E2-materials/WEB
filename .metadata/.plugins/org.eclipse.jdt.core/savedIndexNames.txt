@@ -82,7 +82,6 @@ INDEX VERSION 1.131+D:\Jelena Fax\Treca\WEB\Projekat\.metadata\.plugins\org.ecli
 3982346246.index
 279306752.index
 1070606850.index
-1248545562.index
 3344029417.index
 1007017234.index
 2249746915.index
@@ -114,7 +113,6 @@ INDEX VERSION 1.131+D:\Jelena Fax\Treca\WEB\Projekat\.metadata\.plugins\org.ecli
 1943124142.index
 196291059.index
 1493979556.index
-564558550.index
 2342958655.index
 3341142214.index
 1429215439.index

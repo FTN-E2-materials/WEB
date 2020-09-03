@@ -3,17 +3,20 @@ package services;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Apartment;
+import beans.ApartmentAscendingComparator;
 import beans.ApartmentComment;
+import beans.ApartmentDescendingComparator;
 import beans.Grade;
 import beans.Guest;
 import beans.Reservation;
+import beans.ReservationStatus;
 import dao.ApartmentDao;
 import dao.ReservationDao;
 import dao.UsersDao;
@@ -46,7 +49,7 @@ public class ApartmentService {
 	}
 	
 	public List<Apartment> getActive() throws JsonSyntaxException, IOException {
-		ArrayList<Apartment> apartments = (ArrayList<Apartment>) apartmentDao.getAll();
+		ArrayList<Apartment> apartments = (ArrayList<Apartment>) apartmentDao.getAllNonDeleted();
 		ArrayList<Apartment> activeApartments = new ArrayList<Apartment>();
 		for (Apartment a : apartments) {
 			if (a.isActive()) {
@@ -110,16 +113,20 @@ public class ApartmentService {
 		return apartmentToComment;
 	}
 	
-	public boolean disableComments(Apartment apartment) {
-		return false;
+	public boolean disableComments(Apartment apartment) throws JsonSyntaxException, IOException {
+		apartment.setCommentsEnabled(false);
+		apartmentDao.update(apartment);
+		return true;
 	}
 	
-	public boolean enableComments(Apartment apartment) {
-		return false;
+	public boolean enableComments(Apartment apartment) throws JsonSyntaxException, IOException {
+		apartment.setCommentsEnabled(true);
+		apartmentDao.update(apartment);
+		return true;
 	}
 	
 	public List<Apartment> sortNewest() throws JsonSyntaxException, IOException {
-		ArrayList<Apartment> allApartments = (ArrayList<Apartment>) apartmentDao.getAll();
+		ArrayList<Apartment> allApartments = (ArrayList<Apartment>) apartmentDao.getAllNonDeleted();
 		ArrayList<Apartment> sortedList = new ArrayList<Apartment>();
 		
 		return null;
@@ -129,45 +136,122 @@ public class ApartmentService {
 		return null;
 	}
 	
-	public List<Apartment> sortCheapest() {
-		return null;
+	public List<Apartment> sortCheapest(List<Apartment> apartments) {
+		Collections.sort(apartments, new ApartmentAscendingComparator());
+		return apartments;
 	}
 	
-	public List<Apartment> sortMostExpensive() {
-		return null;
+	public List<Apartment> sortMostExpensive(List<Apartment> apartments) {
+		Collections.sort(apartments, new ApartmentDescendingComparator());
+		return apartments;
 	}
 
-	public JsonElement findAvailable(SearchDTO fromJson) {
-		/*
+	public List<Apartment> findAvailable(SearchDTO fromJson) {
 		try {
-			List<Apartment> availableForDate = new ArrayList<Apartment>();
-			List<Reservation> getFromToday = filterReservationsFromToday(reservationDao.getAll());
-			if (fromJson.getDateFrom() != null) {
+			List<Apartment> filtered = filterApartments(fromJson);
+			List<Apartment> retVal = new ArrayList<Apartment>();
+			System.out.println(filtered.size());
+			if (filtered.size() > 0) {
 
-			    Date startDate = new SimpleDateFormat("dd.MM.yyyy.").parse(fromJson.getDateFrom());
-			    Date endDate = new SimpleDateFormat("dd.MM.yyyy.").parse(fromJson.getDateTo());
-			    
-			    for (Reservation r : getFromToday) {
-			    	if (r.getStartDate().compareTo(startDate) > 0 && r.getStartDate().compareTo(endDate) > 0) {
-			    		if (isCompatible(r.getApartment(), fromJson)) {
-			    			availableForDate.add(r.getApartment());
-			    		}
-			    	} else if (r.getStartDate().compareTo(startDate) < 0 )
-			    }
+				Date startDate = new SimpleDateFormat("dd.MM.yyyy.").parse(fromJson.getDateFrom());
+		    	Date endDate = new SimpleDateFormat("dd.MM.yyyy.").parse(fromJson.getDateTo());
+		    	List<Reservation> reservationsByApartment = filterReservationsByApartments(filtered);
+		    	List<Apartment> available = new ArrayList<Apartment>();
+		    	for (Apartment a : filtered) {
+		    		boolean addToList = false;
+		    		for (Reservation r : reservationsByApartment) {
+		    			if (r.getApartment().compareTo(a.getID())) {
+		    				if (!r.isDateInIntersection(startDate, endDate)) {
+		    					addToList = true;
+		    				} else {
+		    					System.out.println("asdsa");
+		    					addToList = false;
+		    				}
+		    			}
+		    			
+		    			if (!addToList)
+		    				break;
+		    		}
+		    		
+		    		if (addToList) {
+		    			retVal.add(a);
+		    		}
+		    	}
 			}
+			
+			return retVal;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
-		System.out.println(fromJson.getDateFrom());
-		
-		*/
-		// TODO! Previse je kasno ne razmisljas kako treba : filtriraj prvo apartmane po karakteristikama, pa 
-		// onda uzmi njihove zauzete datume i prodji kroz sve rezervacije za taj apartman,
-		// i preko flaga ako na kraju jeste true dodajes
-	
-		return null;
 	}
 	
+	private List<Reservation> filterReservationsByApartments(List<Apartment> apartments) throws JsonSyntaxException, IOException {
+		List<Reservation> allReservations = reservationDao.getAllNonDeleted();
+		List<Reservation> filtered = new ArrayList<Reservation>();
+
+
+		for (Apartment a : apartments) {
+			for (Reservation r : allReservations) {
+				if(r.getApartment().compareTo(a.getID())) {
+					filtered.add(r);
+				}
+			}
+		}
+		
+		return filtered;
+	}
+
+	private List<Apartment> filterApartments(SearchDTO fromJson) throws JsonSyntaxException, IOException {
+		List<Apartment> allApartments = apartmentDao.getAllNonDeleted();
+		List<Apartment> filtered = new ArrayList<Apartment>();
+		boolean addAp = false;
+		for (Apartment a : allApartments) {
+			addAp = false;
+			if (!fromJson.getLocation().isEmpty()) {
+				if (fromJson.getLocation().toLowerCase().contains(a.getLocation().getAddress().getCity().getCity().toLowerCase())
+						|| fromJson.getLocation().toLowerCase().contains(a.getLocation().getAddress().getCity().getState().getState().toLowerCase()) ) {
+					addAp = true;
+				} else {
+					break;
+				}
+			}
+			
+			if (!fromJson.getNumberOfGuests().isEmpty()) {
+					if (Integer.parseInt(fromJson.getNumberOfGuests()) == a.getNumberOfGuests()) {
+						addAp = true;
+					} else {
+						addAp = false;
+					}
+			}
+			
+			if (!fromJson.getNumberOfRooms().isEmpty()) {
+				if (Integer.parseInt(fromJson.getNumberOfRooms()) == a.getNumberOfRooms()) {
+					addAp = true;
+				} else {
+					addAp = false;
+				}
+			}
+			if (addAp) {
+				filtered.add(a);
+			}
+		}
+		
+		return filtered;
+	}
+	
+	public List<Reservation> getReservationsByStatus(ReservationStatus status) throws JsonSyntaxException, IOException {
+		List<Reservation> allReservations = reservationDao.getAllNonDeleted();
+		List<Reservation> retVal = new ArrayList<Reservation>();
+		
+		for (Reservation r : allReservations) {
+			if (r.getStatus().toString().equals(status.toString())) {
+				retVal.add(r);
+			}
+		}
+		return null;
+	}
+
 	private boolean isCompatible(Apartment a, SearchDTO fromJson) {
 		return false;
 	}
@@ -183,4 +267,44 @@ public class ApartmentService {
 		return filtered;
 	}
 	
+	public List<Apartment> testSorting() {
+		Apartment a1 = new Apartment();
+		a1.setCostForNight(50);
+		Apartment a2 = new Apartment();
+		a2.setCostForNight(530);
+		Apartment a3 = new Apartment();
+		a3.setCostForNight(505);
+		Apartment a4 = new Apartment();
+		a4.setCostForNight(12);
+		Apartment a5 = new Apartment();
+		a5.setCostForNight(4);
+		Apartment a6 = new Apartment();
+		a6.setCostForNight(542);
+		Apartment a7 = new Apartment();
+		a7.setCostForNight(508);
+		Apartment a8 = new Apartment();
+		a8.setCostForNight(501);
+		List<Apartment> collection = new ArrayList<Apartment>();
+		collection.add(a1);
+		collection.add(a2);
+		collection.add(a3);
+		collection.add(a4);
+		collection.add(a5);
+		collection.add(a6);
+		collection.add(a7);
+		collection.add(a8);
+		
+		Collections.sort(collection, new ApartmentAscendingComparator());
+		
+		for (Apartment a : collection) {
+			System.out.println(a.getCostForNight() + " ");
+		}
+		
+		Collections.sort(collection, new ApartmentDescendingComparator());
+		
+		for (Apartment a : collection) {
+			System.out.println(a.getCostForNight() + " ");
+		}
+		return null;
+	}
 }

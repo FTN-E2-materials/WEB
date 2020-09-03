@@ -21,7 +21,8 @@ Vue.component("apartment-details", {
 			canComment: true,
 			textComment: "",
 			grade: "",
-			user: null
+			user: null,
+			amenityDetails: ""
 		}
 	},
 	template: `
@@ -58,6 +59,7 @@ Vue.component("apartment-details", {
             <div class = "ap-desc">
                 <p class="title-desc">OPIS APARTMANA</p>
                 <p>{{apartmentDesc}}</p>
+                <p>Sadržaj apartmana: {{amenityDetails}}</p>
                 </div>
         </div>
 
@@ -75,7 +77,7 @@ Vue.component("apartment-details", {
         <div v-bind:hidden="canEdit===false">
         <button  class="submit">Izmeni apartman?</button>
 		</div>
-        <div class = "comments">
+        <div class = "comments" id="comment-section">
             <p>Komentari:</p>
             <div class = "comment-row"  v-for="c in comments">
                 <div class = "comment-from">
@@ -144,6 +146,12 @@ Vue.component("apartment-details", {
 				this.comments = response.data.comments;
 				this.apartmentDesc = response.data.shortDescription;
 				this.numOfRows = response.data.apartmentPictures.length / 3 + 1;
+				
+				for (a of response.data.amenities) {
+					this.amenityDetails = a.amenityName + " ";
+				}
+				
+
 			});
 	    axios
 	    	.get('/user/seeIfLogged')
