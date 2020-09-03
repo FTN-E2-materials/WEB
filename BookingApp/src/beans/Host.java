@@ -50,5 +50,9 @@ public class Host extends User {
 		}
 		return false;
 	}
+	
+	public boolean isApartmentMine(Apartment a) {
+		return false;
+	}
 
 }

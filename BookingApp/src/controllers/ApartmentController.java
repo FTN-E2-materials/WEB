@@ -65,6 +65,16 @@ public class ApartmentController {
 				return "";
 			}
 		});
+		
+		get("apartments/reservations/:id", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gs.toJson(apartmentService.getReservationsByUser(req.params("id")));
+			} catch(Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
 
 		
 		

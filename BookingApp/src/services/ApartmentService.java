@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Apartment;
@@ -15,8 +16,11 @@ import beans.ApartmentComment;
 import beans.ApartmentDescendingComparator;
 import beans.Grade;
 import beans.Guest;
+import beans.Host;
 import beans.Reservation;
 import beans.ReservationStatus;
+import beans.User;
+import beans.UserRole;
 import dao.ApartmentDao;
 import dao.ReservationDao;
 import dao.UsersDao;
@@ -306,5 +310,36 @@ public class ApartmentService {
 			System.out.println(a.getCostForNight() + " ");
 		}
 		return null;
+	}
+
+	public List<Reservation> getReservationsByUser(String params) throws JsonSyntaxException, IOException {
+		List<Reservation> allReservations = reservationDao.getAllNonDeleted();
+		List<Reservation> filteredByUser = new ArrayList<Reservation>();
+		User user = userDao.getByID(params);
+		
+		if (user == null) {
+			return null;
+		}
+		
+		if (user.getRole() == UserRole.Host) {
+			Host host = (Host) user;
+			for (Reservation r : allReservations) {
+				if (host.isApartmentMine(r.getApartment())) {
+					filteredByUser.add(r);
+				}
+			}
+			
+			return filteredByUser;
+		} else if (user.getRole() == UserRole.Guest) {
+			Guest guest = (Guest) user;
+			for (Reservation r : allReservations) {
+				if (r.getGuest().getUsername().equals(guest.getUsername())) {
+					filteredByUser.add(r);
+				}
+			}
+			return filteredByUser;
+		} else {
+			return allReservations;
+		}
 	}
 }

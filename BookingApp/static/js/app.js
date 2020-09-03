@@ -8,6 +8,7 @@ const users_preview = {template : "<users_preview></users_preview>"}
 const searchApartment = { template : "<search-apartment></search-apartment>" }
 const my_apartments= { template : "<my_apartments></my_apartments>" }
 const add_apartment= { template : "<add_apartment></add_apartment>" }
+const reservations = { template : "<reservations></reservations>" }
 
 const router = new VueRouter({
     mode : 'hash',
@@ -21,7 +22,8 @@ const router = new VueRouter({
 		{ path : "/users_preview", component: users_preview },
 		{ path : "/search", component: searchApartment },
 		{ path : "/my_apartments", component: my_apartments },
-		{ path : "/add_apartment", component: add_apartment }
+		{ path : "/add_apartment", component: add_apartment },
+		{ path : "/reservations", component: reservations }
     ]
 });
 
@@ -70,6 +72,10 @@ var app = new Vue({
     	viewProfile : function() {
 
             window.location.href = "http://localhost:8088/#/profile-view?id=" + this.user.username;
+    	},
+    	getReservations : function() {
+    		window.location.href = "http://localhost:8088/#/reservations?id=" + this.user.username;
+    
     	}
     }
 });
