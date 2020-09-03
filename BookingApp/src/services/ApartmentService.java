@@ -3,14 +3,16 @@ package services;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Apartment;
+import beans.ApartmentAscendingComparator;
 import beans.ApartmentComment;
+import beans.ApartmentDescendingComparator;
 import beans.Grade;
 import beans.Guest;
 import beans.Reservation;
@@ -110,12 +112,16 @@ public class ApartmentService {
 		return apartmentToComment;
 	}
 	
-	public boolean disableComments(Apartment apartment) {
-		return false;
+	public boolean disableComments(Apartment apartment) throws JsonSyntaxException, IOException {
+		apartment.setCommentsEnabled(false);
+		apartmentDao.update(apartment);
+		return true;
 	}
 	
-	public boolean enableComments(Apartment apartment) {
-		return false;
+	public boolean enableComments(Apartment apartment) throws JsonSyntaxException, IOException {
+		apartment.setCommentsEnabled(true);
+		apartmentDao.update(apartment);
+		return true;
 	}
 	
 	public List<Apartment> sortNewest() throws JsonSyntaxException, IOException {
@@ -129,12 +135,14 @@ public class ApartmentService {
 		return null;
 	}
 	
-	public List<Apartment> sortCheapest() {
-		return null;
+	public List<Apartment> sortCheapest(List<Apartment> apartments) {
+		Collections.sort(apartments, new ApartmentAscendingComparator());
+		return apartments;
 	}
 	
-	public List<Apartment> sortMostExpensive() {
-		return null;
+	public List<Apartment> sortMostExpensive(List<Apartment> apartments) {
+		Collections.sort(apartments, new ApartmentDescendingComparator());
+		return apartments;
 	}
 
 	public List<Apartment> findAvailable(SearchDTO fromJson) {
@@ -199,7 +207,7 @@ public class ApartmentService {
 		boolean addAp = false;
 		for (Apartment a : allApartments) {
 			addAp = false;
-			if (fromJson.getLocation() != null) {
+			if (!fromJson.getLocation().isEmpty()) {
 				if (fromJson.getLocation().toLowerCase().contains(a.getLocation().getAddress().getCity().getCity().toLowerCase())
 						|| fromJson.getLocation().toLowerCase().contains(a.getLocation().getAddress().getCity().getState().getState().toLowerCase()) ) {
 					addAp = true;
@@ -208,7 +216,7 @@ public class ApartmentService {
 				}
 			}
 			
-			if (fromJson.getNumberOfGuests() != null) {
+			if (!fromJson.getNumberOfGuests().isEmpty()) {
 					if (Integer.parseInt(fromJson.getNumberOfGuests()) == a.getNumberOfGuests()) {
 						addAp = true;
 					} else {
@@ -216,7 +224,7 @@ public class ApartmentService {
 					}
 			}
 			
-			if (fromJson.getNumberOfRooms() != null) {
+			if (!fromJson.getNumberOfRooms().isEmpty()) {
 				if (Integer.parseInt(fromJson.getNumberOfRooms()) == a.getNumberOfRooms()) {
 					addAp = true;
 				} else {
@@ -246,4 +254,44 @@ public class ApartmentService {
 		return filtered;
 	}
 	
+	public List<Apartment> testSorting() {
+		Apartment a1 = new Apartment();
+		a1.setCostForNight(50);
+		Apartment a2 = new Apartment();
+		a2.setCostForNight(530);
+		Apartment a3 = new Apartment();
+		a3.setCostForNight(505);
+		Apartment a4 = new Apartment();
+		a4.setCostForNight(12);
+		Apartment a5 = new Apartment();
+		a5.setCostForNight(4);
+		Apartment a6 = new Apartment();
+		a6.setCostForNight(542);
+		Apartment a7 = new Apartment();
+		a7.setCostForNight(508);
+		Apartment a8 = new Apartment();
+		a8.setCostForNight(501);
+		List<Apartment> collection = new ArrayList<Apartment>();
+		collection.add(a1);
+		collection.add(a2);
+		collection.add(a3);
+		collection.add(a4);
+		collection.add(a5);
+		collection.add(a6);
+		collection.add(a7);
+		collection.add(a8);
+		
+		Collections.sort(collection, new ApartmentAscendingComparator());
+		
+		for (Apartment a : collection) {
+			System.out.println(a.getCostForNight() + " ");
+		}
+		
+		Collections.sort(collection, new ApartmentDescendingComparator());
+		
+		for (Apartment a : collection) {
+			System.out.println(a.getCostForNight() + " ");
+		}
+		return null;
+	}
 }

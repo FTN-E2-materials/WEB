@@ -62,6 +62,7 @@ public class Application {
 		apartmentDao.save(apartment);
 		
 		*/
+		apartmentService.testSorting();
 		
 		get("/test", (req, res) -> {
 			return "Works";
