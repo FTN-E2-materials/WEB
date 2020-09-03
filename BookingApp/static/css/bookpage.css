@@ -1098,11 +1098,13 @@ button:hover {
     margin-left: 30px;
     align-content: center;
     width: 50%;
+    margin-top:40px;
 }
 
 .form-apt {
     display: flex;
-    margin-top:30px;
+    margin-top:40px;
+    margin-bottom: 20px;
 }
 
 .radio-apt {
@@ -1118,7 +1120,7 @@ button:hover {
 .submit-apt {
     display: block;
     margin: 0 auto;
-    margin-top: 30px;
+    margin-top: 20px;
     width: 260px;
     border: none;
     outline: none;
@@ -1126,7 +1128,7 @@ button:hover {
     height: 40px;
     border-radius: 30px;
     border-color: transparent;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-transform: uppercase;
     color: #fff;
     font-weight: 600;

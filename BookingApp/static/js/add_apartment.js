@@ -4,6 +4,7 @@ Vue.component("add_apartment", {
             apartmentName:'',
             apartmentType:'',
             guestsNumber:'',
+            numberOfRooms:'',
             country:'',
             state:'',
             price:'',
@@ -32,11 +33,11 @@ Vue.component("add_apartment", {
     <p class = "info-apt">Tip apartmana</p>
     <div class = "col-type-radio">
         <div class = "col-date">
-            <input type="radio" class = "radio-apt" name="sortbydate" v-on:change="signalChange" value="Najnovije" v-model="apartmentType">
+            <input type="radio" class = "radio-apt" name="sortbydate" v-on:change="signalChange" value="soba" v-model="apartmentType">
             <p class = "sortbydate-font">Soba</p>
         </div>
         <div class = "col-date">
-            <input type="radio" class = "radio-apt" name="sortbydate" v-on:change="signalChange" value="Najstarije" v-model="apartmentType">
+            <input type="radio" class = "radio-apt" name="sortbydate" v-on:change="signalChange" value="apartman" v-model="apartmentType">
             <p class = "sortbydate-font">Ceo apartman</p>
         </div>
     </div>
@@ -48,16 +49,18 @@ Vue.component("add_apartment", {
     <input type="text" class = "details" v-model="state" v-on:change="signalChange">
     </div>
     <div class="col-add">
+    <p class = info-apt>Broj soba</p>
+    <input type="number" class = "details" v-model="numberOfRooms" v-on:change="signalChange">
     <p class = info-apt>Cena</p>
     <input type="text" class = "details" v-model="price" v-on:change="signalChange">
     <p class = "info-apt">Valuta</p>
     <div class = "col-type-radio">
         <div class = "col-date">
-            <input type="radio" class = "radio-apt" v-on:change="signalChange" name="valuta" value="Najnovije" v-model="currency">
+            <input type="radio" class = "radio-apt" v-on:change="signalChange" name="valuta" value="RSD" v-model="currency">
             <p class = "sortbydate-font">RSD</p>
         </div>
         <div class = "col-date">
-            <input type="radio" class = "radio-apt" v-on:change="signalChange" name="valuta" value="Najstarije" v-model="currency">
+            <input type="radio" class = "radio-apt" v-on:change="signalChange" name="valuta" value="EURO" v-model="currency">
             <p class = "sortbydate-font">EUR</p>
         </div>
     </div>            
@@ -92,7 +95,7 @@ Vue.component("add_apartment", {
     <p class= "info-apt">Dodajte stvari koje se nalaze u apartmanu: </p>
     <input type="text" class="details">
 </div>
-<button class="submit">Dodaj</button>
+<button class="submit" v-on:click="addApartment">Dodaj</button>
 
 </div> 
 </div>
@@ -119,6 +122,7 @@ Vue.component("add_apartment", {
            {
                flag=false;
                this.formErrorMessage="Morate popuniti sva polja u formi.";
+               console.log(this.currency);
            }
            if(flag)
            {
@@ -150,6 +154,35 @@ Vue.component("add_apartment", {
         signalChange : function()
 		{
 			this.formErrorMessage='';
-		}
+        },
+        addApartment: function()
+        {
+            let apartmentParameters= {
+                apartmentTitle:this.apartmentName,
+                type:this.apartmentType,
+                numberOfGuests:this.guestsNumber,
+                numberOfRooms:this.numberOfRooms,
+                comments:[],
+                apartmentPictures:this.images,
+              //  country:'',
+               // state:'',
+               location:null,
+                costForNight:this.price,
+                costCurrency:this.currency,
+                comments:[],
+                active:'inactive',
+                checkInTime:this.applicationTime,
+                checkOutTime:this.checkOutTime,
+            
+            };
+
+            axios
+			        .put('/apartments/addApartment', JSON.stringify(apartmentParameters))
+			        .then(response => {
+			        	  window.location.href = "#/";
+			        	  
+			          });
+
+        }
     }
 });
