@@ -20,6 +20,7 @@ public class Apartment implements IIdentifiable<Integer> {
 	private Currency costCurrency;
 	private boolean commentsEnabled;
 	private boolean deleted;
+	private List<Amenity> amenities;
 	
 	public Apartment() {}
 	
@@ -180,5 +181,23 @@ public class Apartment implements IIdentifiable<Integer> {
 	}
 	
 	
-	
+	public double translateCostToSameCurrency() {
+		if (this.costCurrency == Currency.Euro) {
+			return this.costForNight;
+		} else if (this.costCurrency == Currency.Dinar) {
+			return this.costForNight * 0.0085;
+		} else if (this.costCurrency == Currency.Dollar) {
+			return this.costForNight * 0.85;
+		} else {
+			return this.costForNight;
+		}
+	}
+
+	public List<Amenity> getAmenities() {
+		return amenities;
+	}
+
+	public void setAmenities(List<Amenity> amenities) {
+		this.amenities = amenities;
+	}
 }

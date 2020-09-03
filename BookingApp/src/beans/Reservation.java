@@ -131,6 +131,7 @@ public class Reservation implements IIdentifiable<Integer> {
 		this.deleted = value;
 		
 	}
+
 	
 	
 }
