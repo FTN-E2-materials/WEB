@@ -77,7 +77,7 @@ Vue.component("apartment-details", {
         <div v-bind:hidden="canEdit===false">
         <button  class="submit">Izmeni apartman?</button>
 		</div>
-        <div class = "comments">
+        <div class = "comments" id="comment-section">
             <p>Komentari:</p>
             <div class = "comment-row"  v-for="c in comments">
                 <div class = "comment-from">
@@ -150,6 +150,8 @@ Vue.component("apartment-details", {
 				for (a of response.data.amenities) {
 					this.amenityDetails = a.amenityName + " ";
 				}
+				
+
 			});
 	    axios
 	    	.get('/user/seeIfLogged')
