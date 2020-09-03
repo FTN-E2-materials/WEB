@@ -11,7 +11,7 @@ public class Reservation implements IIdentifiable<Integer> {
 	private String message;
 	private Guest guest;
 	private ReservationStatus status;
-	
+	private boolean deleted;
 	public Reservation(Apartment apartment, Date startDate, int numberOfNights, double cost, String message,
 			Guest guest, ReservationStatus status) {
 		super();
@@ -22,6 +22,7 @@ public class Reservation implements IIdentifiable<Integer> {
 		this.message = message;
 		this.guest = guest;
 		this.status = status;
+		this.deleted = false;
 	}
 
 	public Apartment getApartment() {
@@ -119,6 +120,16 @@ public class Reservation implements IIdentifiable<Integer> {
 				return true;
 			}
 		}
+	}
+	
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	@Override
+	public void setDeleted(boolean value) {
+		this.deleted = value;
+		
 	}
 	
 	

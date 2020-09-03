@@ -19,6 +19,7 @@ public class Apartment implements IIdentifiable<Integer> {
 	private String shortDescription;
 	private Currency costCurrency;
 	private boolean commentsEnabled;
+	private boolean deleted;
 	
 	public Apartment() {}
 	
@@ -168,6 +169,14 @@ public class Apartment implements IIdentifiable<Integer> {
 
 	public void setCommentsEnabled(boolean commentsEnabled) {
 		this.commentsEnabled = commentsEnabled;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 	
 	

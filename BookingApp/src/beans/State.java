@@ -3,9 +3,11 @@ package beans;
 public class State implements IIdentifiable<Integer> {
 	private String state;
 	private int id;
+	private boolean deleted;
 	
 	public State(String state) {
 		this.state = state;
+		this.deleted = false;
 	}
 
 	public String getState() {
@@ -33,6 +35,15 @@ public class State implements IIdentifiable<Integer> {
 			return true;
 		
 		return false;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	@Override
+	public void setDeleted(boolean value) {
+		this.deleted = value;
 	}
 
 	

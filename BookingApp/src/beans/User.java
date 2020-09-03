@@ -9,6 +9,7 @@ public abstract class User implements IIdentifiable<String> {
 	private UserRole role;
 	private boolean blocked;
 	private String profilePicture;
+	private boolean deleted;
 	
 	
 	public User() {}
@@ -86,5 +87,13 @@ public abstract class User implements IIdentifiable<String> {
 
 	public void setBlocked(boolean blocked) {
 		this.blocked = blocked;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 }

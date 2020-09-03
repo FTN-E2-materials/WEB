@@ -16,6 +16,7 @@ import beans.ApartmentDescendingComparator;
 import beans.Grade;
 import beans.Guest;
 import beans.Reservation;
+import beans.ReservationStatus;
 import dao.ApartmentDao;
 import dao.ReservationDao;
 import dao.UsersDao;
@@ -48,7 +49,7 @@ public class ApartmentService {
 	}
 	
 	public List<Apartment> getActive() throws JsonSyntaxException, IOException {
-		ArrayList<Apartment> apartments = (ArrayList<Apartment>) apartmentDao.getAll();
+		ArrayList<Apartment> apartments = (ArrayList<Apartment>) apartmentDao.getAllNonDeleted();
 		ArrayList<Apartment> activeApartments = new ArrayList<Apartment>();
 		for (Apartment a : apartments) {
 			if (a.isActive()) {
@@ -125,7 +126,7 @@ public class ApartmentService {
 	}
 	
 	public List<Apartment> sortNewest() throws JsonSyntaxException, IOException {
-		ArrayList<Apartment> allApartments = (ArrayList<Apartment>) apartmentDao.getAll();
+		ArrayList<Apartment> allApartments = (ArrayList<Apartment>) apartmentDao.getAllNonDeleted();
 		ArrayList<Apartment> sortedList = new ArrayList<Apartment>();
 		
 		return null;
@@ -186,7 +187,7 @@ public class ApartmentService {
 	}
 	
 	private List<Reservation> filterReservationsByApartments(List<Apartment> apartments) throws JsonSyntaxException, IOException {
-		List<Reservation> allReservations = reservationDao.getAll();
+		List<Reservation> allReservations = reservationDao.getAllNonDeleted();
 		List<Reservation> filtered = new ArrayList<Reservation>();
 
 
@@ -202,7 +203,7 @@ public class ApartmentService {
 	}
 
 	private List<Apartment> filterApartments(SearchDTO fromJson) throws JsonSyntaxException, IOException {
-		List<Apartment> allApartments = apartmentDao.getAll();
+		List<Apartment> allApartments = apartmentDao.getAllNonDeleted();
 		List<Apartment> filtered = new ArrayList<Apartment>();
 		boolean addAp = false;
 		for (Apartment a : allApartments) {
@@ -237,6 +238,18 @@ public class ApartmentService {
 		}
 		
 		return filtered;
+	}
+	
+	public List<Reservation> getReservationsByStatus(ReservationStatus status) throws JsonSyntaxException, IOException {
+		List<Reservation> allReservations = reservationDao.getAllNonDeleted();
+		List<Reservation> retVal = new ArrayList<Reservation>();
+		
+		for (Reservation r : allReservations) {
+			if (r.getStatus().toString().equals(status.toString())) {
+				retVal.add(r);
+			}
+		}
+		return null;
 	}
 
 	private boolean isCompatible(Apartment a, SearchDTO fromJson) {
