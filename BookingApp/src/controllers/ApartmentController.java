@@ -126,6 +126,15 @@ public class ApartmentController {
 			}
 		});
 
+		get("apartments/getDisabledDates/:id", (req, res) -> {
+			try {
+				res.type("application/json");
+				return gs.toJson(apartmentService.getReservationsForApartment(req.params("id")));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
 		
 		
 		

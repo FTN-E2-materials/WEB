@@ -353,4 +353,17 @@ public class ApartmentService {
 		return null;
 		
 	}
+
+	public List<Reservation> getReservationsForApartment(String params) throws JsonSyntaxException, IOException {
+		List<Reservation> allReservations = reservationDao.getAllNonDeleted();
+		int apartmentID = Integer.parseInt(params);
+		List<Reservation> filteredByApartment = new ArrayList<Reservation>();
+		
+		for (Reservation r : allReservations) {
+			if (r.getApartment().compareTo(apartmentID)) {
+				filteredByApartment.add(r);
+			}
+		}
+		return filteredByApartment;
+	}
 }

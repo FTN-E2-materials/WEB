@@ -1532,3 +1532,14 @@ button:hover {
     color: red;
     margin-left: 150px;
 }
+
+.reserve-apartment {
+    display: flex;
+    margin-left: 245px;
+    margin-top: 20px;
+}
+
+.date-res {
+    margin-left: 10px;
+    margin-right: 10px;
+}

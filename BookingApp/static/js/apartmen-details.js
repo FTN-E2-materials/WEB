@@ -22,7 +22,10 @@ Vue.component("apartment-details", {
 			textComment: "",
 			grade: "",
 			user: null,
-			amenityDetails: ""
+			amenityDetails: "",
+			reserve : false,			
+			disabledDates: {},
+	        selectedDate : null
 		}
 	},
 	template: `
@@ -71,8 +74,16 @@ Vue.component("apartment-details", {
 
             </div>
         </div>
-		<div v-bind:hidden="canReserve===false">
-        <button  class="submit">Rezerviši?</button>
+		<div>
+        <button v-on:click="showForm" class="submit">Rezerviši?</button>
+        	<div v-bind:hidden="reserve==false">
+        	<div class = "reserve-apartment">
+	        	<p> Unesite željeni datum: </p>
+	        	<vuejs-datepicker name="startDate" class = "date-res" type="date" v-model="selectedDate" :disabledDates="disabledDates" format="dd.MM.yyyy."></vuejs-datepicker>
+	            <p> Broj noćenja: </p>
+	            <input type = "number" class = "number">     
+            </div>
+            </div>
         </div>
         <div v-bind:hidden="canEdit===false">
         <button  class="submit">Izmeni apartman?</button>
@@ -124,6 +135,7 @@ Vue.component("apartment-details", {
     </div>
 	`,
 	mounted () {
+    	
 		axios
 			.get("/apartments/" + this.$route.query.id)
 			.then(response => {
@@ -183,6 +195,8 @@ Vue.component("apartment-details", {
 
     			console.log(canEdit);
 	    	})
+	    
+
 	},
 	methods : {
 		leaveComment : function() {
@@ -226,6 +240,27 @@ Vue.component("apartment-details", {
 		changeImage : function(next) {
 			this.mainPicture = this.pictures[next];
 			console.log(next);
+		},
+		showForm : function() {
+
+		    axios 
+	    	.get("apartments/getDisabledDates/" + this.$route.query.id)
+	    	.then(response => {
+	    		let disabled = [];
+	    		for (reservation of response.data) {
+
+		    		let date = moment(reservation.startDate).format("YYYY-MM-DD");
+		    		let toDate = new Date(date);
+		    		console.log(date);
+	    			disabled.push({from : toDate, to : new Date(toDate.getTime() + reservation.numberOfNights*24*60*60*1000)});
+	    		}
+				this.disabledDates["ranges"] = disabled;
+				this.disabledDates["to"] = new Date(Date.now() - 8640000);
+	    	})
+			this.reserve = true;
 		}
+	},
+	components : { 
+		vuejsDatepicker
 	}
 });
