@@ -41,7 +41,7 @@ public class ApartmentService {
 		this.userDao = userDao;
 	}
 	
-	public Apartment saveNewApartment(ApartmentDTO apartmentParameters) throws JsonSyntaxException, IOException {
+	public Apartment saveNewApartment(ApartmentDTO apartmentParameters, Host host) throws JsonSyntaxException, IOException {
 		int nextID = apartmentDao.generateNextID();
 		
 		Apartment newApartment = new Apartment(apartmentParameters.getApartmentTitle(), apartmentParameters.getType(), apartmentParameters.getNumberOfRooms(), 
@@ -49,6 +49,8 @@ public class ApartmentService {
 				apartmentParameters.getCostForNight(), true, apartmentParameters.getCheckInTime(), apartmentParameters.getCheckOutTime(), apartmentParameters.getApartmentPictures());
 		newApartment.setID(nextID);
 		apartmentDao.save(newApartment);
+		host.addApartmentForRent(newApartment);
+		userDao.update(host);
 		return newApartment;
 	}
 	

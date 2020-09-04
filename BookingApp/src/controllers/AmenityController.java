@@ -25,11 +25,12 @@ public class AmenityController {
 			try {
 				Session ss = req.session(true);
 				User user = ss.attribute("user");
+				return gs.toJson(amenityService.getAllAmenities());
+				/*
 				if (user.getRole() == UserRole.Administrator) {
-					return gs.toJson(amenityService.getAllAmenities());
 				} else {
 					return null;
-				}
+				}*/
 			} catch(Exception e) {
 				e.printStackTrace();
 				return null;
