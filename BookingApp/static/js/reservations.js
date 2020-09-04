@@ -96,7 +96,7 @@ Vue.component("reservations", {
                                 <button class = "submit" v-on:click="declineReservation(r)" v-if="(r.stauts=='Created' && mode=='host') || (r.status == 'Accepted' && mode=='host')">Odbij rezervaciju</button>
                                 <button class = "submit" v-on:click="finishReservation(r)" v-if="r.stauts=='Accepted' && isFinished(r.startDate) == true && mode=='host'">Završi rezervaciju</button>
                                 <button class = "submit" v-on:click="withdrawReservation(r)" v-if="r.stauts=='Accepted'== true && mode=='guest'">Otkaži rezervaciju</button>
-                                <button class = "submit" v-on:click="withdrawReservation(r)" v-if="r.stauts=='Created' == true && mode=='host'" class = "link">Otkaži rezervaciju</button>
+                                <button class = "submit" v-on:click="withdrawReservation(r)" v-if="r.stauts=='Created' == true && mode=='host'">Otkaži rezervaciju</button>
                             </div>                          
                         </div>
                 </div>
@@ -133,7 +133,7 @@ Vue.component("reservations", {
 		    			this.mode = 'notLogged';
 		    		}
 	    		}
-	    		
+	    		toast("hello");
 	    		console.log(this.mode);
 	    	})
 	},
@@ -189,6 +189,9 @@ Vue.component("reservations", {
 					toast("O ne, dogodila se greška prilikom prihvatanja rezervacije!");
 				}
 			});
+		},
+		message : function() {
+			toast("wut");
 		}
 	}
 	

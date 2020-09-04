@@ -1,12 +1,12 @@
 package beans;
 
-public class Amenity {
+public class Amenity implements IIdentifiable<Integer>  {
 	private int id;
 	private String amenityName;
 	private boolean deleted;
 	
 	public Amenity() {
-		// TODO Auto-generated constructor stub
+		this.deleted = false;
 	}
 
 	public Amenity(int id, String amenityName, boolean deleted) {
@@ -38,6 +38,25 @@ public class Amenity {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	@Override
+	public Integer getID() {
+		return id;
+	}
+
+	@Override
+	public void setID(Integer id) {
+		this.id = id;
+		
+	}
+
+	@Override
+	public boolean compareTo(Integer id) {
+		if (this.id == id) {
+			return true;
+		} 
+		return false;
 	}
 	
 	

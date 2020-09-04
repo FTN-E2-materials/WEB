@@ -420,7 +420,122 @@ h1,h2,h3,h4,h5,h6 {
     background: -webkit-linear-gradient(left, #BE95C4, #E0B1CB);
 }
 
-ul {    
+.list-of-amenities {
+    align-content: center;
+    margin: 20px;
+    text-align: center;
+    width: 550px;
+}
+
+.input-amenity {
+    font-size: 15px;
+    text-align: left;
+    margin-left: 20px;
+    border-bottom-style: solid;
+    border-width: 0.5px;
+    height: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.submit-amenity {
+    display: block;
+    margin: 0 auto;
+    width: 150px;
+    border: none;
+    outline: none;
+    background: none;
+    height: 40px;
+    border-radius: 30px;
+    border-color: transparent;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: -webkit-linear-gradient(left, #BE95C4, #E0B1CB);
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.input-amenity:focus {
+    
+    font-size: 15px;
+    border-bottom-style: solid;
+    border-width: 0.5px;
+    margin-left: 20px;
+    text-align: left;    
+    height: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.single-amenity {
+    text-align: left;
+    margin-top: 20px;
+    margin-left: 150px;
+    width: 180px;
+}
+
+.amenity {
+    display: flex;
+    height: 50px;
+}
+
+.edit-amenity {
+    display: flex;
+}
+
+.delete-amenity {
+    display: flex;
+}
+
+.options-amenity {
+    display: flex;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.add-edit-amenity {
+    align-content: left;
+    text-align: left;
+    margin-top: 40px;
+    width: 550px;
+    display: flex;
+    margin-left: 50px;
+}
+
+.add-edit-amenity-text {
+    margin-top: 5px;
+}
+.list-title {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+    margin-left: 20px;
+}
+
+.amenities {
+    width: 600px;
+    display: table;
+    margin-top: 100px;
+    opacity: 0.9;
+    border-radius: 10px;
+    align-content: center;
+    background-color: #fff;
+    box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+
+}
+.edit-delete {
+    width: 35px;
+    height: 35px;
+    border-radius: 40px;
+    border-style: none;
+    background: transparent;
+    align-content: center;
+    align-items: center;
+    margin-left: 5px;
+}
+
+.nav-navbar {    
     list-style-type : none;
     margin : 0;
     padding : 0;
@@ -430,12 +545,12 @@ ul {
     background: -webkit-linear-gradient(left, #BE95C4, #E0B1CB);
   }
 
-  li{
+  .menu{
     float: left;
     height: 100%;
   }
   
-  li a {
+  .menu a {
     display: block;
     color: white;
     height: 100%;

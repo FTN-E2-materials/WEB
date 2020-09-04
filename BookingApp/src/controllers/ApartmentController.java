@@ -2,13 +2,18 @@ package controllers;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
+import static spark.Spark.put;
 
 import com.google.gson.Gson;
 
 import beans.Apartment;
+import beans.Host;
+import beans.ReservationStatus;
+import dto.ApartmentDTO;
 import dto.CommentDTO;
 import dto.SearchDTO;
 import services.ApartmentService;
+import spark.Session;
 
 public class ApartmentController {
 	private ApartmentService apartmentService;
@@ -76,13 +81,49 @@ public class ApartmentController {
 			}
 		});
 
-		put("/apartments/addApartment",(req,res)->{
+		put("/apartments/addApartment", (req,res) ->{
 			Session session=req.session(true);
 			Host user=session.attribute("user");
 			ApartmentDTO apartment=gs.fromJson(req.body(),ApartmentDTO.class);
-			apartment.setHost(user);
+			// apartment.setHost(user);
 			return apartmentService.saveNewApartment(apartment);
 
+		});
+		
+		put("/apartments/acceptReservation/:id", (req, res) -> {
+			try {
+				return apartmentService.updateReservationStatus(req.params("id"), ReservationStatus.Accepted);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+
+		put("/apartments/declineReservation/:id", (req, res) -> {
+			try {
+				return apartmentService.updateReservationStatus(req.params("id"), ReservationStatus.Declined);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+
+		put("/apartments/withdrawReservation/:id", (req, res) -> {	
+			try {
+				return apartmentService.updateReservationStatus(req.params("id"), ReservationStatus.Withdrawn);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+
+		put("/apartments/finishReservation/:id", (req, res) -> {
+			try {
+				return apartmentService.updateReservationStatus(req.params("id"), ReservationStatus.Finished);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
 		});
 
 		

@@ -342,4 +342,15 @@ public class ApartmentService {
 			return allReservations;
 		}
 	}
+
+	public Reservation updateReservationStatus(String params, ReservationStatus accepted) throws JsonSyntaxException, NumberFormatException, IOException {
+		Reservation reservationtForChange = reservationDao.getByID(Integer.parseInt(params));
+		if (reservationtForChange != null) {
+			reservationtForChange.setStatus(accepted);
+			reservationDao.update(reservationtForChange);
+			return reservationtForChange;
+		}
+		return null;
+		
+	}
 }

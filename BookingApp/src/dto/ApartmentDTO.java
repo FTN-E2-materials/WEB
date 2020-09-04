@@ -2,7 +2,9 @@ package dto;
 
 import java.util.List;
 
+import beans.Amenity;
 import beans.ApartmentType;
+import beans.Currency;
 import beans.Location;
 
 public class ApartmentDTO {
