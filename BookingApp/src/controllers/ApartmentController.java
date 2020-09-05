@@ -4,11 +4,15 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
 
+import javax.ws.rs.core.Response;
+
 import com.google.gson.Gson;
 
 import beans.Apartment;
 import beans.Host;
 import beans.ReservationStatus;
+import beans.User;
+import beans.UserRole;
 import dto.ApartmentDTO;
 import dto.CommentDTO;
 import dto.SearchDTO;
@@ -80,14 +84,26 @@ public class ApartmentController {
 				return "";
 			}
 		});
- 
-		put(("/apartments/addApartment", (req,res) ->{
-			Session session=req.session(true);
-			Host user=session.attribute("user");
-			ApartmentDTO apartment=gs.fromJson(req.body(),ApartmentDTO.class);
-			// apartment.setHost(user);
-			return apartmentService.saveNewApartment(apartment);
 
+		post("/apartments/addApartment", (req,res) -> {
+			try {
+				res.type("application/json");
+				Session session=req.session(true);
+				User user=session.attribute("user");
+				if (user == null) {
+					return "";
+				}
+				if (user.getRole() != UserRole.Host) {
+					return "";
+				}
+				Host host = (Host) user;
+				System.out.println(req.body());
+				ApartmentDTO apartment = gs.fromJson(req.body(), ApartmentDTO.class);
+				return gs.toJson(apartmentService.saveNewApartment(apartment, host));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
 		});
 		
 		put("/apartments/acceptReservation/:id", (req, res) -> {

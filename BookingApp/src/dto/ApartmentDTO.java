@@ -104,6 +104,16 @@ public class ApartmentDTO {
 	public void setCheckOutTime(int checkOutTime) {
 		this.checkOutTime = checkOutTime;
 	}
+
+
+	public List<Amenity> getAmenities() {
+		return amenities;
+	}
+
+
+	public void setAmenities(List<Amenity> amenities) {
+		this.amenities = amenities;
+	}
 	
 
 }

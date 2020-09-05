@@ -9,9 +9,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import beans.Amenity;
 import beans.City;
+import beans.Gender;
+import beans.Host;
 import beans.State;
+import beans.UserRole;
 import controllers.AmenityController;
 import controllers.ApartmentController;
 import controllers.UsersController;
@@ -66,6 +68,9 @@ public class Application {
 		apartmentDao.save(apartment);
 		
 		*/
+		Host h = new Host("domacin1", "domacin123", "Nikola", "Nikolic", Gender.Male, UserRole.Host);
+		usersDao.create(h);
+		
 		apartmentService.testSorting();
 		
 		get("/test", (req, res) -> {
