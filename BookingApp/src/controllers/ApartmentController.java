@@ -80,8 +80,8 @@ public class ApartmentController {
 				return "";
 			}
 		});
-
-		put("/apartments/addApartment", (req,res) ->{
+ 
+		put(("/apartments/addApartment", (req,res) ->{
 			Session session=req.session(true);
 			Host user=session.attribute("user");
 			ApartmentDTO apartment=gs.fromJson(req.body(),ApartmentDTO.class);

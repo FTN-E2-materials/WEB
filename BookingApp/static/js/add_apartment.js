@@ -177,7 +177,7 @@ Vue.component("add_apartment", {
             };
 
             axios
-			        .put('/apartments/addApartment', JSON.stringify(apartmentParameters))
+			        .put("/apartments/addApartment", JSON.stringify(apartmentParameters))
 			        .then(response => {
 			        	  window.location.href = "#/";
 			        	  
