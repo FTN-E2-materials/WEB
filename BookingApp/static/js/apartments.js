@@ -161,6 +161,15 @@ Vue.component("apartments", {
 		
 		oldestSort : function() {
 			
+		}, 
+		showDestinations : function(destination) {
+			axios
+				.get("apartment/getApartmentsByCity/" + destination)
+				.then(response => {
+					if (response.data != null) {
+						this.apartments = response.data;
+					}
+				});
 		}
 	}
 	

@@ -7,13 +7,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Apartment;
 import beans.ApartmentAscendingComparator;
 import beans.ApartmentComment;
 import beans.ApartmentDescendingComparator;
+import beans.DestinationDescendingComparator;
 import beans.Grade;
 import beans.Guest;
 import beans.Host;
@@ -26,6 +26,7 @@ import dao.ReservationDao;
 import dao.UsersDao;
 import dto.ApartmentDTO;
 import dto.CommentDTO;
+import dto.DestinationDTO;
 import dto.ReservationDTO;
 import dto.SearchDTO;
 
@@ -89,14 +90,58 @@ public class ApartmentService {
 		return apartmentDao.getAll();
 	}
 	
-	public List<Apartment> getNewestApartments() throws JsonSyntaxException, IOException {
-		return apartmentDao.getAll();
+	public List<Apartment> getApartmentsByCity(String city) throws JsonSyntaxException, IOException {
+		List<Apartment> apartments = apartmentDao.getAll();
+		List<Apartment> filtered = new ArrayList<Apartment>();
+		
+		for (Apartment a : apartments) {
+			if (a.getLocation().getAddress().getCity().getCity().toLowerCase().contains(city)) {
+				filtered.add(a);
+			}
+		}
+		return filtered;
 	}
 	
-	public List<Apartment> getMostPopularApartments() throws JsonSyntaxException, IOException {
-		return apartmentDao.getAll();
+	public List<DestinationDTO> getMostPopularDestinations() throws JsonSyntaxException, IOException {
+		List<Reservation> allReservations = reservationDao.getAllNonDeleted();
+		List<DestinationDTO> destinations = new ArrayList<DestinationDTO>();
+		
+		for (Reservation r : allReservations) {
+			String path = generateImagePathForDestination(r.getApartment().getLocation().getAddress().getCity().getCity());
+			if (path.equals("")) {
+				path = r.getApartment().getApartmentPictures().size() == 0 ? "" : r.getApartment().getApartmentPictures().get(0);
+			}
+			DestinationDTO d = new DestinationDTO(r.getApartment().getLocation().getAddress().getCity().getCity(), path);
+			if (destinations.contains(d)) {
+				int i = destinations.indexOf(d);
+				DestinationDTO d1 = destinations.get(i);
+				d1.setCount(d.getCount() + 1);
+				destinations.set(i, d1);
+			} else {
+				destinations.add(d);
+			}
+		}
+		System.out.println(destinations.size());
+		destinations.sort(new DestinationDescendingComparator());
+		return destinations;
 	}
 	
+	private String generateImagePathForDestination(String city) {
+		if (city.toLowerCase().equals("kikinda")) {
+			return "images/Kikinda.jpg";
+		} else if (city.toLowerCase().equals("subotica")) {
+			return "images/Subotica.jpg";
+		} else if (city.toLowerCase().equals("novi sad")) {
+			return "images/NoviSad.jpg";
+		} else if (city.toLowerCase().equals("zlatibor")) {
+			return "images/Zlatibor.jpg";
+		} else if (city.toLowerCase().equals("kopaonik")) {
+			return "images/Kopaonik.jpg";
+		} else {
+			return "";
+		}
+	}
+
 	public boolean reserveApartment(ReservationDTO reservation) {
 		return false;
 	}

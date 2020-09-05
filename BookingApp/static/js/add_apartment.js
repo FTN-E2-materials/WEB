@@ -233,13 +233,13 @@ Vue.component("add_apartment", {
         },
         addApartment: function()
         {
-        	this.address = document.querySelector('#address').value;
-        	this.country = document.querySelector('#country').value;
-        	this.state = document.querySelector('#country').value;
-		    this.zipCode = document.querySelector('#zipCode').value;
-		    this.longitude = document.querySelector('#longitude').value;
-		    this.latitude = document.querySelector('#latitude').value;
-		    this.city = document.querySelector('#city').value;
+        	this.address = cyrilicToLatinic(trandocument.querySelector('#address').value);
+        	this.country = cyrilicToLatinic(document.querySelector('#country').value);
+        	this.state = cyrilicToLatinic(document.querySelector('#country').value);
+		    this.zipCode = cyrilicToLatinic(document.querySelector('#zipCode').value);
+		    this.longitude = cyrilicToLatinic(document.querySelector('#longitude').value);
+		    this.latitude = cyrilicToLatinic(document.querySelector('#latitude').value);
+		    this.city = cyrilicToLatinic(document.querySelector('#city').value);
         	
         	let stateCurr = {
         		state : this.state
