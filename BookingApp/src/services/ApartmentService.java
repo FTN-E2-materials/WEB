@@ -34,6 +34,7 @@ public class ApartmentService {
 	private ApartmentDao apartmentDao;
 	private UsersDao userDao;
 	private ReservationDao reservationDao;
+	private Base64ToImage decoder = new Base64ToImage();
 	
 	public ApartmentService(ApartmentDao apartmentDao, UsersDao userDao, ReservationDao reservationDao) {
 		this.apartmentDao = apartmentDao;
@@ -43,6 +44,15 @@ public class ApartmentService {
 	
 	public Apartment saveNewApartment(ApartmentDTO apartmentParameters, Host host) throws JsonSyntaxException, IOException {
 		int nextID = apartmentDao.generateNextID();
+		
+		List<String> convertedImages = new ArrayList<String>();
+		int i = 1;
+		for (String s : apartmentParameters.getApartmentPictures()) {
+			String path = "images\\apartments\\a" + nextID + i + ".jpg";
+			decoder.Base64DecodeAndSave(s, path);
+			convertedImages.add(path);
+			++i;
+		}
 		
 		Apartment newApartment = new Apartment(apartmentParameters.getApartmentTitle(), apartmentParameters.getType(), apartmentParameters.getNumberOfRooms(), 
 				apartmentParameters.getNumberOfGuests(), apartmentParameters.getLocation(), new ArrayList<ApartmentComment>(), 

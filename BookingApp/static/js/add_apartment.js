@@ -219,7 +219,10 @@ Vue.component("add_apartment", {
             const reader= new FileReader();
            
             reader.onload = (e) =>{
-                this.imagesForBackend.push(e.target.result);
+            	let img = e.target.result;
+            	img.replace("data:image\/(png|jpg|jpeg);base64", "");
+            	console.log(img);
+                this.imagesForBackend.push(img);
             }
             reader.readAsDataURL(file);
         },
@@ -272,13 +275,16 @@ Vue.component("add_apartment", {
         			amenityName : amenity
         		});
         	}
+        	for (i of this.imagesForBackend) {
+        		console.log(i);
+        	}
             let apartmentParameters= {
                 apartmentTitle:this.apartmentName,
                 type:this.apartmentType,
                 numberOfGuests:this.guestsNumber,
                 numberOfRooms:this.numberOfRooms,
                 comments:[],
-               //apartmentPictures:this.images,
+                apartmentPictures:this.imagesForBackend,
               //  country:'',
                // state:'',
                 location: locationCurr,

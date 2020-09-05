@@ -68,9 +68,6 @@ public class Application {
 		apartmentDao.save(apartment);
 		
 		*/
-		Host h = new Host("domacin1", "domacin123", "Nikola", "Nikolic", Gender.Male, UserRole.Host);
-		usersDao.create(h);
-		
 		apartmentService.testSorting();
 		
 		get("/test", (req, res) -> {
