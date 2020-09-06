@@ -10,6 +10,7 @@ const my_apartments= { template : "<my_apartments></my_apartments>" }
 const add_apartment= { template : "<add_apartment></add_apartment>" }
 const reservations = { template : "<reservations></reservations>" }
 const amenities = { template : "<amenities></amenities>"}
+const edit_apartment = { template : "<edit_apartment></edit_apartment>"}
 
 const router = new VueRouter({
     mode : 'hash',
@@ -25,7 +26,8 @@ const router = new VueRouter({
 		{ path : "/my_apartments", component: my_apartments },
 		{ path : "/add_apartment", component: add_apartment },
 		{ path : "/reservations", component: reservations },
-		{ path : "/amenities", component: amenities }
+		{ path : "/amenities", component: amenities },
+		{ path : "/edit_apartment", component: edit_apartment }
     ]
 });
 

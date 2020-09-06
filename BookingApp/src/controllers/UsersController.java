@@ -60,6 +60,8 @@ public class UsersController {
 			User user = session.attribute("user");
 			return gs.toJson(user);
 		});
+
+	
 		
 		post("/user/register", (req, res) -> {
 			res.type("application/json");
@@ -99,6 +101,20 @@ public class UsersController {
 			
 			try {
 				return gs.toJson(usersService.getAll());
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+
+		get("/user/getForHost", (req, res) -> {
+			res.type("application/json");
+			
+			try {
+				Session ss = req.session();
+				User host= ss.attribute("user");
+				return gs.toJson(usersService.getApartmentsForHost(host));
 				
 			} catch(Exception e) {
 				e.printStackTrace();

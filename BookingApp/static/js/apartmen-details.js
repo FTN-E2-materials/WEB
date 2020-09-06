@@ -86,7 +86,7 @@ Vue.component("apartment-details", {
             </div>
         </div>
         <div v-bind:hidden="canEdit===false">
-        <button  class="submit">Izmeni apartman?</button>
+        <button v-on:click="EditApartment(apartment)" class="submit">Izmeni apartman?</button>
 		</div>
         <div class = "comments" id="comment-section">
             <p>Komentari:</p>
@@ -258,6 +258,10 @@ Vue.component("apartment-details", {
 				this.disabledDates["to"] = new Date(Date.now() - 8640000);
 	    	})
 			this.reserve = true;
+		},
+		EditApartment:function(){
+			window.location.href = "#/edit_apartment";
+
 		}
 	},
 	components : { 

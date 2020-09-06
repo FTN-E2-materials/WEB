@@ -106,7 +106,7 @@ input, button{
 
 .form-part {
   width: 1000px;
-  height: 800px;
+  height: fit-content;;
   opacity: 0.9;
   margin-bottom: 20px;
   margin-top: 70px;

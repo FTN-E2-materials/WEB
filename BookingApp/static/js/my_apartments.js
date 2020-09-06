@@ -15,13 +15,13 @@ Vue.component("my_apartments", {
         <button class="filter-aparments-btn" v-on:click="addApartment"" >Dodaj novi apartman</button>
     </div>
 
-    <div class="list-of-apartments">
+    <div class="list-of-apartments" v-for = "a in apartments">
         <div class = "apartment-row">
            
             <div class = "apartment-column-image">
-                <h1 class="apartment-name">Apartman 1</h1>
+                <h1 class="apartment-name">a.apartmentTitle</h1>
                 <div class = "image-apartment">
-                    
+                <img :src="a.apartmentPictures[0]" alt = "Profile Image">
                 </div>
                 <div class="more-buttons-ap">
                     <div class = "one-button-ap">
@@ -51,6 +51,16 @@ Vue.component("my_apartments", {
      ` ,
 
     mounted () {
+        axios
+			.get("/user/getForHost")
+			.then(response => {
+				if (response.data == null) {
+					console.log(this.apartments);
+				}
+				else {
+					this.apartments = response.data;
+				}
+			})
         
        
     },

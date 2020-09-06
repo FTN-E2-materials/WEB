@@ -1,4 +1,3 @@
-// credt: https://github.com/stojanovic
 
 function cyrilicToLatinic(string) {
     var cyrillic = 'А_Б_В_Г_Д_Ђ_Е_Ё_Ж_З_И_Й_Ј_К_Л_Љ_М_Н_Њ_О_П_Р_С_Т_Ћ_У_Ф_Х_Ц_Ч_Џ_Ш_Щ_Ъ_Ы_Ь_Э_Ю_Я_а_б_в_г_д_ђ_е_ё_ж_з_и_й_ј_к_л_љ_м_н_њ_о_п_р_с_т_ћ_у_ф_х_ц_ч_џ_ш_щ_ъ_ы_ь_э_ю_я'.split('_')
@@ -12,7 +11,7 @@ function cyrilicToLatinic(string) {
     }).join('')
   }
 
-Vue.component("add_apartment", {
+Vue.component("edit_apartment", {
     data: function(){
         return {
             apartmentName:'',
@@ -48,8 +47,8 @@ Vue.component("add_apartment", {
     template: `
        
 <div class="form-part" >
-<h2>Dodajte novi apartman</h2>
-<div v-bind:hidden="next==true">
+<h2>Izmena apartmana</h2>
+
 
 <div class="form-apt">
     <div class="col-add">
@@ -72,6 +71,25 @@ Vue.component("add_apartment", {
     <input type="search" id="address" v-on:change="signalChange">
     <p class = info-apt>Država</p>
     <input type="text"  class = "details" id="country" disabled v-on:change="signalChange" >
+    <p class="info-apt">Fotografije apartmana:</p>
+    <table>
+    <tr style="margin-left:5px;">
+        <td v-for="(url, index) in images"  >
+            <img :src="url" :width="width" v-on:click="deleteImage(index)" />
+        </td>
+    </tr>
+    </table>
+
+    <div class = "apt-stuff">
+    <p class= "info-apt"> Dodaci u apartmanu: </p>
+    	<div class = "check-boxes-amenity">
+			<div class = "one-check-box" v-for="a in amenities">
+				<input type="checkbox" v-model="selectedAmenity"  id="a.amenityName" name="a.amenityName" :value="a.amenityName">
+				<label for="vehicle2"> {{a.amenityName}}</label><br>
+			</div>
+		</div>
+    </div>
+    
     </div>
     <div class="col-add">
     <p class = info-apt>Broj soba</p>
@@ -94,47 +112,22 @@ Vue.component("add_apartment", {
     <input type="time" class = "details" v-model="applicationTime" v-on:change="signalChange">
     <p class = "info-apt">Vreme odjave</p>
     <input type="time" class = "details" v-model="checkOutTime" v-on:change="signalChange">
-    </div>
-    
-</div>
-<p class="errorMessage">{{formErrorMessage}}</p>
-<button type="button" class="submit-apt" v-on:click="NextButton" >Dalje</button> 
-</div>
-<div v-bind:hidden="next==false">
-<button type="button" class="save-button" v-on:click="BackButton">Nazad</button> 
-<div class="form-part-pics">
-<div class="apt-stuff">
-    <p class="info-apt">Označite fotografije apartmana:</p>
-    <input v-if="numOfImages < 5" type="file" @change="imageAdded" />
-        <input v-else type="file" @change="imageAdded" disabled="true"/>
- </div>
- 
-    <table>
-        <tr style="margin-left:5px;">
-            <td v-for="(url, index) in images"  >
-                <img :src="url" :width="width" v-on:click="deleteImage(index)" />
-            </td>
-        </tr>
-    </table>
+    </div> 
+
+
     <input id="latitude" hidden>
     <input id="longitude" hidden>
     <input id="city" hidden>
     <input id="zipCode" hidden>
+
     
 
-<div class = "apt-stuff">
-    <p class= "info-apt">Dodaci u apartmanu: </p>
-    	<div class = "check-boxes-amenity">
-			<div class = "one-check-box" v-for="a in amenities">
-				<input type="checkbox" v-model="selectedAmenity"  id="a.amenityName" name="a.amenityName" :value="a.amenityName">
-				<label for="vehicle2"> {{a.amenityName}}</label><br>
-			</div>
-		</div>
-</div>
-<button class="submit-apt" v-on:click="addApartment">Dodaj</button>
 
-</div> 
 </div>
+ 
+    <button class="save-button"  style="margin-left:600px;" v-on:click="addApartment">Izmeni</button>
+    <button  class="save-button" v-on:click="addApartment">Odustani</button>
+ 
 </div>` ,
 
     mounted () {

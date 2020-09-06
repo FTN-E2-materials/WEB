@@ -41,7 +41,7 @@ public class ApartmentController {
 		
 		post("/apartments/sort", (req, res) -> {
 			return "";
-		});
+	 	});
 		
 		get("/apartments/:id", (req, res) -> {
 			try {

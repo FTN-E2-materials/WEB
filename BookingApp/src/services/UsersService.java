@@ -5,8 +5,10 @@ import java.util.List;
 
 import com.google.gson.JsonSyntaxException;
 
+import beans.Apartment;
 import beans.Gender;
 import beans.Guest;
+import beans.Host;
 import beans.User;
 import beans.UserRole;
 import dao.UsersDao;
@@ -56,6 +58,11 @@ public class UsersService {
 	
 	public User getByID(String username) throws JsonSyntaxException, IOException {
 		return userDao.getByID(username);
+	}
+
+	public List<Apartment> getApartmentsForHost(User user) throws JsonSyntaxException, IOException {
+		Host host=(Host) userDao.getByID(user.getUsername());
+		return (List<Apartment>) host.getForRent();
 	}
 
 	public List<User> getAll() throws JsonSyntaxException, IOException {
