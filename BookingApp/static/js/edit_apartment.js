@@ -80,7 +80,7 @@ Vue.component("edit_apartment", {
     </tr>
     </table>
 
-    <div class = "apt-stuff">
+   <div class="apt-stuff">
     <p class= "info-apt"> Dodaci u apartmanu: </p>
     	<div class = "check-boxes-amenity">
 			<div class = "one-check-box" v-for="a in amenities">
@@ -89,8 +89,8 @@ Vue.component("edit_apartment", {
 			</div>
 		</div>
     </div>
-    
     </div>
+    
     <div class="col-add">
     <p class = info-apt>Broj soba</p>
     <input type="number" value="1" class = "details" v-model="numberOfRooms" min="1" v-on:change="signalChange">
@@ -122,13 +122,13 @@ Vue.component("edit_apartment", {
 
     
 
-
-</div>
- 
+    </div>
     <button class="save-button"  style="margin-left:600px;" v-on:click="addApartment">Izmeni</button>
     <button  class="save-button" v-on:click="addApartment">Odustani</button>
+</div>
  
-</div>` ,
+    
+ ` ,
 
     mounted () {
         this.next = false;

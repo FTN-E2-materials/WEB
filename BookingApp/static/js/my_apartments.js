@@ -19,9 +19,9 @@ Vue.component("my_apartments", {
         <div class = "apartment-row">
            
             <div class = "apartment-column-image">
-                <h1 class="apartment-name">a.apartmentTitle</h1>
-                <div class = "image-apartment">
-                <img :src="a.apartmentPictures[0]" alt = "Profile Image">
+                <h1 class="apartment-name">{{a.apartmentTitle}}</h1>
+                <div>
+                <img :src="a.apartmentPictures" alt = "Profile Image" class="image-apartment">
                 </div>
                 <div class="more-buttons-ap">
                     <div class = "one-button-ap">
@@ -34,7 +34,7 @@ Vue.component("my_apartments", {
                         <div class = "icons">
                             <i class="material-icons">information</i>
                         </div>
-                        <a href = "apartment.html" class = "link">Pregledaj apartman</a>
+                        <a :href="'#/details?id=' + a.id" class = "link">Pregledaj apartman</a>
                     </div>                            
                     <div class = "one-button-ap">
                         <div class = "icons">
@@ -52,7 +52,7 @@ Vue.component("my_apartments", {
 
     mounted () {
         axios
-			.get("/user/getForHost")
+			.get("/users/getForHost")
 			.then(response => {
 				if (response.data == null) {
 					console.log(this.apartments);

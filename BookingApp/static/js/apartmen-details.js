@@ -75,7 +75,9 @@ Vue.component("apartment-details", {
             </div>
         </div>
 		<div>
-        <button v-on:click="showForm" class="submit">Rezerviši?</button>
+		<div v-bind:hidden="canReserve==false">
+		<button v-on:click="showForm" class="submit">Rezerviši?</button>
+		</div>
         	<div v-bind:hidden="reserve==false">
         	<div class = "reserve-apartment">
 	        	<p> Unesite željeni datum: </p>
@@ -85,9 +87,9 @@ Vue.component("apartment-details", {
             </div>
             </div>
         </div>
-        <div v-bind:hidden="canEdit===false">
-        <button v-on:click="EditApartment(apartment)" class="submit">Izmeni apartman?</button>
-		</div>
+        <div>
+        <button v-on:click="EditApartment" class="submit">Izmeni apartman?</button>
+		</div> 
         <div class = "comments" id="comment-section">
             <p>Komentari:</p>
             <div class = "comment-row"  v-for="c in comments">
@@ -169,24 +171,25 @@ Vue.component("apartment-details", {
 	    	.get('/user/seeIfLogged')
 	    	.then(response => {
 	    		if (response.data == null) {
-	    			canEdit = false;
-	    			canReserve = false;
-	    			canComment = true;
+	    			this.canEdit = false;
+	    			this.canReserve = false;
+					this.canComment = true;
+					console.log("ne valja");
 	    		} else 
 	    		{
-	    			if (response.data.role == "Guest") {
-	    				canEdit = false;
-	    				canReserve = true;
-	    			} else if (response.data.role == "Host") {
-		    			canEdit = false;
-		    			canReserve = false;
-		    		} else if (response.data.role == "Administrator") {
-		    			canEdit = false;
-		    			canReserve = false;
+	    			if (response.data.role.equals("Guest")) {
+	    				this.canEdit = false;
+	    				this.canReserve = true;
+	    			} else if (response.data.role.equals("Host")) {
+		    			this.canEdit = true;
+		    			this.canReserve = false;
+		    		} else if (response.data.role.equals("Administrator")) {
+		    			this.canEdit = false;
+		    			this.canReserve = false;
 		    		
 		    		} else {
-		    			canEdit = false;
-		    			canReserve = false;
+		    			this.canEdit = false;
+		    			this.canReserve = false;
 		    		
 		    		}
 	    			this.user = response.data;

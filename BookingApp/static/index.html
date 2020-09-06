@@ -18,7 +18,7 @@
 		        <li class = "menu"><a href="#/homepage">Preporučeno</a></li>
 		        <li class = "menu"><a href="#/search">Rezerviši sada</a></li>
 		        <li class = "menu"  v-on:click = "getReservations"><a v-on:click = "getReservations">Moje rezervacije</a></li>
-				<li class = "menu"  ><a href="#/my_apartments">Moji apartmani</a></li>
+				<li class = "menu" v-bind:hidden="mode!='host'" ><a href="#/my_apartments">Moji apartmani</a></li>
 				<li class = "menu" v-bind:hidden="mode!='admin'"><a href="#/users_preview" v-bind:hidden="mode!='admin'">Pregled korisnika</a></li>
 				<li class = "menu"><a href="#/edit_apartment" v-bind:hidden="mode!='admin'">Uredi apartman</a></li>
 		        <li class = "menu" v-bind:hidden="mode!='admin'"><a href="#/amenities" v-bind:hidden="mode!='admin'">Sadržaji apartmana</a></li>

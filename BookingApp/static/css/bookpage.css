@@ -617,6 +617,7 @@ input:focus {
 .submit {
     display: block;
     margin-top: 30px;
+    margin-left:350px;
     width: 260px;
     border: none;
     outline: none;

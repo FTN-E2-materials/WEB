@@ -108,13 +108,21 @@ public class UsersController {
 			}
 		});
 
-		get("/user/getForHost", (req, res) -> {
+		get("/users/getForHost", (req, res) -> {
 			res.type("application/json");
 			
 			try {
-				Session ss = req.session();
-				User host= ss.attribute("user");
-				return gs.toJson(usersService.getApartmentsForHost(host));
+ 				Session ss = req.session(true);
+				User host = ss.attribute("user");
+				if(host!=null)
+				{
+					return gs.toJson(usersService.getApartmentsForHost(host));
+				}
+				else
+				{
+					return "";
+				}
+				
 				
 			} catch(Exception e) {
 				e.printStackTrace();
