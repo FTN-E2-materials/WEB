@@ -152,8 +152,25 @@ public class ApartmentController {
 			}
 		});
 		
+		get("/apartment/getMostPopularDestinations", (req, res) -> {
+			try {
+				res.type("application/json");
+				return gs.toJson(apartmentService.getMostPopularDestinations());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
 		
-		
+		get("apartments/getApartmentsByCity/:city", (req, res) -> {
+			try {
+				res.type("application/json");
+				return gs.toJson(apartmentService.getApartmentsByCity(req.params("city")));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
 	}
 	
 	
