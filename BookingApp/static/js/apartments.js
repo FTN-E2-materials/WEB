@@ -3,6 +3,7 @@ Vue.component("apartments", {
 		return {
 			apartments : null,
 			picture : "",
+			currency : ""
 		
 		}
 	
@@ -69,7 +70,9 @@ Vue.component("apartments", {
                     <h1 class = "info-reservation">Broj soba: {{a.numberOfRooms}}</h1>
                     <h1 class = "info-reservation">Broj osoba: {{a.numberOfGuests}}</h1>
                     <p hidden class = "reservation-date">Poruka o rezervaciji</p>
-                    <h1 class = "info-reservation">Cena po noći: {{a.costForNight}}</h1>
+                    <h1 class = "info-reservation" v-if="a.costCurrency=='Euro'">Cena po noći: {{a.costForNight}} € </h1>
+                    <h1 class = "info-reservation" v-if="a.costCurrency=='Dollar'">Cena po noći: {{a.costForNight}} $ </h1>
+                    <h1 class = "info-reservation" v-if="a.costCurrency=='Dinar'">Cena po noći: {{a.costForNight}} RSD</h1>
 
                     <div class="more-buttons">
                     		<div hidden>
@@ -140,6 +143,7 @@ Vue.component("apartments", {
 						
 					} else {
 						this.apartments = response.data;
+						this.picture = response.data[0].apartmentPictures[0];
 					}
 				})
 		},
@@ -148,11 +152,29 @@ Vue.component("apartments", {
 		},
 		
 		cheapestSort : function() {
-			
+			axios
+			.get("/apartment/getSortedCheapest")
+			.then(response => {
+				if (response.data == null) {
+					
+				}
+				else {
+					this.apartments = response.data;
+				}
+			})
 		}, 
 		
 		mostExpensiveSort : function() {
-			
+			axios
+			.get("/apartment/getSortedMostExpensive")
+			.then(response => {
+				if (response.data == null) {
+					
+				}
+				else {
+					this.apartments = response.data;
+				}
+			})
 		},
 		
 		newestSort : function() {

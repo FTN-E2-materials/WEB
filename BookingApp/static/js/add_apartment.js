@@ -239,7 +239,7 @@ Vue.component("add_apartment", {
         },
         addApartment: function()
         {
-        	this.address = cyrilicToLatinic(trandocument.querySelector('#address').value);
+        	this.address = cyrilicToLatinic(document.querySelector('#address').value);
         	this.country = cyrilicToLatinic(document.querySelector('#country').value);
         	this.state = cyrilicToLatinic(document.querySelector('#country').value);
 		    this.zipCode = cyrilicToLatinic(document.querySelector('#zipCode').value);

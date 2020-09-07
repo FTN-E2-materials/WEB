@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 
 import beans.User;
 import dto.LoginDTO;
+import dto.PasswordChangeDTO;
 import dto.ProfileViewDTO;
 import dto.RegisterDTO;
 import services.UsersService;
@@ -86,13 +87,24 @@ public class UsersController {
 		});
 
 		post("/user/update", (req, res) -> {
-		 return "";
+			try {
+				res.type("application/json");
+				return gs.toJson(usersService.updateUser(gs.fromJson(req.body(), User.class)));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
 		});
 
 		//change password
 		post("/user/changePassword", (req, res) -> {
-			res.type("application/json");
-			return "";
+			try {
+				res.type("application/json");
+				return gs.toJson(usersService.changePassword(gs.fromJson(req.body(), PasswordChangeDTO.class)));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
 
 		});
 

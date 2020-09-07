@@ -5,7 +5,8 @@ Vue.component("change_pass",{
             newPass:'',
             newPassRepeat:'',
             errorMessage:'',
-            usersPass:''
+            usersPass:'',
+            user : null
         }
     } ,
 
@@ -42,7 +43,8 @@ Vue.component("change_pass",{
         .then(response=> {
             if(response.data!=null)
             {
-                this.usersPass=response.data.password;
+                this.usersPass = response.data.password;
+                this.user = response.data;
             }
         })
 
@@ -77,18 +79,23 @@ Vue.component("change_pass",{
             flag=false;
         }
         else if(flag)
-        {
-            window.location.href = "http://localhost:8088/#/profile-view";
-    /*    axios 
-            .post('/user/changePassword', JSON.stringify(this.newPass))
-            .then(response => {
-                if (response.data == null) {
-                    window.location.href = "#/profile_view";
-                } else {
-                    window.location.href = "http://localhost:8088/#/profile-view";
-                }
-            })
-        }*/
+        {   
+        	let parameters = {
+        			user : this.user,
+        			password : this.newPass
+        	}
+	        axios 
+	            .post('/user/changePassword', JSON.stringify(parameters))
+	            .then(response => {
+	                if (response.data != null) {
+	                	toast("Uspešno ste promenili vašu lozinku!")
+	                    window.location.href = "#/profile_view";
+	                } else {
+	                	toast("Došlo je do greške prilikom promene lozinke.");
+	                    window.location.href = "http://localhost:8088/#/profile-view";
+	                }
+	            })
+        }
         
         } 
     },

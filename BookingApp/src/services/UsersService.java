@@ -3,6 +3,7 @@ package services;
 import java.io.IOException;
 import java.util.List;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Apartment;
@@ -13,6 +14,7 @@ import beans.User;
 import beans.UserRole;
 import dao.UsersDao;
 import dto.LoginDTO;
+import dto.PasswordChangeDTO;
 import dto.RegisterDTO;
 
 public class UsersService {
@@ -52,8 +54,10 @@ public class UsersService {
 		return newUser;
 	}
 
-	public User changePassword(String password) throws JsonSyntaxException, IOException {
-		return null;
+	public User changePassword(PasswordChangeDTO user) throws JsonSyntaxException, IOException {
+		User userToChange = user.getUser();
+		userToChange.setPassword(user.getPassword());
+		return userDao.update(userToChange);
 	}
 	
 	public User getByID(String username) throws JsonSyntaxException, IOException {
@@ -67,6 +71,10 @@ public class UsersService {
 
 	public List<User> getAll() throws JsonSyntaxException, IOException {
 		return (List<User>) userDao.getAll();
+	}
+
+	public User updateUser(User fromJson) throws JsonSyntaxException, IOException {
+		return userDao.update(fromJson);
 	}
 
 

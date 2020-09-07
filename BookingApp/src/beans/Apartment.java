@@ -13,19 +13,20 @@ public class Apartment implements IIdentifiable<Integer> {
 	private List<ApartmentComment> comments;
 	private double costForNight;
 	private boolean active;
-	private int checkInTime;
-	private int checkOutTime;
+	private String checkInTime;
+	private String checkOutTime;
 	private List<String> apartmentPictures;
 	private String shortDescription;
 	private Currency costCurrency;
 	private boolean commentsEnabled;
 	private boolean deleted;
 	private List<Amenity> amenities;
+	private List<Period> periodsForRent;
 	
 	public Apartment() {}
 	
 	public Apartment(String apartmentTitle, ApartmentType type, int numberOfRooms, int numberOfGuests, Location location,
-			List<ApartmentComment> comments, double costForNight, boolean active, int checkInTime, int checkOutTime, List<String> apartmentPictures) {
+			List<ApartmentComment> comments, double costForNight, boolean active, String checkInTime, String checkOutTime, List<String> apartmentPictures) {
 		super();
 		this.apartmentTitle = apartmentTitle;
 		this.type = type;
@@ -114,19 +115,19 @@ public class Apartment implements IIdentifiable<Integer> {
 		this.active = active;
 	}
 
-	public int getCheckInTime() {
+	public String getCheckInTime() {
 		return checkInTime;
 	}
 
-	public void setCheckInTime(int checkInTime) {
+	public void setCheckInTime(String checkInTime) {
 		this.checkInTime = checkInTime;
 	}
 
-	public int getCheckOutTime() {
+	public String getCheckOutTime() {
 		return checkOutTime;
 	}
 
-	public void setCheckOutTime(int checkOutTime) {
+	public void setCheckOutTime(String checkOutTime) {
 		this.checkOutTime = checkOutTime;
 	}
 
@@ -199,5 +200,13 @@ public class Apartment implements IIdentifiable<Integer> {
 
 	public void setAmenities(List<Amenity> amenities) {
 		this.amenities = amenities;
+	}
+
+	public List<Period> getPeriodsForRent() {
+		return periodsForRent;
+	}
+
+	public void setPeriodsForRent(List<Period> periodsForRent) {
+		this.periodsForRent = periodsForRent;
 	}
 }

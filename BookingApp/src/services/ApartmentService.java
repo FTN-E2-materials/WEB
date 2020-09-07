@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Apartment;
@@ -49,16 +50,20 @@ public class ApartmentService {
 		List<String> convertedImages = new ArrayList<String>();
 		int i = 1;
 		for (String s : apartmentParameters.getApartmentPictures()) {
-			String path = "images\\apartments\\a" + nextID + i + ".jpg";
+			String path = "images/apartments/a" + nextID + i + ".jpg";
+			System.out.println(path);
 			decoder.Base64DecodeAndSave(s, path);
+			path = "./" + "images/apartments/a" + nextID + i + ".jpg"; 
 			convertedImages.add(path);
 			++i;
 		}
 		
 		Apartment newApartment = new Apartment(apartmentParameters.getApartmentTitle(), apartmentParameters.getType(), apartmentParameters.getNumberOfRooms(), 
 				apartmentParameters.getNumberOfGuests(), apartmentParameters.getLocation(), new ArrayList<ApartmentComment>(), 
-				apartmentParameters.getCostForNight(), true, apartmentParameters.getCheckInTime(), apartmentParameters.getCheckOutTime(), apartmentParameters.getApartmentPictures());
+				apartmentParameters.getCostForNight(), true, apartmentParameters.getCheckInTime(), apartmentParameters.getCheckOutTime(), convertedImages);
 		newApartment.setID(nextID);
+		newApartment.setCostCurrency(apartmentParameters.getCurrency());
+		newApartment.setAmenities(apartmentParameters.getAmenities());
 		apartmentDao.save(newApartment);
 		host.addApartmentForRent(newApartment);
 		userDao.update(host);
@@ -197,12 +202,14 @@ public class ApartmentService {
 		return null;
 	}
 	
-	public List<Apartment> sortCheapest(List<Apartment> apartments) {
+	public List<Apartment> sortCheapest() throws JsonSyntaxException, IOException {
+		List<Apartment> apartments = getActive();
 		Collections.sort(apartments, new ApartmentAscendingComparator());
 		return apartments;
 	}
 	
-	public List<Apartment> sortMostExpensive(List<Apartment> apartments) {
+	public List<Apartment> sortMostExpensive() throws JsonSyntaxException, IOException {
+		List<Apartment> apartments = getActive();
 		Collections.sort(apartments, new ApartmentDescendingComparator());
 		return apartments;
 	}
@@ -214,29 +221,43 @@ public class ApartmentService {
 			System.out.println(filtered.size());
 			if (filtered.size() > 0) {
 
-				Date startDate = new SimpleDateFormat("dd.MM.yyyy.").parse(fromJson.getDateFrom());
-		    	Date endDate = new SimpleDateFormat("dd.MM.yyyy.").parse(fromJson.getDateTo());
+				Date startDate = null;
+				
+				if (fromJson.getDateFrom() != null) {
+					startDate = new SimpleDateFormat("dd.MM.yyyy.").parse(fromJson.getDateFrom());
+				} 				
+			
+				Date endDate = null;
+				if (fromJson.getDateFrom() != null) {
+					endDate = new SimpleDateFormat("dd.MM.yyyy.").parse(fromJson.getDateTo());
+				} 
+
 		    	List<Reservation> reservationsByApartment = filterReservationsByApartments(filtered);
 		    	List<Apartment> available = new ArrayList<Apartment>();
-		    	for (Apartment a : filtered) {
-		    		boolean addToList = false;
-		    		for (Reservation r : reservationsByApartment) {
-		    			if (r.getApartment().compareTo(a.getID())) {
-		    				if (!r.isDateInIntersection(startDate, endDate)) {
-		    					addToList = true;
-		    				} else {
-		    					System.out.println("asdsa");
-		    					addToList = false;
-		    				}
-		    			}
-		    			
-		    			if (!addToList)
-		    				break;
-		    		}
-		    		
-		    		if (addToList) {
-		    			retVal.add(a);
-		    		}
+		    	
+		    	if (endDate != null && startDate != null) {
+			    	for (Apartment a : filtered) {
+			    		boolean addToList = false;
+			    		for (Reservation r : reservationsByApartment) {
+			    			if (r.getApartment().compareTo(a.getID())) {
+			    				if (!r.isDateInIntersection(startDate, endDate)) {
+			    					addToList = true;
+			    				} else {
+			    					System.out.println("asdsa");
+			    					addToList = false;
+			    				}
+			    			}
+			    			
+			    			if (!addToList)
+			    				break;
+			    		}
+			    		
+			    		if (addToList) {
+			    			retVal.add(a);
+			    		}
+			    	}
+		    	} else {
+		    		retVal = filtered;
 		    	}
 			}
 			
@@ -422,5 +443,33 @@ public class ApartmentService {
 			}
 		}
 		return filteredByApartment;
+	}
+
+	public List<Apartment> getActiveForHost(User host) {
+		if (host.getRole() != UserRole.Host) {
+			return null;
+		}
+		Host hostToGet = (Host) host;
+		List<Apartment> retVal = new ArrayList<Apartment>();
+		for (Apartment a : hostToGet.getForRent()) {
+			if (a.isActive()) {
+				retVal.add(a);
+			}
+		}
+		return retVal;
+	}
+
+	public List<Apartment>  getInactiveForHost(User host) {
+		if (host.getRole() != UserRole.Host) {
+			return null;
+		}
+		Host hostToGet = (Host) host;
+		List<Apartment> retVal = new ArrayList<Apartment>();
+		for (Apartment a : hostToGet.getForRent()) {
+			if (!a.isActive()) {
+				retVal.add(a);
+			}
+		}
+		return retVal;
 	}
 }

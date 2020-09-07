@@ -160,7 +160,7 @@ Vue.component("profile-view", {
         cancelEdit: function()
         {
             this.editMode=false;
-        } ,
+        },
         UpdateUser: function()
         {
             this.editMode=false;

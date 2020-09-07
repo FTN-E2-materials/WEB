@@ -25,7 +25,9 @@ Vue.component("apartment-details", {
 			amenityDetails: "",
 			reserve : false,			
 			disabledDates: {},
-	        selectedDate : null
+	        selectedDate : null,
+	        numOfEl : "",
+	        length : ""
 		}
 	},
 	template: `
@@ -68,8 +70,8 @@ Vue.component("apartment-details", {
 
         <div class = "other-image-line">
             <div class = "one-image-row" v-for='i in numOfRows' :key='i'>
-                <div v-for='j in 3' :key='j'>
-					<img v-on:click="changeImage(j+(i-1)*2)" class = "one-image" :src="pictures[j+(i-1)*2]" >
+                <div v-for='j in numOfEl' :key='j'>
+					<img v-if="(j+(i-1)*2) < length" v-on:click="changeImage(j+(i-1)*2)" class = "one-image" :src="pictures[j+(i-1)*2]" >
                 </div>
 
             </div>
@@ -157,9 +159,15 @@ Vue.component("apartment-details", {
 				} else {
 					this.currency = "RSD";
 				}
+				this.length = response.data.apartmentPictures.length;
 				this.comments = response.data.comments;
 				this.apartmentDesc = response.data.shortDescription;
 				this.numOfRows = response.data.apartmentPictures.length / 3 + 1;
+				if (response.data.apartmentPictures.length < 3) {
+					this.numOfEl = response.data.apartmentPictures.length;
+				} else {
+					this.numOfEl = 3;
+				}
 				
 				for (a of response.data.amenities) {
 					this.amenityDetails = a.amenityName + " ";
@@ -177,13 +185,13 @@ Vue.component("apartment-details", {
 					console.log("ne valja");
 	    		} else 
 	    		{
-	    			if (response.data.role.equals("Guest")) {
+	    			if (response.data.role === "Guest") {
 	    				this.canEdit = false;
 	    				this.canReserve = true;
-	    			} else if (response.data.role.equals("Host")) {
+	    			} else if (response.data.role === "Host") {
 		    			this.canEdit = true;
 		    			this.canReserve = false;
-		    		} else if (response.data.role.equals("Administrator")) {
+		    		} else if (response.data.role === "Administrator") {
 		    			this.canEdit = false;
 		    			this.canReserve = false;
 		    		
@@ -195,8 +203,6 @@ Vue.component("apartment-details", {
 	    			this.user = response.data;
 	    			
 	    		}
-
-    			console.log(canEdit);
 	    	})
 	    
 
@@ -235,6 +241,7 @@ Vue.component("apartment-details", {
 						this.comments = response.data.comments;
 						this.apartmentDesc = response.data.shortDescription;
 						this.numOfRows = response.data.apartmentPictures.length / 3 + 1;
+						
 					
 					}
 				})
