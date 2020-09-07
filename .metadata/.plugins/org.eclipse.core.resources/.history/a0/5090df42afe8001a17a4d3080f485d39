@@ -1,0 +1,83 @@
+package dto;
+
+import beans.ApartmentType;
+import beans.Location;
+
+public class ApartmentDTO {
+	private String apartmentTitle;
+	private ApartmentType type;
+	private int numberOfRooms;
+	private int numberOfGuests;
+	private Location location;
+	private double costForNight;
+	private int checkInTime;
+	private int checkOutTime;
+	private List<String> apartmentPictures;
+	
+	public ApartmentDTO(String apartmentTitle, ApartmentType type, int numberOfRooms, int numberOfGuests, Location location,
+			double costForNight, int checkInTime, int checkOutTime, List<String> apartmentPictures) {
+		super();
+		this.apartmentPictures = apartmentPictures;
+		this.apartmentTitle = apartmentTitle;
+		this.type = type;
+		this.numberOfRooms = numberOfRooms;
+		this.numberOfGuests = numberOfGuests;
+		this.location = location;
+		this.costForNight = costForNight;
+		this.checkInTime = checkInTime;
+		this.checkOutTime = checkOutTime;
+	}
+	
+	public String getApartmentTitle() {
+		return apartmentTitle;
+	}
+
+	public void setApartmentTitle(String apartmentTitle) {
+		this.apartmentTitle = apartmentTitle;
+	}
+
+	public ApartmentType getType() {
+		return type;
+	}
+	public void setType(ApartmentType type) {
+		this.type = type;
+	}
+	public int getNumberOfRooms() {
+		return numberOfRooms;
+	}
+	public void setNumberOfRooms(int numberOfRooms) {
+		this.numberOfRooms = numberOfRooms;
+	}
+	public int getNumberOfGuests() {
+		return numberOfGuests;
+	}
+	public void setNumberOfGuests(int numberOfGuests) {
+		this.numberOfGuests = numberOfGuests;
+	}
+	public Location getLocation() {
+		return location;
+	}
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+	public double getCostForNight() {
+		return costForNight;
+	}
+	public void setCostForNight(double costForNight) {
+		this.costForNight = costForNight;
+	}
+	public int getCheckInTime() {
+		return checkInTime;
+	}
+	public void setCheckInTime(int checkInTime) {
+		this.checkInTime = checkInTime;
+	}
+	public int getCheckOutTime() {
+		return checkOutTime;
+	}
+	public void setCheckOutTime(int checkOutTime) {
+		this.checkOutTime = checkOutTime;
+	}
+	
+
+}

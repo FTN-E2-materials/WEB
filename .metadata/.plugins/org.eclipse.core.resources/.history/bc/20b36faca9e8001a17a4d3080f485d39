@@ -1,0 +1,238 @@
+Vue.component("apartments", {
+	data: function() {
+		return {
+			allApartments : null;
+		
+		}
+	
+	},
+	
+	template: `
+	
+    <div class="apartment-filter">
+        <h1>Moji apartmani</h1>
+        <div class="active-or-not">
+            <button class="filter-aparments-btn">Aktivni apartmani</button>
+            <button class="filter-aparments-btn">Neaktivni apartmani</button>
+            <button class="filter-aparments-btn" onclick="location.href='add_appartment.html'" >Dodaj novi apartman</button>
+        </div>
+
+        <div class="list-of-apartments">
+            <div class = "apartment-row">
+                <div class = "apartment-column-image">
+                    <h1 class="apartment-name">Apartman 1</h1>
+                    <div class = "image-apartment">
+                        
+                    </div>
+                    <div class="more-buttons-ap">
+                        <div class = "one-button-ap">
+                            <div class = "icons">
+                                <i class="material-icons">comments</i>
+                            </div>
+                            <a href = "apartment.html" class = "link">Komentari</a>
+                        </div>
+                        <div class = "one-button-ap">
+                            <div class = "icons">
+                                <i class="material-icons">information</i>
+                            </div>
+                            <a href = "apartment.html" class = "link">Pregledaj apartman</a>
+                        </div>                            
+                        <div class = "one-button-ap">
+                            <div class = "icons">
+                                <i class="material-icons">edit</i>
+                            </div>
+                            <a href = "apartment.html" class = "link">Promeni status</a>
+                        </div>
+                    </div>
+                    
+
+                </div>                
+                <div class = "apartment-column-image">
+                    <h1 class="apartment-name">Apartman 1</h1>
+                    <div class = "image-apartment">
+                        
+                    </div>
+                    <div class="more-buttons-ap">
+                        <div class = "one-button-ap">
+                            <div class = "icons">
+                                <i class="material-icons">comments</i>
+                            </div>
+                            <a href = "apartment.html" class = "link">Komentari</a>
+                        </div>
+                        <div class = "one-button-ap">
+                            <div class = "icons">
+                                <i class="material-icons">information</i>
+                            </div>
+                            <a href = "apartment.html" class = "link">Pregledaj apartman</a>
+                        </div>                            
+                        <div class = "one-button-ap">
+                            <div class = "icons">
+                                <i class="material-icons">edit</i>
+                            </div>
+                            <a href = "apartment.html" class = "link">Promeni status</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>           
+            <div class = "apartment-row">
+                <div class = "apartment-column-image">
+                    <h1 class="apartment-name">Apartman 1</h1>
+                    <div class = "image-apartment">
+                        
+                    </div>
+                    <div class="more-buttons-ap">
+                        <div class = "one-button-ap">
+                            <div class = "icons">
+                                <i class="material-icons">comments</i>
+                            </div>
+                            <a href = "apartment.html" class = "link">Komentari</a>
+                        </div>
+                        <div class = "one-button-ap">
+                            <div class = "icons">
+                                <i class="material-icons">information</i>
+                            </div>
+                            <a href = "apartment.html" class = "link">Pregledaj apartman</a>
+                        </div>                            
+                        <div class = "one-button-ap">
+                            <div class = "icons">
+                                <i class="material-icons">edit</i>
+                            </div>
+                            <a href = "apartment.html" class = "link">Promeni status</a>
+                        </div>
+                    </div>
+
+                </div>                
+                <div class = "apartment-column-image">
+                    <h1 class="apartment-name">Apartman 1</h1>
+                    <div class = "image-apartment">
+                        
+                    </div>
+                    <div class="more-buttons-ap">
+                        <div class = "one-button-ap">
+                            <div class = "icons">
+                                <i class="material-icons">comments</i>
+                            </div>
+                            <a href = "apartment.html" class = "link">Komentari</a>
+                        </div>
+                        <div class = "one-button-ap">
+                            <div class = "icons">
+                                <i class="material-icons">information</i>
+                            </div>
+                            <a href = "apartment.html" class = "link">Pregledaj apartman</a>
+                        </div>                            
+                        <div class = "one-button-ap">
+                            <div class = "icons">
+                                <i class="material-icons">edit</i>
+                            </div>
+                            <a href = "apartment.html" class = "link">Promeni status</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>            
+            <div class = "apartment-row">
+                <div class = "apartment-column-image">
+                    <h1 class="apartment-name">Apartman 1</h1>
+                    <div class = "image-apartment">
+
+                    </div>
+                    <div class="more-buttons-ap">
+                        <div class = "one-button-ap">
+                            <div class = "icons">
+                                <i class="material-icons">comments</i>
+                            </div>
+                            <a href = "apartment.html" class = "link">Komentari</a>
+                        </div>
+                        <div class = "one-button-ap">
+                            <div class = "icons">
+                                <i class="material-icons">information</i>
+                            </div>
+                            <a href = "apartment.html" class = "link">Pregledaj apartman</a>
+                        </div>                            
+                        <div class = "one-button-ap">
+                            <div class = "icons">
+                                <i class="material-icons">edit</i>
+                            </div>
+                            <a href = "apartment.html" class = "link">Promeni status</a>
+                        </div>
+                    </div>
+
+                </div>                
+                <div class = "apartment-column-image">
+                    <h1 class="apartment-name">Apartman 1</h1>
+                    <div class = "image-apartment">
+                        
+                    </div>
+                    <div class="more-buttons-ap">
+                        <div class = "one-button-ap">
+                            <div class = "icons">
+                                <i class="material-icons">comments</i>
+                            </div>
+                            <a href = "apartment.html" class = "link">Komentari</a>
+                        </div>
+                        <div class = "one-button-ap">
+                            <div class = "icons">
+                                <i class="material-icons">information</i>
+                            </div>
+                            <a href = "apartment.html" class = "link">Pregledaj apartman</a>
+                        </div>                            
+                        <div class = "one-button-ap">
+                            <div class = "icons">
+                                <i class="material-icons">edit</i>
+                            </div>
+                            <a href = "apartment.html" class = "link">Izmeni apartman</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>           
+        </div>
+    </div>
+	`,
+	
+	mounted () : {
+		axios
+			.get("apartments/getActive")
+			.then(response => {
+				if (response.data == null) {
+					
+				}
+				else {
+					apartments = response.data;
+				}
+			})
+	},
+	methods : {
+		getActive : function {
+
+			axios
+				.get("apartments/getActive")
+				.then(response => {
+					if (response.data == null) {
+						
+					}
+					else {
+						apartments = response.data;
+					}
+				})
+		},
+	
+		getInactive : function {
+			axios
+				.get("apartments/getInactive")
+				.then(response => {
+					if (response.data == null) {
+						
+					} else {
+						apartments = response.data;
+					}
+				})
+		}
+	}
+	
+
+});

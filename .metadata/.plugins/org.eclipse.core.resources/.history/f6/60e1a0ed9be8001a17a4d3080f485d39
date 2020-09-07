@@ -1,0 +1,103 @@
+package beans;
+
+import java.util.List;
+
+public class Apartment implements IIDentifiable<int> {
+	private ApartmentType type;
+	private int numberOfRooms;
+	private int numberOfGuests;
+	private Location location;
+	private List<ApartmentComment> comments;
+	private double costForNight;
+	private boolean active;
+	private int checkInTime;
+	private int checkOutTime;
+	
+	public Apartment(ApartmentType type, int numberOfRooms, int numberOfGuests, Location location,
+			List<ApartmentComment> comments, double costForNight, boolean active, int checkInTime, int checkOutTime) {
+		super();
+		this.type = type;
+		this.numberOfRooms = numberOfRooms;
+		this.numberOfGuests = numberOfGuests;
+		this.location = location;
+		this.comments = comments;
+		this.costForNight = costForNight;
+		this.active = active;
+		this.checkInTime = checkInTime;
+		this.checkOutTime = checkOutTime;
+	}
+
+	public ApartmentType getType() {
+		return type;
+	}
+
+	public void setType(ApartmentType type) {
+		this.type = type;
+	}
+
+	public int getNumberOfRooms() {
+		return numberOfRooms;
+	}
+
+	public void setNumberOfRooms(int numberOfRooms) {
+		this.numberOfRooms = numberOfRooms;
+	}
+
+	public int getNumberOfGuests() {
+		return numberOfGuests;
+	}
+
+	public void setNumberOfGuests(int numberOfGuests) {
+		this.numberOfGuests = numberOfGuests;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+
+	public List<ApartmentComment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<ApartmentComment> comments) {
+		this.comments = comments;
+	}
+
+	public double getCostForNight() {
+		return costForNight;
+	}
+
+	public void setCostForNight(double costForNight) {
+		this.costForNight = costForNight;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public int getCheckInTime() {
+		return checkInTime;
+	}
+
+	public void setCheckInTime(int checkInTime) {
+		this.checkInTime = checkInTime;
+	}
+
+	public int getCheckOutTime() {
+		return checkOutTime;
+	}
+
+	public void setCheckOutTime(int checkOutTime) {
+		this.checkOutTime = checkOutTime;
+	}
+	
+	
+}

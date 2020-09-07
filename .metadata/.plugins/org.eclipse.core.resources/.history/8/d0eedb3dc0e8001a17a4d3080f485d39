@@ -1,0 +1,13 @@
+package algorithms;
+
+import java.util.ArrayList;
+
+import beans.Apartment;
+
+public class MergeSort {
+	
+	public static List<Apartment> sortApartments(ArrayList<Apartment> apartments, SortType type, SortAscDesc ascDesc) {
+		return null;
+	}
+
+}

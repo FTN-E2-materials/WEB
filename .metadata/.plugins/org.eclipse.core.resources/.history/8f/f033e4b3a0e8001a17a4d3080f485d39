@@ -1,0 +1,5 @@
+package dao;
+
+public class StateDao extends JSONRepository<State, Integer> {
+
+}

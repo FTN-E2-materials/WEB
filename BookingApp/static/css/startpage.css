@@ -1,9 +1,4 @@
-*, *::before, *:after{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+
 
 .bg-login {
     width: 100%;
@@ -68,7 +63,7 @@ input, button{
     background: none;
 }
 
-.page{
+.page-login{
     overflow: hidden;
     position: relative;
     width: 900px;
@@ -111,7 +106,7 @@ input, button{
 
 .form-part {
   width: 1000px;
-  height: 800px;
+  height: fit-content;;
   opacity: 0.9;
   margin-bottom: 20px;
   margin-top: 70px;
@@ -174,7 +169,7 @@ button{
     transition: transform 1.2s ease-in-out;
 }
 
-.page.s-signup .sub-page{
+.page-login.s-signup .sub-page{
     -webkit-transform:translate3d(-640px, 0, 0);
         transform:translate3d(-640px, 0, 0);
 }
@@ -213,7 +208,7 @@ button{
     background: rgba(0,0,0,0.3);
   }
   
-.page.s-signup .bground:before{
+.page-login.s-signup .bground:before{
     -webkit-transform:translate3d(640px, 0, 0);
             transform:translate3d(640px, 0, 0);
   }
@@ -243,7 +238,7 @@ button{
     line-height: 1.5;
   }
   
-  .page.s-signup .bground-text.m-up{
+  .page-login.s-signup .bground-text.m-up{
     -webkit-transform:translateX(520px);
             transform:translateX(520px);
   }
@@ -253,7 +248,7 @@ button{
             transform:translateX(-520px);
   }
   
-  .page.s-signup .bground-text.m-in{
+  .page-login.s-signup .bground-text.m-in{
     -webkit-transform:translateX(0);
             transform:translateX(0);
   }
@@ -323,12 +318,12 @@ button{
             transform:translateY(-72px);
   }
   
-  .page.s-signup .bground-btn span.m-in{
+  .page-login.s-signup .bground-btn span.m-in{
     -webkit-transform:translateY(0);
             transform:translateY(0);
   }
   
-  .page.s-signup .bground-btn span.m-up{
+  .page-login.s-signup .bground-btn span.m-up{
     -webkit-transform:translateY(72px);
             transform:translateY(72px);
   }
@@ -338,7 +333,7 @@ button{
             transform:translate3d(-900px, 0, 0);
   }
   
-  .page.s-signup .sign-up{
+  .page-login.s-signup .sign-up{
     -webkit-transform:translate3d(0, 0, 0);
             transform:translate3d(0, 0, 0);
   }

@@ -1,0 +1,24 @@
+package controllers;
+
+import services.ApartmentService;
+
+public class ApartmentController {
+	private ApartmentService apartmentService;
+	
+	public ApartmentController(ApartmentService apartmentService) {
+		this.apartmentService = apartmentService;
+	}
+	
+	get("/apartments/getActive", (req, res) -> {
+		res.type("application/json");
+		
+		try {
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	});
+	
+
+}

@@ -362,7 +362,7 @@ button:hover {
 
 .form-part {
     width: 1000px;
-    height: 800px;
+    height: fit-content;
     opacity: 0.9;
     display: block;
     margin-bottom: 20px;
@@ -547,6 +547,7 @@ input[type='radio']:checked:after {
     font-size: 14px;
     margin-top: 10px;
     margin-bottom: 5px;
+    width: fit-content;
     font-weight: 500;
     text-align: center;
     color: #5E548E;
@@ -566,6 +567,8 @@ input[type='radio']:checked:after {
 
 .form-apt {
     display: flex;
+    margin-top:30px;
+    height:fit-content;
 }
 
 .radio-apt {
@@ -623,5 +626,7 @@ input[type='radio']:checked:after {
 .apt-stuff {
     display: flex;
     margin-top: 20px;
-    margin-left: 60px;
+    margin-left:105px;
+    width: fit-content;
+ 
 }

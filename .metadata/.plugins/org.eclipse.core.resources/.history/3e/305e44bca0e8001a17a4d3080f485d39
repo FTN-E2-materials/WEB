@@ -1,0 +1,16 @@
+package dao;
+
+import java.lang.reflect.Type;
+
+import com.google.gson.Gson;
+
+import beans.State;
+
+public class StateDao extends JSONRepository<State, Integer> {
+
+	public StateDao(String path, Type classType, Gson gs) {
+		super(path, classType, new Gson());
+		// TODO Auto-generated constructor stub
+	}
+
+}

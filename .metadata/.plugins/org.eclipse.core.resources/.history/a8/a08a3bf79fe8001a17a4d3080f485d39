@@ -1,0 +1,7 @@
+package dao;
+
+import beans.City;
+
+public class CityDao extends JSONRepository<City, Integer> {
+
+}

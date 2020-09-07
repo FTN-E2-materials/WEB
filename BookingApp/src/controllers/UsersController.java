@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 
 import beans.User;
 import dto.LoginDTO;
+import dto.ProfileViewDTO;
 import dto.RegisterDTO;
 import services.UsersService;
 import spark.Session;
@@ -59,6 +60,8 @@ public class UsersController {
 			User user = session.attribute("user");
 			return gs.toJson(user);
 		});
+
+	
 		
 		post("/user/register", (req, res) -> {
 			res.type("application/json");
@@ -79,6 +82,84 @@ public class UsersController {
 			} catch (Exception e) {
 				e.printStackTrace();
 				return "";
+			}
+		});
+
+		post("/user/update", (req, res) -> {
+		 return "";
+		});
+
+		//change password
+		post("/user/changePassword", (req, res) -> {
+			res.type("application/json");
+			return "";
+
+		});
+
+		get("/user/getAll", (req, res) -> {
+			res.type("application/json");
+			
+			try {
+				return gs.toJson(usersService.getAll());
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+
+		get("/users/getForHost", (req, res) -> {
+			res.type("application/json");
+			
+			try {
+ 				Session ss = req.session(true);
+				User host = ss.attribute("user");
+				if(host!=null)
+				{
+					return gs.toJson(usersService.getApartmentsForHost(host));
+				}
+				else
+				{
+					return "";
+				}
+				
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/user/:id", (req, res) -> {
+			res.type("application/json");
+			try {
+				System.out.println(req.params("id"));
+				return gs.toJson(usersService.getByID(req.params("id"))); 
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/user/isThisMe/:id", (req, res) -> {
+			res.type("application/json");
+			try {
+				System.out.println(req.params("id"));
+				Session ss = req.session(true);
+				User loggedIn = ss.attribute("user");
+				User requestedRoute = usersService.getByID(req.params("id")); 
+				if (loggedIn != null) {
+					if(requestedRoute.compareTo(loggedIn.getUsername())) {
+						return gs.toJson(new ProfileViewDTO(requestedRoute, true));
+					} else {
+						return gs.toJson(new ProfileViewDTO(requestedRoute, false));
+					}
+				} else {
+					return gs.toJson(new ProfileViewDTO(requestedRoute, false));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
 			}
 		});
 	}

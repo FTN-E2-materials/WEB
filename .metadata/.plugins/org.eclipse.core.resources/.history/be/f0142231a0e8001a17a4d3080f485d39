@@ -1,0 +1,17 @@
+package dao;
+
+import java.lang.reflect.Type;
+
+import com.google.gson.Gson;
+
+import beans.City;
+
+public class CityDao extends JSONRepository<City, Integer> {
+
+	public CityDao(String path, Type classType, Gson gs) {
+		super(path, classType, new Gson());
+	}
+	
+	
+
+}

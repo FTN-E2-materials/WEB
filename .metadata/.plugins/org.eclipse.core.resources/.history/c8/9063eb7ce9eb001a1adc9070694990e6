@@ -1,0 +1,16 @@
+package dto;
+
+public class CommentDTO {
+	private String username;
+	private String apartment;
+	private String grade;
+	private String text;
+	
+	public CommentDTO(String username, String apartment, String grade, String text) {
+		this.username = username;
+		this.grade = grade;
+		this.text = text;
+		this.apartment = apartment;
+	}
+
+}

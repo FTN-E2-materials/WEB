@@ -1,0 +1,7 @@
+package dao;
+
+import beans.Apartment;
+
+public class ApartmentDao extends JSONRepository<Apartment, Integer> {
+
+}
