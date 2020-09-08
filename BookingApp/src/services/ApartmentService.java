@@ -1,6 +1,8 @@
 package services;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +20,7 @@ import beans.DestinationDescendingComparator;
 import beans.Grade;
 import beans.Guest;
 import beans.Host;
+import beans.Period;
 import beans.Reservation;
 import beans.ReservationStatus;
 import beans.User;
@@ -44,7 +47,7 @@ public class ApartmentService {
 		this.userDao = userDao;
 	}
 	
-	public Apartment saveNewApartment(ApartmentDTO apartmentParameters, Host host) throws JsonSyntaxException, IOException {
+	public Apartment saveNewApartment(ApartmentDTO apartmentParameters, Host host) throws JsonSyntaxException, IOException, ParseException {
 		int nextID = apartmentDao.generateNextID();
 		
 		List<String> convertedImages = new ArrayList<String>();
@@ -62,12 +65,32 @@ public class ApartmentService {
 				apartmentParameters.getNumberOfGuests(), apartmentParameters.getLocation(), new ArrayList<ApartmentComment>(), 
 				apartmentParameters.getCostForNight(), true, apartmentParameters.getCheckInTime(), apartmentParameters.getCheckOutTime(), convertedImages);
 		newApartment.setID(nextID);
+		
 		newApartment.setCommentsEnabled(apartmentParameters.isCommentsEnabled());
 		newApartment.setCostCurrency(apartmentParameters.getCurrency());
 		newApartment.setAmenities(apartmentParameters.getAmenities());
+		
+		List<Period> periods = newApartment.getPeriodsForRent();
+		
+		Period p = new Period();
+		
+		if (!apartmentParameters.getStartDate().isEmpty()) {
+			p.setStartDate(new SimpleDateFormat("dd.MM.yyyy.").parse(apartmentParameters.getStartDate()));
+		} 
+		
+
+		if (!apartmentParameters.getEndDate().isEmpty()) {
+			p.setEndDate(new SimpleDateFormat("dd.MM.yyyy.").parse(apartmentParameters.getEndDate()));
+		} 
+		
+		
+		periods.add(p);
+		newApartment.setPeriodsForRent(periods);
+		
 		apartmentDao.save(newApartment);
 		host.addApartmentForRent(newApartment);
 		userDao.update(host);
+		
 		return newApartment;
 	}
 	
@@ -367,47 +390,6 @@ public class ApartmentService {
 		}
 		return filtered;
 	}
-	
-	public List<Apartment> testSorting() {
-		Apartment a1 = new Apartment();
-		a1.setCostForNight(50);
-		Apartment a2 = new Apartment();
-		a2.setCostForNight(530);
-		Apartment a3 = new Apartment();
-		a3.setCostForNight(505);
-		Apartment a4 = new Apartment();
-		a4.setCostForNight(12);
-		Apartment a5 = new Apartment();
-		a5.setCostForNight(4);
-		Apartment a6 = new Apartment();
-		a6.setCostForNight(542);
-		Apartment a7 = new Apartment();
-		a7.setCostForNight(508);
-		Apartment a8 = new Apartment();
-		a8.setCostForNight(501);
-		List<Apartment> collection = new ArrayList<Apartment>();
-		collection.add(a1);
-		collection.add(a2);
-		collection.add(a3);
-		collection.add(a4);
-		collection.add(a5);
-		collection.add(a6);
-		collection.add(a7);
-		collection.add(a8);
-		
-		Collections.sort(collection, new ApartmentAscendingComparator());
-		
-		for (Apartment a : collection) {
-			System.out.println(a.getCostForNight() + " ");
-		}
-		
-		Collections.sort(collection, new ApartmentDescendingComparator());
-		
-		for (Apartment a : collection) {
-			System.out.println(a.getCostForNight() + " ");
-		}
-		return null;
-	}
 
 	public List<Reservation> getReservationsByUser(String params) throws JsonSyntaxException, IOException {
 		List<Reservation> allReservations = reservationDao.getAllNonDeleted();
@@ -490,5 +472,57 @@ public class ApartmentService {
 			}
 		}
 		return retVal;
+	}
+
+	public Apartment updateApartment(ApartmentDTO apartmentParameters, Host host) throws FileNotFoundException, IOException, ParseException {
+int nextID = apartmentDao.generateNextID();
+		
+		List<String> convertedImages = new ArrayList<String>();
+		int i = 1;
+		for (String s : apartmentParameters.getApartmentPictures()) {
+			++i;
+			if (s.startsWith("data:image")) {
+				String path = "images/apartments/a" + nextID + i + ".jpg";
+				System.out.println(path);
+				decoder.Base64DecodeAndSave(s, path);
+				path = "./" + "images/apartments/a" + nextID + i + ".jpg"; 
+				convertedImages.add(path);
+			} else {
+				convertedImages.add(s);
+			}
+		}
+		
+		Apartment newApartment = new Apartment(apartmentParameters.getApartmentTitle(), apartmentParameters.getType(), apartmentParameters.getNumberOfRooms(), 
+				apartmentParameters.getNumberOfGuests(), apartmentParameters.getLocation(), new ArrayList<ApartmentComment>(), 
+				apartmentParameters.getCostForNight(), true, apartmentParameters.getCheckInTime(), apartmentParameters.getCheckOutTime(), convertedImages);
+		newApartment.setID(apartmentParameters.getId());
+		newApartment.setCommentsEnabled(apartmentParameters.isCommentsEnabled());
+		newApartment.setCostCurrency(apartmentParameters.getCurrency());
+		newApartment.setAmenities(apartmentParameters.getAmenities());
+		
+		List<Period> periods = apartmentDao.getByID(apartmentParameters.getId()).getPeriodsForRent();
+
+		Period p = new Period();
+		
+		if (!apartmentParameters.getStartDate().isEmpty()) {
+			p.setStartDate(new SimpleDateFormat("dd.MM.yyyy.").parse(apartmentParameters.getStartDate()));
+		} 
+		
+
+		if (!apartmentParameters.getEndDate().isEmpty()) {
+			p.setEndDate(new SimpleDateFormat("dd.MM.yyyy.").parse(apartmentParameters.getEndDate()));
+		} 
+		
+		
+		periods.add(p);
+		newApartment.setPeriodsForRent(periods);
+		
+		apartmentDao.update(newApartment);
+		
+		host.updateRentApartments(newApartment);
+		
+		userDao.update(host);
+		
+		return newApartment;
 	}
 }

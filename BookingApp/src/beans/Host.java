@@ -32,6 +32,18 @@ public class Host extends User {
 	public boolean removeApartment(Apartment apartment) {
 		return this.forRent.remove(apartment);
 	}
+	
+	public void updateRentApartments(Apartment apartment) {
+		List<Apartment> apartments = new ArrayList<Apartment>();
+		for (Apartment a : this.getForRent()) {
+			if (a.compareTo(apartment.getID())) {
+				apartments.add(apartment);
+			} else {
+				apartments.add(a);
+			}
+		}
+		this.setForRent(apartments);
+	}
 
 	@Override
 	public String getID() {

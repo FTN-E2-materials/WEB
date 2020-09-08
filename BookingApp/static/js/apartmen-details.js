@@ -286,7 +286,7 @@ Vue.component("apartment-details", {
 			this.reserve = true;
 		},
 		EditApartment:function(){
-			window.location.href = "#/edit_apartment";
+			window.location.href = "#/edit_apartment?id=" + this.$route.query.id;
 
 		}
 	},

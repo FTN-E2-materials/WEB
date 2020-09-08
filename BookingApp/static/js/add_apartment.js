@@ -385,7 +385,7 @@ Vue.component("add_apartment", {
         },
         addApartment: function()
         {
-        	if (this.checkValidForm) {
+        	if (this.checkValidForm()) {
 	        	this.address = cyrilicToLatinic(document.querySelector('#address').value);
 	        	this.country = cyrilicToLatinic(document.querySelector('#country').value);
 	        	this.state = cyrilicToLatinic(document.querySelector('#country').value);

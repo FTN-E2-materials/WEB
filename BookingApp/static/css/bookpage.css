@@ -174,7 +174,7 @@ input, button{
     border-color: transparent;
     text-transform: uppercase;
     color: #fff;
-    
+    margin-top: 15px;
     text-transform: uppercase;
     font-weight: 600;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -1080,7 +1080,9 @@ input:focus {
     display: flex;
     margin: 10px;
 }
-
+.one-check-box {
+    display: flex;
+}
 .row-pagination {
     display: flex;
 }

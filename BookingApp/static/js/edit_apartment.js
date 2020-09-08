@@ -26,6 +26,7 @@ Vue.component("edit_apartment", {
             checkOutTime:'',
             next:false,
             numOfImages : 0,
+            imageCount : 0,
             images: [],
             formErrorMessage:'',
             imagesForBackend: [],
@@ -40,100 +41,180 @@ Vue.component("edit_apartment", {
             street : "",
             number : "",
             address : "",
-            selectedAmenity : []
+            selectedAmenity : [],		
+            disabledDates: {
+		          to: new Date(Date.now() - 8640000)
+	        },
+	        currentlyAdded : "",
+	        startDate : "",
+	        endDate : "",
+	        errorName : "",
+	        errorType : "",
+	        errorStartDate : "",
+	        errorEndDate : "",
+	        errorCheckIn : "",
+	        errorCheckOut : "",
+	        errorCurrency : "",
+	        errorCost : "",
+	        errorGuests : "",
+	        errorRooms : "",
+	        errorAddress : "",
+	        commentsEnabled : false
         }
     },
 
     template: `
        
-<div class="form-part" >
-<h2>Izmena apartmana</h2>
-
-
-<div class="form-apt">
-    <div class="col-add">
-    <p class = info-apt>Naziv</p>
-    <input type="text" class = "details" v-model="apartmentName" v-on:change="signalChange">
-    <p class = "info-apt">Tip apartmana</p>
-    <div class = "col-type-radio">
-        <div class = "col-date">
-            <input type="radio" class = "radio-apt" name="sortbydate" v-on:change="signalChange" value="soba" v-model="apartmentType">
-            <p class = "sortbydate-font">Soba</p>
-        </div>
-        <div class = "col-date">
-            <input type="radio" class = "radio-apt" name="sortbydate" v-on:change="signalChange" value="apartman" v-model="apartmentType">
-            <p class = "sortbydate-font">Ceo apartman</p>
-        </div>
-    </div>
-    <p class = info-apt>Broj gostiju</p>
-    <input type="number" class = "details" min="1" value="1" v-model="guestsNumber" >
-    <p class = info-apt>Adresa</p>
-    <input type="search" id="address" v-on:change="signalChange">
-    <p class = info-apt>Država</p>
-    <input type="text"  class = "details" id="country" disabled v-on:change="signalChange" >
-    <p class="info-apt">Fotografije apartmana:</p>
-    <table>
-    <tr style="margin-left:5px;">
-        <td v-for="(url, index) in images"  >
-            <img :src="url" :width="width" v-on:click="deleteImage(index)" />
-        </td>
-    </tr>
-    </table>
-
-   <div class="apt-stuff">
-    <p class= "info-apt"> Dodaci u apartmanu: </p>
-    	<div class = "check-boxes-amenity">
-			<div class = "one-check-box" v-for="a in amenities">
-				<input type="checkbox" v-model="selectedAmenity"  id="a.amenityName" name="a.amenityName" :value="a.amenityName">
-				<label for="vehicle2"> {{a.amenityName}}</label><br>
-			</div>
-		</div>
-    </div>
-    </div>
+<div class="form-part-add">
+<h2>Izmenite apartman</h2>
+        <table align="left" width="1000px">
+    		<tr v-if="imageCount < 4" style="margin-left:5px;">
+				<td v-for="(url, index) in images"  v-if="imageCount < 4" >
+					<img :src="url" :width="width" v-on:click="deleteImage(index)" />
+				</td>
+    		</tr>
+    	    <tr v-if="(imageCount >= 4) && (imageCount < 8)"  style="margin-left:5px;" width="1000px">
+				<td v-for="(url, index) in images"  >
+					<img :src="url" :width="width" v-on:click="deleteImage(index)" />
+				</td>
+    		</tr>
+    	</table>
     
-    <div class="col-add">
-    <p class = info-apt>Broj soba</p>
-    <input type="number" value="1" class = "details" v-model="numberOfRooms" min="1" v-on:change="signalChange">
-    <p class = info-apt>Cena</p>
-    <input type="text" class = "details" v-model="price" v-on:change="signalChange">
-    <p class = "info-apt">Valuta</p>
-    <div class = "col-type-radio">
-        <div class = "col-date">
-            <input type="radio" class = "radio-apt" v-on:change="signalChange" name="valuta" value="RSD" v-model="currency">
-            <p class = "sortbydate-font">RSD</p>
-        </div>
-        <div class = "col-date">
-            <input type="radio" class = "radio-apt" v-on:change="signalChange" name="valuta" value="EURO" v-model="currency">
-            <p class = "sortbydate-font">EUR</p>
-        </div>
-    </div>            
+            <table class="input-table" align="center">
+                <tr><td>Naziv apartmana:</td>
+                <td><input type="text" class="input-apt" v-model="apartmentName" v-on:change="signalChange"></td> 
+                <td color="red">{{errorName}}</td>
+                </tr>
+                <tr><td>Tip apartmana: </td>
+                <td color="red"><input type="radio"  name="apartmentType" v-on:change="signalChange" value="soba" v-model="apartmentType">Soba 
+                <input type="radio" name="apartmentType" v-on:change="signalChange" value="apartman" v-model="apartmentType">Ceo apartman</td>
+                <td color="red">{{errorType}}</td>
+                </tr>
+                <tr><td>Broj gostiju: </td>
+                <td><input type="number" class="input-apt" min="1" value="1" v-model="guestsNumber">
+                </td>
+                <td color="red">{{errorGuests}}</td>
+                </tr>
+                <tr><td>Broj soba: </td>
+                <td ><input type="number" class="input-apt"  min="1" value="1" v-model="numberOfRooms" ></td>
+                <td color="red">{{errorRooms}}</td>
+                </tr>
+                <tr><td>Adresa apartmana: </td>
+                <td><input type="search" id="address" v-on:change="signalChange"></td>
+                <td color="red">{{errorAddress}}</td>
+                </tr>
+                <tr><td>Grad: </td>
+                <td><input type="text" id="city" class="input-apt" disabled></td>
+               </tr>
+                <tr><td>Država: </td>
+                <td><input type="text" id="country" class="input-apt" disabled></td>
+                </tr>
+                <tr><td>Početni datum za izdavanje: </td>
+                <td><vuejs-datepicker name="startDate" width="250px" class="input-apt" type="date" v-model="startDate" :disabledDates="disabledDates" format="dd.MM.yyyy."></vuejs-datepicker></td>
+                <td color="red">{{errorStartDate}}</td>
+                </tr>
+                <tr><td>Krajnji datum za izdavanje: </td>
+                <td color="red"><vuejs-datepicker name="endDate" width="250px" class="input-apt" type="date" v-model="endDate" :disabledDates="disabledDates" format="dd.MM.yyyy."></vuejs-datepicker></td>
+                <td color="red">{{errorEndDate}}</td>
+                </tr>
+                <tr><td>Vreme prijave: </td>
+                <td><input type="time" v-model="applicationTime" class="input-apt" v-on:change="signalChange"></td>
+                <td color="red">{{errorCheckIn}}</td>
+                </tr>
+                <tr><td>Vreme odjave: </td>
+                <td color="red"><input type="time" v-model="checkOutTime" class="input-apt" v-on:change="signalChange"></td>
+                <td color="red">{{errorCheckOut}}</td>
+                </tr>
+                <tr><td>Cena za jednu noć: </td>
+                <td ><input type="number" min="1" v-model="price" class="input-apt" v-on:change="signalChange"></td>
+                <td color="red">{{errorCost}}</td>
+                </tr>
+                <tr><td>Valuta:</td> 
+                <td><input type="radio" v-on:change="signalChange" name="valuta" value="RSD" v-model="currency">RSD
+                <input type="radio" v-on:change="signalChange" name="valuta" value="Euro" v-model="currency">Euro
+                <input type="radio" v-on:change="signalChange" name="valuta" value="Dolar" v-model="currency">Američki dolar
 
-    <p class = "info-apt">Vreme prijave</p>
-    <input type="time" class = "details" v-model="applicationTime" v-on:change="signalChange">
-    <p class = "info-apt">Vreme odjave</p>
-    <input type="time" class = "details" v-model="checkOutTime" v-on:change="signalChange">
-    </div> 
-
-
+                </td>
+                <td color="red">{{errorCurrency}}</td>
+                </tr>
+                <tr><td>Označite slike apartmana:</td>
+                <td><input v-if="imageCount < 5" type="file" @change="imageAdded" />
+                 <input v-else type="file" @change="imageAdded" disabled="true"/></td>
+                </tr>
+                <tr><td>Trenutni sadržaj apartmana: </td><td> </td><td></td></tr>
+    			<tr  v-for="a in amenities">
+    			<td></td>
+		    	<div class = "check-boxes-amenity">
+					<div class = "one-check-box">
+						<input type="checkbox" v-model="selectedAmenity"  id="a.id" name="a.id" :value="a.amenityName">	
+						<label class="amenity-label" for="a.amenityName"> {{a.amenityName}}</label><br>
+					</div>
+				</div>
+    			</td>
+    			</tr>
+    			<tr> <td> Omogući komentare: </td> <td> <input type="checkbox"  @click="checkedComment" id = "commentsEnabled"> Da </td> </tr>
+    			<tr><td colspan="2" align="center"> <button class="submit-add-apt" v-on:click="addApartment"> Izmeni </button></td> </tr>
+            </table>
     <input id="latitude" hidden>
     <input id="longitude" hidden>
-    <input id="city" hidden>
     <input id="zipCode" hidden>
-
-    
-
     </div>
-    <button class="save-button"  style="margin-left:600px;" v-on:click="addApartment">Izmeni</button>
-    <button  class="save-button" v-on:click="addApartment">Odustani</button>
-</div>
- 
     
  ` ,
 
     mounted () {
         this.next = false;
         console.log(this.next);
-        
+        axios
+			.get("/apartments/" + this.$route.query.id)
+			.then(response => {
+				this.apartmentName = response.data.apartmentTitle;
+				if (response.data.type == 'FullApartment') {
+					this.apartmentType = "apartman";
+				} else {
+					this.apartmentType = "soba";
+				}
+				
+				this.guestsNumber = response.data.numberOfGuests;
+				this.numberOfRooms = response.data.numberOfRooms;
+				this.address = response.data.location.address.address;
+				this.country = response.data.location.address.city.state.state;
+				this.city = response.data.location.address.city.city;
+				if (response.data.costCurrency == "Euro") {
+					this.currency = "Euro";
+				} else if (response.data.costCurrency == "Dinar") {
+					this.currency = "RSD";
+				} else {
+					this.currency = "Dollar";
+				}
+				
+				this.price = response.data.costForNight;
+				this.checkOutTime = response.data.checkOutTime;
+				this.applicationTime = response.data.checkInTime;
+				this.images = response.data.apartmentPictures;
+
+				this.startDate = moment(response.data.periodsForRent.startDate).format("DD.MM.YYYY.");
+				this.endDate = moment(response.data.periodsForRent.endDate).format("DD.MM.YYYY.");
+				this.zipCode = response.data.location.zipCode;
+				this.latitude = response.data.location.latitude;
+				this.longitude = response.data.location.longitude;
+				
+				document.querySelector('#address').value = response.data.location.address.address;
+			    document.querySelector('#country').value = response.data.location.address.city.state.state;
+			    document.querySelector('#city').value = response.data.location.address.city.city;
+			    document.querySelector('#longitude').value = response.data.location.longitude;
+			    document.querySelector('#latitude').value = response.data.location.latitude;
+			    document.querySelector('#zipCode').value = response.data.location.address.city.zipCode;
+			    
+			    this.imageCount = response.data.apartmentPictures.length;
+			    document.querySelector('#commentsEnabled').value = response.data.commentsEnabled;
+			    this.commentsEnabled = response.data.commentsEnabled;
+			    
+			    for (a in response.data.amenities) {
+			    	
+			    	this.selectedAmenity.push(a.amenityName);
+			    }
+			})
         axios 
         	.get("/amenities")
         	.then(response => {
@@ -167,6 +248,9 @@ Vue.component("edit_apartment", {
 		  });
     },
     methods : {
+    	checkedComment : function() {
+    		this.commentsEnabled = !this.commentsEnabled;
+    	},
        NextButton : function()
        { 
 	       	this.address = document.querySelector('#address').value;
@@ -197,6 +281,63 @@ Vue.component("edit_apartment", {
            }
            
        },
+       
+
+       checkValidForm : function()
+       { 
+	       	this.address = document.querySelector('#address').value;
+	    	this.country = document.querySelector('#country').value;
+	    	this.state = document.querySelector('#country').value;
+		    this.zipCode = document.querySelector('#zipCode').value;
+		    this.longitude = document.querySelector('#longitude').value;
+		    this.latitude = document.querySelector('#latitude').value;
+		    this.city = document.querySelector('#city').value;
+           let flag=true;
+           if( this.apartmentType=='') {
+        	   this.errorType = "Tip apartmana je obavezno polje!";
+        	   return false;
+           }
+           if (this.apartmentName=='') {
+        	   this.errorName = "Ime apartmana je obavezno polje!";
+        	   return false;
+           }
+           if (this.guestsNumber == '') {
+        	   this.errorGuests = "Broj gostiju je obavezno polje!";
+        	   return false;
+           }
+           
+           if (this.numberOfRooms == '') {
+        	   this.errorRooms = "Broj soba je obavezno polje!";
+        	   return false;
+           }
+           
+           if (this.address == '') {
+        	   this.errorAddress = "Adresa je obavezno polje!";
+        	   return false;
+           }
+           
+           if (this.currency == '') {
+        	   this.errorCurrency = "Valuta je obaveno polje!";
+        	   return false;
+           }
+           
+           if (this.price == '') {
+        	   this.errorCost = "Cena je obavezno polje!";
+        	   return false;
+           }
+           
+           if (this.applicationTime == '') {
+        	   this.errorCheckIn = "Vreme prijave je obavezno polje!"; 
+        	   return false;
+           }
+           
+           if (this.checkOutTime == '') {
+        	   this.errorCheckOut = "Vreme odjave je obavezno polje!";
+        	   return false;
+           }  
+           return true;
+       },
+       
        BackButton: function()
        {
            this.next=false;
@@ -219,7 +360,7 @@ Vue.component("edit_apartment", {
            
             reader.onload = (e) =>{
             	let img = e.target.result;
-            	img.replace("data:image\/(png|jpg|jpeg);base64", "");
+            	// img.replace("data:image\/(png|jpg|jpeg);base64", "");
             	console.log(img);
                 this.imagesForBackend.push(img);
             }
@@ -229,87 +370,119 @@ Vue.component("edit_apartment", {
 		{
 			this.formErrorMessage='';
 		    console.log(this.address);
+
+	        this.errorName = ""
+	        this.errorType = "";
+	        this.errorStartDate = "";
+	        this.errorEndDate = "";
+	        this.errorCheckIn = "";
+	        this.errorCheckOut = "";
+	        this.errorCurrency = "";
+	        this.errorCost = "";
+	        this.errorGuests = "";
+	        this.errorRooms = "";
+	        this.errorAddress = "";
+	        
         },
         addApartment: function()
         {
-        	this.address = document.querySelector('#address').value;
-        	this.country = document.querySelector('#country').value;
-        	this.state = document.querySelector('#country').value;
-		    this.zipCode = document.querySelector('#zipCode').value;
-		    this.longitude = document.querySelector('#longitude').value;
-		    this.latitude = document.querySelector('#latitude').value;
-		    this.city = document.querySelector('#city').value;
-        	
-        	let stateCurr = {
-        		state : this.state
-        	};
-        
-        	let cityCurr = {
-        		state : stateCurr,
-        		city : this.city,
-        		zipCode : this.zipCode
-        	};
-        
-        	let addressCurr = {
-        		city : cityCurr,
-        		address : this.address
-        	};
-        	
-        	let locationCurr = {
-        		latitude : this.latitude,
-        		longitude : this.longitude,
-        		address : addressCurr
-        	};
-        	
-        	if (this.currency === "RSD") {
-        		this.currency = "Dinar";
-        	} else if (this.currency === "EURO") {
-        		this.currency = "Euro";
-        	} else {
-        		this.currency = "Dollar";
-        	}
-        	let amenitiesToSend = [];
-        	for (amenity of this.selectedAmenity) {
-        		amenitiesToSend.push({
-        			amenityName : amenity
-        		});
-        	}
-        	for (i of this.imagesForBackend) {
-        		console.log(i);
-        	}
-            let apartmentParameters= {
-                apartmentTitle:this.apartmentName,
-                type:this.apartmentType,
-                numberOfGuests:this.guestsNumber,
-                numberOfRooms:this.numberOfRooms,
-                comments:[],
-                apartmentPictures:this.imagesForBackend,
-              //  country:'',
-               // state:'',
-                location: locationCurr,
-                costForNight:this.price,
-                costCurrency:this.currency,
-                active: false,
-                checkInTime:this.applicationTime,
-                checkOutTime:this.checkOutTime,
-                amenities : amenitiesToSend
-            
-            };
+        	if (this.checkValidForm()) {
+	        	this.address = document.querySelector('#address').value;
+	        	this.country = document.querySelector('#country').value;
+	        	this.state = document.querySelector('#country').value;
+			    this.zipCode = document.querySelector('#zipCode').value;
+			    this.longitude = document.querySelector('#longitude').value;
+			    this.latitude = document.querySelector('#latitude').value;
+			    this.city = document.querySelector('#city').value;
+	        	
+	        	let stateCurr = {
+	        		state : this.state
+	        	};
+	        
+	        	let cityCurr = {
+	        		state : stateCurr,
+	        		city : this.city,
+	        		zipCode : this.zipCode
+	        	};
+	        
+	        	let addressCurr = {
+	        		city : cityCurr,
+	        		address : this.address
+	        	};
+	        	
+	        	let locationCurr = {
+	        		latitude : this.latitude,
+	        		longitude : this.longitude,
+	        		address : addressCurr
+	        	};
+	        	
+	        	if (this.currency === "RSD") {
+	        		this.currency = "Dinar";
+	        	} else if (this.currency === "EURO") {
+	        		this.currency = "Euro";
+	        	} else {
+	        		this.currency = "Dollar";
+	        	}
+	        	let amenitiesToSend = [];
+	        	for (amenity of this.selectedAmenity) {
+	        		amenitiesToSend.push({
+	        			amenityName : amenity
+	        		});
+	        	}
+	        	for (i of this.imagesForBackend) {
+	        		console.log(i);
+	        	}
+	        	
 
-            axios
-				.post('/apartments/addApartment', JSON.stringify(apartmentParameters))
-			    .then(response => {
-			    	if (response.data != null && response.data != "") {
-			    		toast("Uspesno ste dodali apartman!");
-			    		window.location.href = "#/";
-			    		
-			    	} else if (response.status == 404) {
-			    		toast("Došlo je do neke greške!");
-			    	} else {
-			    		toast("Došlo je do neke greške!");    		
-			    	}
-			     });
-
+			    let dateFrom = moment(this.startDate).format("DD.MM.YYYY.");
+			    let dateS = new Date(dateFrom);
+			    
+			    let dateTo = moment(this.startDate).format("DD.MM.YYYY.");
+			    let dateE = new Date(dateTo);
+			    let period = {
+			    		startDate : dateS,
+			    		endDate : dateE
+			    }
+			    
+	            let apartmentParameters= {
+	                apartmentTitle:this.apartmentName,
+	                type:this.apartmentType,
+	                numberOfGuests:this.guestsNumber,
+	                numberOfRooms:this.numberOfRooms,
+	                comments:[],
+	                apartmentPictures:this.imagesForBackend,
+	              //  country:'',
+	               // state:'',
+	                location: locationCurr,
+	                costForNight:this.price,
+	                costCurrency:this.currency,
+	                active: false,
+	                checkInTime:this.applicationTime,
+	                checkOutTime:this.checkOutTime,
+	                amenities : amenitiesToSend,
+	                id :  this.$route.query.id,
+	                startDate : dateFrom,
+	                endDate : dateTo
+	            
+	            };
+	
+	            axios
+					.post('/apartments/updateApartment', JSON.stringify(apartmentParameters))
+				    .then(response => {
+				    	if (response.data != null && response.data != "") {
+				    		toast("Uspesno ste izmenili apartman!");
+				    		window.location.href = "#/";
+				    		
+				    	} else if (response.status == 404) {
+				    		toast("Došlo je do neke greške!");
+				    	} else {
+				    		toast("Došlo je do neke greške!");    		
+				    	}
+				     });
+        	}
         }
-    }
+    },
+	components : { 
+		vuejsDatepicker
+	}
 });

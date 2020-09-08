@@ -106,6 +106,27 @@ public class ApartmentController {
 			}
 		});
 		
+		post("/apartments/updateApartment", (req, res) -> {
+			try {
+				res.type("application/json");
+				Session session=req.session(true);
+				User user=session.attribute("user");
+				if (user == null) {
+					return "";
+				}
+				if (user.getRole() != UserRole.Host) {
+					return "";
+				}
+				Host host = (Host) user;
+				System.out.println(req.body());
+				ApartmentDTO apartment = gs.fromJson(req.body(), ApartmentDTO.class);
+				return gs.toJson(apartmentService.updateApartment(apartment, host));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
 		put("/apartments/acceptReservation/:id", (req, res) -> {
 			try {
 				return apartmentService.updateReservationStatus(req.params("id"), ReservationStatus.Accepted);

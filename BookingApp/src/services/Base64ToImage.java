@@ -9,6 +9,8 @@ import java.util.Base64;
 public class Base64ToImage {
 	
 	public void Base64DecodeAndSave(String base64String, String imagePath) throws FileNotFoundException, IOException {
+		
+		
 		String part[] = base64String.split(",");
 		String path = "./static/" + imagePath;
 		

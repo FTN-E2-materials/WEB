@@ -22,6 +22,11 @@ public class ApartmentDTO {
 	private List<Amenity> amenities;
 	private Period period;
 	private boolean commentsEnabled;
+	private int id;
+	private String startDate;
+	private String endDate;
+	
+	public ApartmentDTO() {}
 	
 	public ApartmentDTO(String apartmentTitle, ApartmentType type, int numberOfRooms, int numberOfGuests, Location location,
 			double costForNight, String checkInTime, String checkOutTime, List<String> apartmentPictures,Currency currency) {
@@ -39,6 +44,14 @@ public class ApartmentDTO {
 	}
 	
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public List<String> getApartmentPictures() {
 		return apartmentPictures;
 	}
@@ -136,6 +149,22 @@ public class ApartmentDTO {
 
 	public void setCommentsEnabled(boolean commentsEnabled) {
 		this.commentsEnabled = commentsEnabled;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 	
 
