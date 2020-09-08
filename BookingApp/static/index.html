@@ -15,7 +15,7 @@
 				
 		    	<ul class = "nav navbar">
 		        <li class = "menu"><a href="#/apartments">Početna</a></li>
-		        <li class = "menu"><a href="#/homepage">Preporučeno</a></li>
+		        <li class = "menu" hidden><a href="#/homepage" hidden>Preporučeno</a></li>
 		        <li class = "menu"><a href="#/search">Rezerviši sada</a></li>
 		        <li class = "menu"  v-on:click = "getReservations"><a v-on:click = "getReservations">Moje rezervacije</a></li>
 				<li class = "menu" v-bind:hidden="mode!='host'" ><a href="#/my_apartments">Moji apartmani</a></li>

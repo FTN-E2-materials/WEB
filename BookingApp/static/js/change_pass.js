@@ -80,12 +80,8 @@ Vue.component("change_pass",{
         }
         else if(flag)
         {   
-        	let parameters = {
-        			user : this.user,
-        			password : this.newPass
-        	}
 	        axios 
-	            .post('/user/changePassword', JSON.stringify(parameters))
+	            .post('/user/changePassword', JSON.stringify(this.newPass))
 	            .then(response => {
 	                if (response.data != null) {
 	                	toast("Uspešno ste promenili vašu lozinku!")
@@ -103,4 +99,4 @@ Vue.component("change_pass",{
         this.$router.push("/profile-view");
     }
 
-}});
+});

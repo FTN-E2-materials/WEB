@@ -1,7 +1,7 @@
 const login = { template : '<login></login>' }
 const profile_view = { template : '<profile-view></profile-view>' }
 const change_pass = { template : '<change_pass></change_pass>' }
-const edit_profile = { template : '<edit_profile></edit_profile>' }
+const edit_profile = { template : '<edit_profile ></edit_profile>' }
 const apartments = { template : "<apartments></apartments>" }
 const apartmentDetails = {template : "<apartment-details></apartment-details>"}
 const users_preview = {template : "<users_preview></users_preview>"}
@@ -61,8 +61,6 @@ var app = new Vue({
 		    		}
 	    			this.user = response.data;
 	    		}
-	    		
-	    		console.log(this.mode);
 	    	})
     },
     methods : {
@@ -70,9 +68,9 @@ var app = new Vue({
     		axios 
     			.get('/user/logout')
     			.then(response => {
-    				window.location.href = "#/login";
     				this.mode = 'notLogged';
-    				this.user = null;
+    				console.log(this.mode);
+    				window.location.href = "#/login";
     			})
     	},
     	viewProfile : function() {

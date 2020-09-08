@@ -51,6 +51,7 @@ public class UsersController {
 			Session session = req.session(true);
 			if (session.attribute("user") != null) {
 				session.invalidate();
+				System.out.println("Done");
 			}
 			return "";
 		});
@@ -100,7 +101,13 @@ public class UsersController {
 		post("/user/changePassword", (req, res) -> {
 			try {
 				res.type("application/json");
-				return gs.toJson(usersService.changePassword(gs.fromJson(req.body(), PasswordChangeDTO.class)));
+				Session ss = req.session(true);
+				User u = ss.attribute("user");
+				
+				if (u != null) {
+					return gs.toJson(usersService.changePassword(u, gs.fromJson(req.body(), String.class)));
+				}
+				return "";
 			} catch (Exception e) {
 				e.printStackTrace();
 				return "";

@@ -127,6 +127,24 @@ public class ApartmentService {
 			}
 		}
 		System.out.println(destinations.size());
+		if (destinations.size() == 0) {
+			List<Apartment> apartments = apartmentDao.getAllNonDeleted();
+			for (Apartment a : apartments) {
+				String path = generateImagePathForDestination(a.getLocation().getAddress().getCity().getCity());
+				if (path.equals("")) {
+					path = a.getApartmentPictures().size() == 0 ? "" : a.getApartmentPictures().get(0);
+				}
+				DestinationDTO d = new DestinationDTO(a.getLocation().getAddress().getCity().getCity(), path);
+				if (destinations.contains(d)) {
+					int i = destinations.indexOf(d);
+					DestinationDTO d1 = destinations.get(i);
+					d1.setCount(d.getCount() + 1);
+					destinations.set(i, d1);
+				} else {
+					destinations.add(d);
+				}
+			}
+		}
 		destinations.sort(new DestinationDescendingComparator());
 		return destinations;
 	}

@@ -54,10 +54,9 @@ public class UsersService {
 		return newUser;
 	}
 
-	public User changePassword(PasswordChangeDTO user) throws JsonSyntaxException, IOException {
-		User userToChange = user.getUser();
-		userToChange.setPassword(user.getPassword());
-		return userDao.update(userToChange);
+	public User changePassword(User user, String newPass) throws JsonSyntaxException, IOException {
+		user.setPassword(newPass);
+		return userDao.update(user);
 	}
 	
 	public User getByID(String username) throws JsonSyntaxException, IOException {
