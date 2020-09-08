@@ -76,5 +76,14 @@ public class UsersService {
 		return userDao.update(fromJson);
 	}
 
+	public boolean isThisMineApartment(String params, Host u) {
+		for (Apartment a : u.getForRent()) {
+			if (a.compareTo(Integer.parseInt(params))) {
+				return true;
+			}
+		}
+		return false;
+	}
 
+	
 }

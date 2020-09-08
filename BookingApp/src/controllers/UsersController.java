@@ -5,6 +5,7 @@ import static spark.Spark.post;
 
 import com.google.gson.Gson;
 
+import beans.Host;
 import beans.User;
 import dto.LoginDTO;
 import dto.PasswordChangeDTO;
@@ -179,6 +180,18 @@ public class UsersController {
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
+			}
+		});
+		
+		get("user/canIEdit/:id", (req, res) -> {
+			res.type("application/json");
+			try {
+				Session ss = req.session(true);
+				Host host = (Host) ss.attribute("user");
+				return gs.toJson(usersService.isThisMineApartment(req.params("id"), host));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
 			}
 		});
 	}

@@ -70,26 +70,28 @@ Vue.component("my_apartments", {
             this.$router.push("/add_apartment");
         }, 
         getActive : function() {
-			.get("/apartment/getActiveForHost")
-			.then(response => {
-				if (response.data == null) {
-					console.log(this.apartments);
-				}
-				else {
-					this.apartments = response.data;
-				}
-			})
+        	axios
+				.get("/apartment/getActiveForHost")
+				.then(response => {
+					if (response.data == null) {
+						console.log(this.apartments);
+					}
+					else {
+						this.apartments = response.data;
+					}
+				})
         },
         getInactive : function() {
-			.get("/apartment/getInactiveForHost" )
-			.then(response => {
-				if (response.data == null) {
-					console.log(this.apartments);
-				}
-				else {
-					this.apartments = response.data;
-				}
-			})
+        	axios
+				.get("/apartment/getInactiveForHost" )
+				.then(response => {
+					if (response.data == null) {
+						console.log(this.apartments);
+					}
+					else {
+						this.apartments = response.data;
+					}
+				})
         }
     }
 });

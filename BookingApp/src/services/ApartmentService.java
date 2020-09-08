@@ -62,6 +62,7 @@ public class ApartmentService {
 				apartmentParameters.getNumberOfGuests(), apartmentParameters.getLocation(), new ArrayList<ApartmentComment>(), 
 				apartmentParameters.getCostForNight(), true, apartmentParameters.getCheckInTime(), apartmentParameters.getCheckOutTime(), convertedImages);
 		newApartment.setID(nextID);
+		newApartment.setCommentsEnabled(apartmentParameters.isCommentsEnabled());
 		newApartment.setCostCurrency(apartmentParameters.getCurrency());
 		newApartment.setAmenities(apartmentParameters.getAmenities());
 		apartmentDao.save(newApartment);

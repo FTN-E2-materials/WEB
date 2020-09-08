@@ -137,6 +137,18 @@ input, button{
   box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
 
+.form-part-add {
+    width: 700px;
+    display: table;
+    opacity: 0.9;
+    margin-bottom: 20px;
+    margin-top: 70px;
+    border-radius: 10px;
+    align-content: center;
+    background-color: #fff;
+    box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+  }
+
 .login-p {
   color: white;
 }
@@ -1479,6 +1491,7 @@ button:hover {
     font-size: medium;
     margin-top: 20px;
 }
+
 
 
 
