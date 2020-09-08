@@ -15,13 +15,13 @@ public class ApartmentDTO {
 	private Location location;
 	private double costForNight;
 	private Currency currency;
-	private int checkInTime;
-	private int checkOutTime;
+	private String checkInTime;
+	private String checkOutTime;
 	private List<String> apartmentPictures;
 	private List<Amenity> amenities;
 	
 	public ApartmentDTO(String apartmentTitle, ApartmentType type, int numberOfRooms, int numberOfGuests, Location location,
-			double costForNight, int checkInTime, int checkOutTime, List<String> apartmentPictures,Currency currency) {
+			double costForNight, String checkInTime, String checkOutTime, List<String> apartmentPictures,Currency currency) {
 		super();
 		this.apartmentPictures = apartmentPictures;
 		this.apartmentTitle = apartmentTitle;
@@ -92,16 +92,16 @@ public class ApartmentDTO {
 	public void setCostForNight(double costForNight) {
 		this.costForNight = costForNight;
 	}
-	public int getCheckInTime() {
+	public String getCheckInTime() {
 		return checkInTime;
 	}
-	public void setCheckInTime(int checkInTime) {
+	public void setCheckInTime(String checkInTime) {
 		this.checkInTime = checkInTime;
 	}
-	public int getCheckOutTime() {
+	public String getCheckOutTime() {
 		return checkOutTime;
 	}
-	public void setCheckOutTime(int checkOutTime) {
+	public void setCheckOutTime(String checkOutTime) {
 		this.checkOutTime = checkOutTime;
 	}
 

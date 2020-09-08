@@ -3,6 +3,7 @@ package services;
 import java.io.IOException;
 import java.util.List;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Apartment;
@@ -13,6 +14,7 @@ import beans.User;
 import beans.UserRole;
 import dao.UsersDao;
 import dto.LoginDTO;
+import dto.PasswordChangeDTO;
 import dto.RegisterDTO;
 
 public class UsersService {
@@ -52,26 +54,15 @@ public class UsersService {
 		return newUser;
 	}
 
-	public User changePassword(User u,String password) throws JsonSyntaxException, IOException {
-		User user=getByID(u.getUsername());
-		user.setPassword(password);
-		return updateUser(user);
-		
+	public User changePassword(User user, String newPass) throws JsonSyntaxException, IOException {
+		user.setPassword(newPass);
+		return userDao.update(user);
 	}
 	
 	public User getByID(String username) throws JsonSyntaxException, IOException {
 		return userDao.getByID(username);
 	}
 
-	public User updateUser(User user)  throws JsonSyntaxException, IOException {
-		try {
-			return userDao.update(user);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		return null;
-	}
 
 	public List<Apartment> getApartmentsForHost(User user) throws JsonSyntaxException, IOException {
 		Host host=(Host) userDao.getByID(user.getUsername());
@@ -80,6 +71,10 @@ public class UsersService {
 
 	public List<User> getAll() throws JsonSyntaxException, IOException {
 		return (List<User>) userDao.getAll();
+	}
+
+	public User updateUser(User fromJson) throws JsonSyntaxException, IOException {
+		return userDao.update(fromJson);
 	}
 
 

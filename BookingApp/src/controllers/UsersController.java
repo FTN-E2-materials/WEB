@@ -10,6 +10,7 @@ import beans.Guest;
 import beans.Host;
 import beans.User;
 import dto.LoginDTO;
+import dto.PasswordChangeDTO;
 import dto.ProfileViewDTO;
 import dto.RegisterDTO;
 import services.UsersService;
@@ -53,6 +54,7 @@ public class UsersController {
 			Session session = req.session(true);
 			if (session.attribute("user") != null) {
 				session.invalidate();
+				System.out.println("Done");
 			}
 			return "";
 		});
@@ -88,36 +90,31 @@ public class UsersController {
 			}
 		});
 
-		post("/user/updateUser", (req, res) -> {
-		 
-			Session ss = req.session(true);
-			User u = ss.attribute("user");
-
-			if(u instanceof Guest) {
-				User us = usersService.updateUser(gs.fromJson(req.body(), Guest.class));
-				ss.attribute("user", us);
-				return gs.toJson(us);
-			}
-			else if(u instanceof Host) {
-				User us =usersService.updateUser(gs.fromJson(req.body(), Host.class));
-				ss.attribute("user", us);
-				return gs.toJson(us);
-			}
-			else {
-				User us =usersService.updateUser(gs.fromJson(req.body(), Administrator.class));
-				ss.attribute("user",us);
-				return gs.toJson(us);
+		post("/user/update", (req, res) -> {
+			try {
+				res.type("application/json");
+				return gs.toJson(usersService.updateUser(gs.fromJson(req.body(), User.class)));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
 			}
 		});
 
 		//change password
 		post("/user/changePassword", (req, res) -> {
-			res.type("application/json");
-			Session ss = req.session(true);
-			User u = ss.attribute("user");
-			User updatedUser=usersService.changePassword(u,gs.fromJson(req.body(),String.class));
-			ss.attribute("user",updatedUser);
-			return gs.toJson(updatedUser);
+			try {
+				res.type("application/json");
+				Session ss = req.session(true);
+				User u = ss.attribute("user");
+				
+				if (u != null) {
+					return gs.toJson(usersService.changePassword(u, gs.fromJson(req.body(), String.class)));
+				}
+				return "";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
 
 		});
 

@@ -171,6 +171,50 @@ public class ApartmentController {
 				return "";
 			}
 		});
+		
+		get("apartment/getActiveForHost", (req, res) -> {
+			try {
+				res.type("application/json");
+				Session ss = req.session(true);
+				User host = ss.attribute("user");
+				return gs.toJson(apartmentService.getActiveForHost(host));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("apartment/getInactiveForHost", (req, res) -> {
+			try {
+				res.type("application/json");
+				Session ss = req.session(true);
+				User host = ss.attribute("user");
+				return gs.toJson(apartmentService.getInactiveForHost(host));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("apartment/getSortedCheapest", (req, res) -> {
+			try {
+				res.type("application/json");
+				return gs.toJson(apartmentService.sortCheapest());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("apartment/getSortedMostExpensive", (req, res) -> {
+			try {
+				res.type("application/json");
+				return gs.toJson(apartmentService.sortMostExpensive());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
 	}
 	
 	

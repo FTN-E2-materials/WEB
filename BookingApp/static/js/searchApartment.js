@@ -26,15 +26,6 @@ Vue.component("search-apartment", {
                     <div class = "column">
                         <label for="destination">Destinacija:</label>
                         <input type="text" id="email" placeholder="Mesto, Država" v-model="locationSearch" name="dest">
-                            <ul v-show="isOpen" class="autocomplete-results">
-								<li
-							      v-for="(location, i) in locations"
-							      :key="i"
-							      class="autocomplete-result"
-							    >
-								{{ location }}
-								</li>
-							</ul>
                     </div>
                     <div class = "column">
                         <label for="rooms">Broj soba:</label>
@@ -76,7 +67,7 @@ Vue.component("search-apartment", {
                     <h1 class = "info-reservation">Cena po noći: {{a.costForNight}}</h1>
 
                     <div class="more-buttons">
-                            <div class = "one-button">
+                            <div class = "one-button" hidden>
                                 <div class = "icons">
                                     <i class="material-icons">comments</i>
                                 </div>
@@ -88,7 +79,7 @@ Vue.component("search-apartment", {
                                 </div>
                                 <a :href="'#/details?id=' + a.id" class = "link">Pregledaj apartman</a>
                             </div>                            
-                            <div class = "one-button">
+                            <div hidden class = "one-button">
                                 <div class = "icons">
                                     <i class="material-icons">edit</i>
                                 </div>
@@ -107,37 +98,32 @@ Vue.component("search-apartment", {
 			.get("/test")
 			.then(response => {
 				console.log("i did it");
-			});
-		axios
-			.get("/locations")
-			.then(response => {
-				this.allLocations = response.data;
-				console.log(this.allLocations.length);
 			})
 	},
 	methods : {
-		autocompleteGet : function() {
-	        this.isOpen = true;
-	        this.filterResults();
-		},
-		filterResults : function() {
-			let suggestions = [];
-			for(l of this.allLocations) {
-				if (l.toLowerCase().includes(this.locationSearch)) {
-					suggestions.push(l);
-				}
-			}
-			this.locations = suggestions;
-			
-		},
+
 		findAvailable : function() {
 			console.log(this.startDate);
+			
+			let start = null;
+			
+			if (this.startDate != null) {
+				start = moment(this.startDate).format('DD.MM.YYYY.');
+			}
+			let end = null;
+			
+			if (this.endDate != null) {
+				end = moment(this.endDate).format('DD.MM.YYYY.');
+			}
+			
+			
+			
 			let searchParameters = {
 				location : this.locationSearch,
 				numberOfGuests : this.guestNum,
 				numberOfRooms : this.roomNum,
-				dateFrom : moment(this.startDate).format('DD.MM.YYYY.'),
-				dateTo : moment(this.endDate).format('DD.MM.YYYY.')
+				dateFrom : start,
+				dateTo : end
 			}
 			console.log(searchParameters.dateFrom);
 				
@@ -149,12 +135,6 @@ Vue.component("search-apartment", {
 				this.showResults = true;
 			}
 		},
-	watch : {
-		locationSearch: function() {
-	        this.isOpen = false;
-	        this.filterResults();
-		}
-	}, 
 	components : { 
 		vuejsDatepicker
 	}

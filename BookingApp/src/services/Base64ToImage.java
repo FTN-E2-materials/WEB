@@ -11,7 +11,10 @@ public class Base64ToImage {
 	public void Base64DecodeAndSave(String base64String, String imagePath) throws FileNotFoundException, IOException {
 		String part[] = base64String.split(",");
 		String path = "./static/" + imagePath;
+		
 		byte[] data = Base64.getDecoder().decode(part[1]);
+		
+		System.out.println(part[1]);
 		try (OutputStream stream = new FileOutputStream(path)) {
 		    stream.write(data);
 		}

@@ -105,7 +105,8 @@ input, button{
 
 .login-h1{
     width: 100%;
-    font-size: 30px;
+    font-size: 25px;
+    margin-bottom:40px;
     text-align: center;
     text-transform: uppercase;
     
@@ -114,7 +115,7 @@ input, button{
 .login-label{
     display: block;
     width: 260px;
-    margin: 25px auto 0;
+    margin: 30px auto 0;
     text-align: center;
 }
 
@@ -551,7 +552,7 @@ input:focus {
     
     display: block;
     margin: 0 auto;
-    margin-top: 5px;
+    margin-top: 20px;
     width: 260px;
     border: none;
     outline: none;
@@ -567,7 +568,7 @@ input:focus {
     background: -webkit-linear-gradient(left, #BE95C4, #E0B1CB);
     font-size: 15px;
     cursor: pointer;
-    margin-top: 100px;
+ 
 }
 
 
@@ -730,13 +731,13 @@ input:focus {
     width: 200px;   
     margin-top: 70px;
     margin-left: 40px;
-    margin-bottom: 40px;
+    margin-bottom:5px;
     border-radius: 30px;
     height: 200px;
 }
 .profile-image {
-    width: 200px;
-    height: 200px;
+    width: 215px;
+    height: 205px;
     border-radius: 30px;
 }
 .cuba {
@@ -883,7 +884,7 @@ input:focus {
 
 .apartment-filter {
     width: 1000px;
-    height: 1400px;
+    height: fit-content;
     opacity: 0.9;
     margin-bottom: 20px;
     margin-top: 70px;
@@ -897,7 +898,7 @@ input:focus {
 .profile-view-part {
     
     width: 1000px;
-    height: fit-content;
+    height:550px;
     opacity: 0.9;
     margin-bottom: 20px;
     margin-top: 70px;
@@ -909,6 +910,7 @@ input:focus {
 }
 
 .button-save-profile-view {
+    margin-top: 90px;
     margin-left: 550px;
 }
 .sidenav {
@@ -948,8 +950,8 @@ input:focus {
 
 .row-reservations {
     display: flex;
-    
-}
+    margin-left:40px;
+    }
 
 
 
@@ -1014,8 +1016,8 @@ input:focus {
 }
 
 .col-informations {
-    margin-top: 100px;
-    margin-left: 10px;
+    margin-top: 80px;
+
 
 }
 
@@ -1026,9 +1028,6 @@ input:focus {
     margin: 10px;
 }
 
-.row-reservations {
-    display: flex;
-}
 
 
 .icons {
@@ -1358,12 +1357,18 @@ input[type="search"] {
 
 .username2
 {
-    margin-left: 40px;
+    margin-left: 70px;
+    margin-bottom:15px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #5E548E;
+    text-transform: uppercase;
 }
 
 .Button{
-    margin-left: 55px;
+    margin-left: 70px;
     text-decoration: underline;
+    color: #5E548E;
 }
 .list-of-apartments{
     align-content: center;
@@ -1374,6 +1379,9 @@ input[type="search"] {
     color: red;
     font-size: medium;
     margin-top: 20px;
+}
+.form-change-pass{
+    margin-top:80px;
 }
 
 
@@ -1567,3 +1575,24 @@ input[type="search"]::-webkit-search-cancel-button {
     background: transparent;
     border: none;
   }
+
+  .profile-view-button {
+    margin-left: 97px;
+    margin-top:7px;
+    width: 170px;
+    border: none;
+    outline: none;
+    background: none;
+    height: 25px;
+    border-radius: 30px;
+    border-color: transparent;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: -webkit-linear-gradient(left, #5E548E, #E0B1CB);
+    font-size: 15px;
+    cursor: pointer;
+}
+
+ 
