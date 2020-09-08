@@ -5,11 +5,9 @@ import static spark.Spark.post;
 
 import com.google.gson.Gson;
 
-<<<<<<< HEAD
 import beans.Administrator;
 import beans.Guest;
-=======
->>>>>>> e98af72e6607eac9f2e659be1f77adc111c6d5a2
+
 import beans.Host;
 import beans.User;
 import dto.LoginDTO;

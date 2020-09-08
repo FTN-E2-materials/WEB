@@ -879,6 +879,15 @@ input:focus {
     background-color: #fff;
     box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
+
+.ChangeProfilePicture{
+    margin-left: 25px;
+    text-decoration: underline;
+    color: #5E548E;
+    border:none;
+
+}
+
 .toast {
     display: none; 
     position: fixed; 

@@ -23,7 +23,10 @@ Vue.component("profile-view", {
                         <div>
                             <img :src="profileImage" class= "profile-image" alt = "Profile Image">
                             <div v-bind:hidden="editMode!=true">
-                            <label  style="text-decoration:underline;margin-left:20px;text-transform:none;color: #5E548E;">Promeni profilnu sliku</label>
+                            <input type="button" id="loadFileXml" class="ChangeProfilePicture" value="Promeni profilnu sliku" onclick="document.getElementById('file').click();" />
+                            <input type="file" style="display:none;border:none;" @change="imageAdded" id="file" name="file"/>
+                            
+                          
                             </div>
                         </div>
                     </div>
@@ -168,6 +171,23 @@ Vue.component("profile-view", {
         })
     },
     methods : {
+        imageAdded(e) 
+        {
+            const file = e.target.files[0];
+            this.createBase64Image(file);;
+            this.profileImage=URL.createObjectURL(file);
+        },
+        createBase64Image(file){
+            const reader= new FileReader();
+           
+            reader.onload = (e) =>{
+            	let img = e.target.result;
+            	img.replace("data:image\/(png|jpg|jpeg);base64", "");
+            	console.log(img);
+            }
+            reader.readAsDataURL(file);
+        },
+
         changePass: function()
         {
             this.$router.push("/change_pass");

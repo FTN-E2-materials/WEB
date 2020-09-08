@@ -179,14 +179,10 @@ Vue.component("apartment-details", {
 					console.log("aSdasdsa");
 				}
 				
-<<<<<<< HEAD
-				for (a in response.data.amenities) {
-=======
 				console.log(this.numOfEl);
 				console.log(this.numOfRows);
 				
 				for (a of response.data.amenities) {
->>>>>>> e98af72e6607eac9f2e659be1f77adc111c6d5a2
 					this.amenityDetails = a.amenityName + " ";
 				}
 				
@@ -198,13 +194,8 @@ Vue.component("apartment-details", {
 	    		if (response.data == null) {
 	    			this.canEdit = false;
 	    			this.canReserve = false;
-<<<<<<< HEAD
 					this.canComment = true;
 				
-=======
-					this.canComment = false;
-					console.log("ne valja");
->>>>>>> e98af72e6607eac9f2e659be1f77adc111c6d5a2
 	    		} else 
 	    		{
 	    			if (response.data.role === "Guest") {
