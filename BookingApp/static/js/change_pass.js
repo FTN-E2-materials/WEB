@@ -31,7 +31,7 @@ Vue.component("change_pass",{
     <button class="side-menu-button"  type="button" v-on:click="changePassword"> Promeni lozinku </button>
     </td>
     <td style="padding-left:15px">
-    <button class="side-menu-button"  type="button" v-on:click="changePassword" v-on:click="CancelChangePass"> Odustani</button>
+    <button class="side-menu-button"  type="button" v-on:click="CancelChangePass"> Odustani</button>
     </td>
     </tr>
     </div>
@@ -79,7 +79,7 @@ Vue.component("change_pass",{
         else if(flag)
         {
             window.location.href = "http://localhost:8088/#/profile-view";
-    /*    axios 
+        axios 
             .post('/user/changePassword', JSON.stringify(this.newPass))
             .then(response => {
                 if (response.data == null) {
@@ -88,12 +88,12 @@ Vue.component("change_pass",{
                     window.location.href = "http://localhost:8088/#/profile-view";
                 }
             })
-        }*/
+        }
         
-        } 
-    },
+    }   
+    ,
     CancelChangePass: function (){
         this.$router.push("/profile-view");
     }
-
-}});
+    }
+});

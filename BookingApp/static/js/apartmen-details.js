@@ -2,6 +2,7 @@ Vue.component("apartment-details", {
 	data: function() {
 		return {
 			apartment: null,
+			id:"",
 			mainPicture: "",
 			pictures: "",
 			numOfRows: "",
@@ -87,7 +88,7 @@ Vue.component("apartment-details", {
             </div>
             </div>
         </div>
-        <div>
+        <div> 
         <button v-on:click="EditApartment" class="submit">Izmeni apartman?</button>
 		</div> 
         <div class = "comments" id="comment-section">
@@ -142,6 +143,7 @@ Vue.component("apartment-details", {
 			.get("/apartments/" + this.$route.query.id)
 			.then(response => {
 				this.apartment = response.data;
+				this.id = response.data.id;
 				this.mainPicture = response.data.apartmentPictures[0];
 				this.checkInTime = response.data.checkInTime;
 				this.checkOutTime = response.data.checkOutTime;
@@ -161,7 +163,7 @@ Vue.component("apartment-details", {
 				this.apartmentDesc = response.data.shortDescription;
 				this.numOfRows = response.data.apartmentPictures.length / 3 + 1;
 				
-				for (a of response.data.amenities) {
+				for (a in response.data.amenities) {
 					this.amenityDetails = a.amenityName + " ";
 				}
 				
@@ -174,16 +176,16 @@ Vue.component("apartment-details", {
 	    			this.canEdit = false;
 	    			this.canReserve = false;
 					this.canComment = true;
-					console.log("ne valja");
+				
 	    		} else 
 	    		{
-	    			if (response.data.role.equals("Guest")) {
+	    			if (response.data.role=="Guest") {
 	    				this.canEdit = false;
 	    				this.canReserve = true;
-	    			} else if (response.data.role.equals("Host")) {
+	    			} else if (response.data.role=="Host") {
 		    			this.canEdit = true;
 		    			this.canReserve = false;
-		    		} else if (response.data.role.equals("Administrator")) {
+		    		} else if (response.data.role=="Administrator"){
 		    			this.canEdit = false;
 		    			this.canReserve = false;
 		    		
@@ -263,7 +265,7 @@ Vue.component("apartment-details", {
 			this.reserve = true;
 		},
 		EditApartment:function(){
-			window.location.href = "#/edit_apartment";
+			window.location.href = "#/edit_apartment?id="+ this.id;
 
 		}
 	},

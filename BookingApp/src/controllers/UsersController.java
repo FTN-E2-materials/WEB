@@ -5,6 +5,9 @@ import static spark.Spark.post;
 
 import com.google.gson.Gson;
 
+import beans.Administrator;
+import beans.Guest;
+import beans.Host;
 import beans.User;
 import dto.LoginDTO;
 import dto.ProfileViewDTO;
@@ -85,14 +88,36 @@ public class UsersController {
 			}
 		});
 
-		post("/user/update", (req, res) -> {
-		 return "";
+		post("/user/updateUser", (req, res) -> {
+		 
+			Session ss = req.session(true);
+			User u = ss.attribute("user");
+
+			if(u instanceof Guest) {
+				User us = usersService.updateUser(gs.fromJson(req.body(), Guest.class));
+				ss.attribute("user", us);
+				return gs.toJson(us);
+			}
+			else if(u instanceof Host) {
+				User us =usersService.updateUser(gs.fromJson(req.body(), Host.class));
+				ss.attribute("user", us);
+				return gs.toJson(us);
+			}
+			else {
+				User us =usersService.updateUser(gs.fromJson(req.body(), Administrator.class));
+				ss.attribute("user",us);
+				return gs.toJson(us);
+			}
 		});
 
 		//change password
 		post("/user/changePassword", (req, res) -> {
 			res.type("application/json");
-			return "";
+			Session ss = req.session(true);
+			User u = ss.attribute("user");
+			User updatedUser=usersService.changePassword(u,gs.fromJson(req.body(),String.class));
+			ss.attribute("user",updatedUser);
+			return gs.toJson(updatedUser);
 
 		});
 

@@ -43,7 +43,7 @@ public class ApartmentController {
 			return "";
 	 	});
 		
-		get("/apartments/:id", (req, res) -> {
+		get("/apartments/", (req, res) -> {
 			try {
 				res.type("application/json");
 				return gs.toJson(apartmentService.getApartmentById(req.params("id")));

@@ -1,13 +1,15 @@
 Vue.component("profile-view", {
     data: function(){
         return {
+            id:'',
             name:'',
             surname: '',
             username: '',
             gender: '',
             editMode:false,
             profileImage: '',
-            isThisMe : false
+            isThisMe : false,
+            errorMessage:''
         }
     },
 
@@ -86,7 +88,7 @@ Vue.component("profile-view", {
             <label class="username2">Moji apartmani:</label>
             </div>
             </div>
-
+            <p style="color:red;margin-left:200px;">{{errorMessage}}</p>
             
         </div>
         
@@ -116,6 +118,7 @@ Vue.component("profile-view", {
         .then(response => {
             if(response.data != null)
             { 
+                this.id=response.data.currentUser.id;
                 this.name=response.data.currentUser.name;
                 this.surname=response.data.currentUser.surname;
                 this.username=response.data.currentUser.username;
@@ -163,6 +166,23 @@ Vue.component("profile-view", {
         } ,
         UpdateUser: function()
         {
+            let userParameters={
+                id:this.id,
+                name : this.name,
+    			surname : this.surname,
+                gender : this.gender,
+                profileImage:this.profileImage
+
+            };
+            axios
+            .post("/user/updateUser", JSON.stringify(userParameters))
+            .then(response => {
+                if (response.data == null) {
+                    window.location.href = "#/profile_view";
+                } else {
+                    window.location.href = "#/profile_view";
+                }
+            })
             this.editMode=false;
         }
     }

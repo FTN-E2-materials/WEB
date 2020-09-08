@@ -52,12 +52,25 @@ public class UsersService {
 		return newUser;
 	}
 
-	public User changePassword(String password) throws JsonSyntaxException, IOException {
-		return null;
+	public User changePassword(User u,String password) throws JsonSyntaxException, IOException {
+		User user=getByID(u.getUsername());
+		user.setPassword(password);
+		return updateUser(user);
+		
 	}
 	
 	public User getByID(String username) throws JsonSyntaxException, IOException {
 		return userDao.getByID(username);
+	}
+
+	public User updateUser(User user)  throws JsonSyntaxException, IOException {
+		try {
+			return userDao.update(user);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return null;
 	}
 
 	public List<Apartment> getApartmentsForHost(User user) throws JsonSyntaxException, IOException {
