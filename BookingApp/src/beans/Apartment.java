@@ -40,6 +40,7 @@ public class Apartment implements IIdentifiable<Integer> {
 		this.checkOutTime = checkOutTime;
 		this.apartmentPictures = apartmentPictures;
 		this.commentsEnabled = true;
+		this.periodsForRent = new ArrayList<Period>();
 	}
 	
 

@@ -6,6 +6,7 @@ import beans.Amenity;
 import beans.ApartmentType;
 import beans.Currency;
 import beans.Location;
+import beans.Period;
 
 public class ApartmentDTO {
 	private String apartmentTitle;
@@ -19,6 +20,8 @@ public class ApartmentDTO {
 	private String checkOutTime;
 	private List<String> apartmentPictures;
 	private List<Amenity> amenities;
+	private Period period;
+	private boolean commentsEnabled;
 	
 	public ApartmentDTO(String apartmentTitle, ApartmentType type, int numberOfRooms, int numberOfGuests, Location location,
 			double costForNight, String checkInTime, String checkOutTime, List<String> apartmentPictures,Currency currency) {
@@ -113,6 +116,26 @@ public class ApartmentDTO {
 
 	public void setAmenities(List<Amenity> amenities) {
 		this.amenities = amenities;
+	}
+
+
+	public Period getPeriod() {
+		return period;
+	}
+
+
+	public void setPeriod(Period period) {
+		this.period = period;
+	}
+
+
+	public boolean isCommentsEnabled() {
+		return commentsEnabled;
+	}
+
+
+	public void setCommentsEnabled(boolean commentsEnabled) {
+		this.commentsEnabled = commentsEnabled;
 	}
 	
 

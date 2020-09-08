@@ -5,8 +5,11 @@ import static spark.Spark.post;
 
 import com.google.gson.Gson;
 
+<<<<<<< HEAD
 import beans.Administrator;
 import beans.Guest;
+=======
+>>>>>>> e98af72e6607eac9f2e659be1f77adc111c6d5a2
 import beans.Host;
 import beans.User;
 import dto.LoginDTO;
@@ -182,6 +185,18 @@ public class UsersController {
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
+			}
+		});
+		
+		get("user/canIEdit/:id", (req, res) -> {
+			res.type("application/json");
+			try {
+				Session ss = req.session(true);
+				Host host = (Host) ss.attribute("user");
+				return gs.toJson(usersService.isThisMineApartment(req.params("id"), host));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
 			}
 		});
 	}

@@ -90,8 +90,13 @@ Vue.component("apartment-details", {
             </div>
             </div>
         </div>
+<<<<<<< HEAD
         <div> 
         <button v-on:click="EditApartment" class="submit">Izmeni apartman?</button>
+=======
+        <div  v-bind:hidden="canEdit==false" >
+        <button v-on:click="EditApartment"class="submit">Izmeni apartman?</button>
+>>>>>>> e98af72e6607eac9f2e659be1f77adc111c6d5a2
 		</div> 
         <div class = "comments" id="comment-section">
             <p>Komentari:</p>
@@ -103,7 +108,7 @@ Vue.component("apartment-details", {
                  	<p> {{c.text}} </p>
                  </div>
             </div>
-            <div class = "leave-comment" >
+            <div class = "leave-comment" v-bind:hidden="canComment==false">
                 <p>Ako ste posetili ovaj apartman, ostavite Vaše utiske</p>
                 <input type="text" v-model="textComment" class = "add-comment">
                 
@@ -161,17 +166,27 @@ Vue.component("apartment-details", {
 				} else {
 					this.currency = "RSD";
 				}
+				
 				this.length = response.data.apartmentPictures.length;
 				this.comments = response.data.comments;
 				this.apartmentDesc = response.data.shortDescription;
-				this.numOfRows = response.data.apartmentPictures.length / 3 + 1;
+				
+				this.numOfRows = Math.ceil(response.data.apartmentPictures.length / 3) ;
 				if (response.data.apartmentPictures.length < 3) {
 					this.numOfEl = response.data.apartmentPictures.length;
 				} else {
 					this.numOfEl = 3;
+					console.log("aSdasdsa");
 				}
 				
+<<<<<<< HEAD
 				for (a in response.data.amenities) {
+=======
+				console.log(this.numOfEl);
+				console.log(this.numOfRows);
+				
+				for (a of response.data.amenities) {
+>>>>>>> e98af72e6607eac9f2e659be1f77adc111c6d5a2
 					this.amenityDetails = a.amenityName + " ";
 				}
 				
@@ -183,28 +198,43 @@ Vue.component("apartment-details", {
 	    		if (response.data == null) {
 	    			this.canEdit = false;
 	    			this.canReserve = false;
+<<<<<<< HEAD
 					this.canComment = true;
 				
+=======
+					this.canComment = false;
+					console.log("ne valja");
+>>>>>>> e98af72e6607eac9f2e659be1f77adc111c6d5a2
 	    		} else 
 	    		{
 	    			if (response.data.role === "Guest") {
 	    				this.canEdit = false;
 	    				this.canReserve = true;
+						this.canComment = true;
+						//axios za komentarisanje
 	    			} else if (response.data.role === "Host") {
-		    			this.canEdit = true;
 		    			this.canReserve = false;
+						this.canComment = false;
+			    		axios
+				    	.get("user/canIEdit/" + this.$route.query.id)
+				    	.then(response => {
+				    		this.canEdit = response.data;
+				    		
+				    		console.log(response.data);
+				    	});
 		    		} else if (response.data.role === "Administrator") {
 		    			this.canEdit = false;
 		    			this.canReserve = false;
+						this.canComment = false;
 		    		
 		    		} else {
 		    			this.canEdit = false;
 		    			this.canReserve = false;
 		    		
 		    		}
-	    			this.user = response.data;
 	    			
 	    		}
+		    
 	    	})
 	    
 

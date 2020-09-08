@@ -162,6 +162,29 @@ input, button{
     background: -webkit-linear-gradient(left, #BE95C4, #E0B1CB);
 }
 
+
+.submit-add-apt{
+    
+    display: block;
+    width: 260px;
+    border: none;
+    outline: none;
+    background: none;
+    height: 40px;
+    border-radius: 30px;
+    border-color: transparent;
+    text-transform: uppercase;
+    color: #fff;
+    
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: -webkit-linear-gradient(left, #BE95C4, #E0B1CB);
+}
+.submit-add-apt:hover{
+    background: -webkit-linear-gradient(left, #E0B1CB, #BE95C4);
+}
+
 .submit:hover{
     background: -webkit-linear-gradient(left, #E0B1CB, #BE95C4);
 }
@@ -470,6 +493,20 @@ label {
     text-align: left;
 }
 
+
+.amenity-label {
+    display: block;
+    width: 260px;
+    margin: 5px 5px 5px 0px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    text-align: left;
+    text-transform: capitalize;
+}
+
+.input-apt {
+    width: 250px;
+}
 label span{
     font-size: 15px;
     font-weight: 600;
@@ -1113,15 +1150,26 @@ input:focus {
     text-align: center;
 }
 
+.form-part-add {
+    height: 1500px;
+    width: 1000px;
+    opacity: 0.9;
+    display: block;
+    margin-bottom: 20px;
+    margin-top: 70px;
+    border-radius: 10px;
+    align-content: center;
+    background-color: #fff;
+    box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+  }
+
+
 input[type="search"] {
-    margin-left: 100px;
     position: relative;
     align-self: center;
     width: 250px;
     border: none;
     border-bottom: 1px solid rgba(109, 93, 93, 0.4);
-    align-content: center;
-    text-align: center;
 }
 
 .col-add {
