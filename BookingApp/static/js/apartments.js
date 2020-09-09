@@ -10,7 +10,11 @@ Vue.component("apartments", {
 			currency : "", 
 			options : [],
 			mode : "notLogged",
-			value : ""
+			value : "",
+			filteredApartments : [],
+			omg : null,
+			currentAmenities : [],
+			mySelect : null
 		
 		}
 	
@@ -25,7 +29,7 @@ Vue.component("apartments", {
             <div class = "bydate">
             <h1 class="filter-reservations">Sadržaj </h1>
 			<div id="example">
-			  <select id="multiselect"  class="form-control" name="amenity" multiple="multiple">       
+			  <select id="multiselect" v-on:change="signalChanged" v-on:click="signalChanged"   class="form-control" name="amenity" multiple="multiple">       
 			  </select>
 			</div>
 			            </div>
@@ -43,6 +47,7 @@ Vue.component("apartments", {
                     </div>
                 </div>
             </div>
+            
             <div class = "bystatus">
                 <h1 class="filter-reservations">Statusu:</h1>
                 <div class = "col-filters">
@@ -54,6 +59,8 @@ Vue.component("apartments", {
                     </div>
                 </div>
             </div>
+            
+            <button class = "submit" @click="search"> Pretraži </button>
 
         </div>
         
@@ -117,10 +124,14 @@ Vue.component("apartments", {
 					
 				}
 				else {
+					this.filteredApartments = [];
 					this.apartments = response.data;
-				}
-			})
-			
+
+					}
+			});
+				
+
+		
 		axios 
 			.get("/amenities")
 			.then(response => {
@@ -132,18 +143,21 @@ Vue.component("apartments", {
 					console.log(a.amenityName);
 				}
 
-				var mySelect = new MSFmultiSelect(
+
+				this.mySelect = new MSFmultiSelect(
 					    document.querySelector('#multiselect'),
 					    {
-					      appendTo: '#example',
-					      selectAll: true
-					      // options here
+						      appendTo: '#example',
+						      selectAll: true,
+						      
 					    }
-					);
+					 )
+
+				this.mySelect.loadSource(this.options);
+				
+			});
 				
 				
-					mySelect.loadSource(this.options);
-				});
 			
 		
 	    axios
@@ -156,6 +170,27 @@ Vue.component("apartments", {
 	    		}
 	    		
 	    	})
+	    	
+	    	console.log(this.apartments.length);
+	},
+	watch : {
+		apartments(value) {
+			this.apartments = value;
+		}
+	},
+	computed : {
+		filtered : {
+
+		    get: function () {
+		      return this.filteredApartments;
+		    },
+		    // setter
+		    set: function (newValue) {
+		    	console.log("ASDSASADSAASDSADA");
+		    	this.filteredApartments = newValue;
+		    	this.filtered = newValue;
+		    }
+		}
 	},
 	methods : {
 		getActive : function() {
@@ -168,6 +203,7 @@ Vue.component("apartments", {
 					}
 					else {
 						this.apartments = response.data;
+						this.filteredApartments = response.data;
 						this.picture = response.data[0].apartmentPictures[0];
 					}
 				})
@@ -181,6 +217,7 @@ Vue.component("apartments", {
 						
 					} else {
 						this.apartments = response.data;
+						this.filteredApartments = response.data;
 						this.picture = response.data[0].apartmentPictures[0];
 					}
 				})
@@ -190,6 +227,7 @@ Vue.component("apartments", {
 		},
 		
 		cheapestSort : function() {
+			
 			axios
 			.get("/apartment/getSortedCheapest")
 			.then(response => {
@@ -198,10 +236,14 @@ Vue.component("apartments", {
 				}
 				else {
 					this.apartments = response.data;
+					this.filteredApartments = response.data;
 				}
 			})
+        		
 		}, 
-		
+		setApartments : function(data) {
+			this.filteredApartments = data; 
+		},
 		mostExpensiveSort : function() {
 			axios
 			.get("/apartment/getSortedMostExpensive")
@@ -211,10 +253,13 @@ Vue.component("apartments", {
 				}
 				else {
 					this.apartments = response.data;
+					this.filteredApartments = response.data;
 				}
 			})
 		},
-		
+		signalChanged : function() {
+			
+		},
 		newestSort : function() {
 			
 		},
@@ -228,8 +273,55 @@ Vue.component("apartments", {
 				.then(response => {
 					if (response.data != null) {
 						this.apartments = response.data;
+						this.filteredApartments = response.data;
 					}
 				});
+		}, 
+		search : function() {
+			for(a of this.mySelect.getData()) {
+				console.log(a);
+			}
+			console.log("ASDSADSADASSAD");
+
+	        if (!(this.mySelect.getData().length== 0)) {
+	        	let objectToSend = [];
+	        	this.apartments = [];
+	        	for (a of this.mySelect.getData()) {
+	        		objectToSend.push({
+	        			id : a - 1
+	        		});
+	        		console.log(a);
+	        	}
+	        	
+	        	let send = {
+	        			list : objectToSend
+	        	};
+	        	
+	        	axios 
+	        		.post("apartment/filterByAmenity", JSON.stringify(send))
+	        		.then(response => {
+	        			for (a of response.data) {
+	        				console.log(a.apartmentTitle);
+	        			}
+	        			console.log("asdsa");
+	        			this.apartments = response.data;
+	        		})
+	
+			} else {
+				axios
+					.get("apartments/getActive")
+					.then(response => {
+						if (response.data == null) {
+							
+						}
+						else {
+							this.filteredApartments = [];
+							this.apartments = response.data;
+
+							}
+					});
+			}
+	      
 		}
 	}
 	

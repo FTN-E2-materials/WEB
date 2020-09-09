@@ -39,7 +39,7 @@ class MSFmultiSelect{
         this.parentElement.className=(this.checked) ? 'active' : '';
         self.selectAll(this.checked);
       });
-      var caption=document.createTextNode('<Označi sve>');
+      var caption=document.createTextNode('Označi sve');
       li.appendChild(input);
       li.appendChild(caption);
       label.appendChild(li);

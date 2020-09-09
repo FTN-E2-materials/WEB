@@ -58,7 +58,10 @@ public class Amenity implements IIdentifiable<Integer>  {
 		} 
 		return false;
 	}
-	
+	@Override
+	public int hashCode() {
+		return this.id * 1612;
+	}
 	
 
 }

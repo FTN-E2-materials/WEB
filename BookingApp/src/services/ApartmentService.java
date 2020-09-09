@@ -9,9 +9,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
+import beans.Amenity;
 import beans.Apartment;
 import beans.ApartmentAscendingComparator;
 import beans.ApartmentComment;
@@ -32,6 +32,7 @@ import dto.ApartmentDTO;
 import dto.CommentDTO;
 import dto.DeleteCommentDTO;
 import dto.DestinationDTO;
+import dto.FilterDTO;
 import dto.ReservationDTO;
 import dto.SearchDTO;
 
@@ -560,5 +561,26 @@ public class ApartmentService {
 		a.setComments(comments);
 		apartmentDao.update(a);
 		return a;
+	}
+
+	public List<Apartment> filterByAmenity(FilterDTO fromJson) throws JsonSyntaxException, IOException {
+		List<Amenity> amenities = fromJson.getList();
+		List<Apartment> filtered = new ArrayList<Apartment>();
+		for (Apartment a : getActive())  {
+			boolean flagToAdd = true;
+			for (Amenity am : amenities) {
+				if (!a.doIHaveAmenity(am)) {
+					flagToAdd = false;
+					break;
+				}
+			}
+			
+			if (flagToAdd) {
+				filtered.add(a);
+				System.out.println("aa");
+			}
+ 		}
+		System.out.println(filtered.size());
+		return filtered;
 	}
 }

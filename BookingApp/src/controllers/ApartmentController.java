@@ -17,6 +17,7 @@ import beans.UserRole;
 import dto.ApartmentDTO;
 import dto.CommentDTO;
 import dto.DeleteCommentDTO;
+import dto.FilterDTO;
 import dto.SearchDTO;
 import services.ApartmentService;
 import spark.Session;
@@ -267,6 +268,16 @@ public class ApartmentController {
 			} catch (Exception e) {
 				e.printStackTrace();
 				return false;
+			}
+		});
+		
+		post("apartment/filterByAmenity", (req, res) -> {
+			res.type("application/json");	
+			try {
+				return gs.toJson(apartmentService.filterByAmenity(gs.fromJson(req.body(), FilterDTO.class)));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return Response.status(500).build();
 			}
 		});
 	}

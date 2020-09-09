@@ -210,4 +210,14 @@ public class Apartment implements IIdentifiable<Integer> {
 	public void setPeriodsForRent(List<Period> periodsForRent) {
 		this.periodsForRent = periodsForRent;
 	}
+	
+	public boolean doIHaveAmenity(Amenity amenity) {
+		for (Amenity a : this.amenities) {
+			if (a.compareTo(amenity.getID())) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }
