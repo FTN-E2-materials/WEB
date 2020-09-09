@@ -5,6 +5,8 @@ public class ApartmentComment {
 	private int apartment;
 	private String text;
 	private Grade grade;
+	private boolean hidden;
+	private int id;
 	
 	public ApartmentComment() {}
 	
@@ -14,6 +16,7 @@ public class ApartmentComment {
 		this.apartment = apartment;
 		this.text = text;
 		this.grade = grade;
+		this.hidden = false;
 	}
 	
 	public Guest getGuest() {
@@ -46,6 +49,22 @@ public class ApartmentComment {
 	
 	public void setGrade(Grade grade) {
 		this.grade = grade;
+	}
+
+	public boolean isHidden() {
+		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }

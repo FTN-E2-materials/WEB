@@ -1056,6 +1056,7 @@ input:focus {
     margin: 10px;
     border-radius: 10px;
     height: 350px;
+    object-fit: contain;
 }
 .reservation-date {
     margin: 10px;
@@ -1371,7 +1372,7 @@ input[type="search"] {
     margin: 10px;
     height: 150px;
     width: 150px;
-    background-size: cover;
+    object-fit: contain;
 }
 
 

@@ -16,6 +16,7 @@ import beans.User;
 import beans.UserRole;
 import dto.ApartmentDTO;
 import dto.CommentDTO;
+import dto.DeleteCommentDTO;
 import dto.SearchDTO;
 import services.ApartmentService;
 import spark.Session;
@@ -246,6 +247,16 @@ public class ApartmentController {
 			} catch (Exception e) {
 				e.printStackTrace();
 				return "";
+			}
+		});
+		
+		post("apartment/hideComment", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gs.toJson(apartmentService.deleteComment(gs.fromJson(req.body(), DeleteCommentDTO.class)));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
 			}
 		});
 	}

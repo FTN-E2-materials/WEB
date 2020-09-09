@@ -29,7 +29,8 @@ Vue.component("apartment-details", {
 	        selectedDate : null,
 	        numOfEl : "",
 	        length : "",
-	        canDelete : false
+	        canDelete : false,
+	        canDeleteComment : false
 		}
 	},
 	template: `
@@ -101,11 +102,16 @@ Vue.component("apartment-details", {
         <div class = "comments" id="comment-section">
             <p>Komentari:</p>
             <div class = "comment-row"  v-for="c in comments">
-                <div class = "comment-from">
-                    <a :href = "'#/profile-view?id=' + c.guest.username">{{c.guest.username}} </a>
-                </div>
-                <div class = "comment-desc">
-                 	<p> {{c.text}} </p>
+            	<div v-if="c.hidden==false">
+	                <div class = "comment-from">
+	                    <a :href = "'#/profile-view?id=' + c.guest.username">{{c.guest.username}} </a>
+	                </div>
+	                <div class = "comment-desc">
+	                 	<p> {{c.text}} </p>
+	                 </div>
+	                 <div v-bind:hidden="canDeleteComment==false">
+	                 	<a href="#" @click="deleteComment(c)" class="hide-comment"> Sakrij komentar </a>
+	                 </div>
                  </div>
             </div>
             <div class = "leave-comment" v-bind:hidden="canComment==false">
@@ -199,6 +205,7 @@ Vue.component("apartment-details", {
 					this.canDelete = false;
 					console.log("ne valja");
 					this.canComment = true;
+					this.canDeleteComment = false;
 				
 	    		} else 
 	    		{
@@ -207,6 +214,7 @@ Vue.component("apartment-details", {
 	    				this.canReserve = true;
 						this.canComment = true;
 						this.canDelete = false;
+						this.canDeleteComment = false;
 						//axios za komentarisanje
 	    			} else if (response.data.role === "Host") {
 		    			this.canReserve = false;
@@ -216,6 +224,7 @@ Vue.component("apartment-details", {
 				    	.then(response => {
 				    		this.canEdit = response.data;
 							this.canDelete = response.data;
+							this.canDeleteComment = true;
 				    		
 				    		console.log(response.data);
 				    	});
@@ -224,12 +233,13 @@ Vue.component("apartment-details", {
 		    			this.canReserve = false;
 						this.canComment = false;
 						this.canDelete = true;
+						this.canDeleteComment = false;
 		    		
 		    		} else {
 		    			this.canEdit = false;
 		    			this.canReserve = false;
 						this.canDelete = false;
-		    		
+						this.canDeleteComment = false;
 		    		}
 	    			
 	    		}
@@ -316,6 +326,23 @@ Vue.component("apartment-details", {
 		},
 		EditApartment:function(){
 			window.location.href = "#/edit_apartment?id=" + this.$route.query.id;
+		},
+		deleteComment : function(comment) {
+			
+			if (confirm("Da li ste sigurni da želite da sakrijete komentar?")) {
+				let object = {
+						apId : this.$route.query.id,
+						commentId : comment.id
+				}
+				
+				axios
+					.post("apartment/hideComment", JSON.stringify(object))
+					.then(response => {
+						if (response.data) {
+							this.comments = response.data.comments;
+						}
+					})
+			}
 		}
 	},
 	components : { 

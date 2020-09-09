@@ -30,6 +30,7 @@ import dao.ReservationDao;
 import dao.UsersDao;
 import dto.ApartmentDTO;
 import dto.CommentDTO;
+import dto.DeleteCommentDTO;
 import dto.DestinationDTO;
 import dto.ReservationDTO;
 import dto.SearchDTO;
@@ -210,6 +211,7 @@ public class ApartmentService {
 		} else {
 			comment.setGrade(Grade.VeryPoor);
 		}
+		comment.setId(apartmentToComment.getComments().size() + 1);
 		comment.setApartment(apartmentToComment.getID());
 		comment.setGuest((Guest)userDao.getByID(commentDTO.getUsername()));
 		comment.setText(commentDTO.getText());
@@ -526,6 +528,21 @@ public class ApartmentService {
 
 	public void deleteAparmtent(String params) throws JsonSyntaxException, NumberFormatException, IOException {
 		apartmentDao.delete(apartmentDao.getByID(Integer.parseInt(params)));
+	}
+
+	public Apartment deleteComment(DeleteCommentDTO fromJson) throws JsonSyntaxException, IOException {
+		Apartment a = apartmentDao.getByID(fromJson.getApId());
+		List<ApartmentComment> comments = a.getComments();
 		
+		for (ApartmentComment c : comments) {
+			if (c.getId() == fromJson.getCommentId()) {
+				c.setHidden(true);
+				break;
+			}
+		}
+		
+		a.setComments(comments);
+		apartmentDao.update(a);
+		return a;
 	}
 }
