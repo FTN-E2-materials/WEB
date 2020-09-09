@@ -94,7 +94,15 @@ public class UsersController {
 		post("/user/update", (req, res) -> {
 			try {
 				res.type("application/json");
-				return gs.toJson(usersService.updateUser(gs.fromJson(req.body(), User.class)));
+				Session s=req.session(true);
+				User oldUser=s.attribute("user");
+				User newUser=gs.fromJson(req.body(), User.class));
+				User tryUpdate=gs.toJson(usersService.updateUser(newUser,oldUser));
+				if(tryUpdate!=null)
+				{
+					s.attribute("user",tryUpdate);
+				}
+				return tryUpdate;
 			} catch (Exception e) {
 				e.printStackTrace();
 				return "";
