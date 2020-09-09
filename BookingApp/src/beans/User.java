@@ -14,7 +14,7 @@ public abstract class User implements IIdentifiable<String> {
 	
 	public User() {}
 	
-	public User(String username, String password, String name, String surname, Gender gender, UserRole role,String profilePicture) {
+	public User(String username, String password, String name, String surname, Gender gender, UserRole role) {
 		super();
 		this.blocked = false;
 		this.username = username;
@@ -23,7 +23,7 @@ public abstract class User implements IIdentifiable<String> {
 		this.surname = surname;
 		this.gender = gender;
 		this.role = role;
-		this.profilePicture=profilePicture;
+		
 	}
 	
 	public String getUsername() {

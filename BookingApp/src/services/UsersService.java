@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
+import beans.Administrator;
 import beans.Apartment;
 import beans.Gender;
 import beans.Guest;
@@ -74,7 +75,12 @@ public class UsersService {
 	}
 
 	public User updateUser(User newUser,User oldUser) throws JsonSyntaxException, IOException {
-		User user=new User(newUser.username,oldUser.password, newUser.name,newUser.surname, newUser.gender,oldUser.role,oldUser.profilePicture);
+		if(oldUser.getRole()==UserRole.Administrator)
+		{
+			Administrator a=(Administrator) oldUser;
+			a.setName(name);
+		}
+		
 		userDao.update(user);
 		return user;
 	}
