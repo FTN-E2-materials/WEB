@@ -5,6 +5,9 @@ import static spark.Spark.post;
 
 import com.google.gson.Gson;
 
+import beans.Administrator;
+import beans.Guest;
+
 import beans.Host;
 import beans.User;
 import dto.LoginDTO;

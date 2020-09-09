@@ -2,6 +2,7 @@ Vue.component("apartment-details", {
 	data: function() {
 		return {
 			apartment: null,
+			id:"",
 			mainPicture: "",
 			pictures: "",
 			numOfRows: "",
@@ -92,6 +93,7 @@ Vue.component("apartment-details", {
         </div>
         <div  v-bind:hidden="canEdit==false" >
         <button v-on:click="EditApartment"class="submit">Izmeni apartman?</button>
+
 		</div> 
 		<div  v-bind:hidden="canDelete==false" >
         	<button v-on:click="deleteApartment" class="submit">Obriši apartman?</button>
@@ -148,6 +150,7 @@ Vue.component("apartment-details", {
 			.get("/apartments/" + this.$route.query.id)
 			.then(response => {
 				this.apartment = response.data;
+				this.id = response.data.id;
 				this.mainPicture = response.data.apartmentPictures[0];
 				this.checkInTime = response.data.checkInTime;
 				this.checkOutTime = response.data.checkOutTime;
@@ -191,9 +194,12 @@ Vue.component("apartment-details", {
 	    		if (response.data == null) {
 	    			this.canEdit = false;
 	    			this.canReserve = false;
+
 					this.canComment = false;
 					this.canDelete = false;
 					console.log("ne valja");
+					this.canComment = true;
+				
 	    		} else 
 	    		{
 	    			if (response.data.role === "Guest") {
@@ -310,7 +316,6 @@ Vue.component("apartment-details", {
 		},
 		EditApartment:function(){
 			window.location.href = "#/edit_apartment?id=" + this.$route.query.id;
-
 		}
 	},
 	components : { 

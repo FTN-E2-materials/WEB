@@ -8,7 +8,7 @@ Vue.component("my_apartments", {
 
     template: `
     <div class="apartment-filter">
-    <h1>Moji apartmani</h1>
+    <h2>Moji apartmani</h2>
     <div class="active-or-not">
         <button class="filter-aparments-btn" v-on:click="getActive">Aktivni apartmani</button>
         <button class="filter-aparments-btn" v-on:click="getInactive">Neaktivni apartmani</button>

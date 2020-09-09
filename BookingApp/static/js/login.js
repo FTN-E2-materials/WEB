@@ -21,7 +21,7 @@
 <div class = "bg-login">
 <div class = "page-login">
     <div class = "form sign-in">
-        <h1 class = "login-h1">Prijava</h1>
+        <h2 class = "login-h1">Prijava</h2>
         <label class = "login-label">
             <span> Korisničko ime </span>
 			<input class = "login-input" type="text" name = "username" v-on:change="signalChange" v-model="usernameLog">
@@ -30,8 +30,9 @@
             <span> Lozinka </span>
 			<input class = "login-input" type="password" name="password" v-model="passwordLog" v-on:change="signalChange">
 			<p style="color:red">{{errorMessage}}</p>
+			<button class="submit-login" v-on:click="tryToLogin"> Prijavi se </button>
         </label>
-        <button class="submit-login" v-on:click="tryToLogin" type="button"> Prijavi se </button>
+        
     </div>
 
 

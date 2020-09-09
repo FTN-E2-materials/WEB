@@ -63,6 +63,7 @@ public class UsersService {
 		return userDao.getByID(username);
 	}
 
+
 	public List<Apartment> getApartmentsForHost(User user) throws JsonSyntaxException, IOException {
 		Host host=(Host) userDao.getByID(user.getUsername());
 		return (List<Apartment>) host.getForRent();

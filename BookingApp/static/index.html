@@ -20,7 +20,6 @@
 		        <li class = "menu"  v-on:click = "getReservations"><a v-on:click = "getReservations">Moje rezervacije</a></li>
 				<li class = "menu" v-bind:hidden="mode!='host'" ><a href="#/my_apartments">Moji apartmani</a></li>
 				<li class = "menu" v-bind:hidden="mode!='admin'"><a href="#/users_preview" v-bind:hidden="mode!='admin'">Pregled korisnika</a></li>
-				<li class = "menu"><a href="#/edit_apartment" v-bind:hidden="mode!='admin'">Uredi apartman</a></li>
 		        <li class = "menu" v-bind:hidden="mode!='admin'"><a href="#/amenities" v-bind:hidden="mode!='admin'">Sadržaji apartmana</a></li>
 		        <li class = "menu" style="float:right" v-bind:hidden="mode!='notLogged'" ><a href="#/login" v-bind:hidden="mode!='notLogged'">Prijavi se</a></li>
 		        <li class = "menu" style="float:right" v-bind:hidden="mode=='notLogged'" v-on:click = "logOut"><a href="#/login" v-bind:hidden="mode=='notLogged'" >Odjavi se</a></li>

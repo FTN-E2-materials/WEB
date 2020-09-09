@@ -12,7 +12,7 @@ Vue.component("change_pass",{
 
     template: `<div class="form-part">
     <h2>Promena lozinke</h2>
-    <div class = "form sign-in">
+    <div class = "form-change-pass">
     
     <label class = "login-label">
         <span> Stara lozinka:</span>
@@ -28,11 +28,11 @@ Vue.component("change_pass",{
     </label>
     <p style="color:red" class = "login-label">{{errorMessage}}</p>
     <tr>
-    <td style="padding-left:125px">
+    <td style="padding-left:337px">
     <button class="side-menu-button"  type="button" v-on:click="changePassword"> Promeni lozinku </button>
     </td>
     <td style="padding-left:15px">
-    <button class="side-menu-button"  type="button" v-on:click="changePassword" v-on:click="CancelChangePass"> Odustani</button>
+    <button class="side-menu-button"  type="button" v-on:click="CancelChangePass"> Odustani</button>
     </td>
     </tr>
     </div>
@@ -93,10 +93,9 @@ Vue.component("change_pass",{
 	            })
         }
         
-        } 
-    },
+    }   
+    ,
     CancelChangePass: function (){
-        this.$router.push("/profile-view");
+        window.location.href = "http://localhost:8088/#/profile-view?id="+this.user.username;
     }
-
-});
+}});
