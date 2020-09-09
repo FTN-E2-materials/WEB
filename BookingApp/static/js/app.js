@@ -12,6 +12,7 @@ const reservations = { template : "<reservations></reservations>" }
 const amenities = { template : "<amenities></amenities>"}
 const edit_apartment = { template : "<edit_apartment></edit_apartment>"}
 const homepage = { template : "<homepage></homepage>" }
+const multiselect = { template : "<multiselect></multiselect>"}
 
 
 const router = new VueRouter({
@@ -37,6 +38,9 @@ const router = new VueRouter({
 var app = new Vue({
     router: router, 
     el: '#webApp',
+    components : {
+    	multiselect
+    },
     data: {
     	mode : 'plsWork',
     	user : {

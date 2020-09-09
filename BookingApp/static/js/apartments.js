@@ -1,6 +1,8 @@
 
 
 Vue.component("apartments", {
+	
+	
 	data: function() {
 		return {
 			apartments : null,
@@ -19,13 +21,14 @@ Vue.component("apartments", {
 	
     
         <div class="filters">
-            <h1>Sortiraj ili filtriraj apartmane:</h1>
-            <div class = "bydate" v-if="mode=='Guest'" >
-                <h1 class="filter-reservations">Filtriraj po sadržaju apartmana:</h1>
-				<select class="multipleSelect" multiple name="amenities">
-				    <option v-for="a of options" value="a.name">{{a.name}}</option>
-				</select>
-            </div>
+            <h1>Naša ponuda:</h1>
+            <div class = "bydate">
+            <h1 class="filter-reservations">Sadržaj </h1>
+			<div id="example">
+			  <select id="multiselect"  class="form-control" name="amenity" multiple="multiple">       
+			  </select>
+			</div>
+			            </div>
 
             <div class = "bycost">
                 <h1 class="filter-reservations">Ceni:</h1>
@@ -123,11 +126,25 @@ Vue.component("apartments", {
 			.then(response => {
 				for (a of response.data) {
 					this.options.push({
-						name : a.amenityName,
-						id : a.id
-					})
+						caption : a.amenityName,
+						value : a.id
+					});
+					console.log(a.amenityName);
 				}
-			})
+
+				var mySelect = new MSFmultiSelect(
+					    document.querySelector('#multiselect'),
+					    {
+					      appendTo: '#example',
+					      selectAll: true
+					      // options here
+					    }
+					);
+				
+				
+					mySelect.loadSource(this.options);
+				});
+			
 		
 	    axios
 	    	.get('/user/seeIfLogged')
