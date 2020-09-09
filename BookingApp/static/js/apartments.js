@@ -1,9 +1,14 @@
+
+
 Vue.component("apartments", {
 	data: function() {
 		return {
 			apartments : null,
 			picture : "",
-			currency : ""
+			currency : "", 
+			options : [],
+			mode : "notLogged",
+			value : ""
 		
 		}
 	
@@ -11,21 +16,15 @@ Vue.component("apartments", {
 	
 	template: `
 	<div>
+	
     
         <div class="filters">
-            <h1>Sortiraj po:</h1>
-            <div class = "bydate">
-                <h1 class="filter-reservations">Datumu:</h1>
-                <div class = "col-filters">
-                    <div class = "col-date">
-                        <input v-on:change="newestSort" type="radio" id="newest" class = "sortbydate" name="sortbydate" value="Najnovije">
-                        <p class = "sortbydate-font">Najnovije</p>
-                    </div>
-                    <div class = "col-date">
-                        <input v-on:change="oldestSort" type="radio" id="oldest" class = "sortbydate" name="sortbydate" value="Najstarije">
-                        <p class = "sortbydate-font">Najstarije</p>
-                    </div>
-                </div>
+            <h1>Sortiraj ili filtriraj apartmane:</h1>
+            <div class = "bydate" v-if="mode=='Guest'" >
+                <h1 class="filter-reservations">Filtriraj po sadržaju apartmana:</h1>
+				<select class="multipleSelect" multiple name="amenities">
+				    <option v-for="a of options" value="a.name">{{a.name}}</option>
+				</select>
             </div>
 
             <div class = "bycost">
@@ -108,6 +107,7 @@ Vue.component("apartments", {
 	`,
 	
 	mounted ()  {
+		$('.multipleSelect').fastselect();
 		axios
 			.get("apartments/getActive")
 			.then(response => {
@@ -118,6 +118,28 @@ Vue.component("apartments", {
 					this.apartments = response.data;
 				}
 			})
+			
+		axios 
+			.get("/amenities")
+			.then(response => {
+				for (a of response.data) {
+					this.options.push({
+						name : a.amenityName,
+						id : a.id
+					})
+				}
+			})
+		
+	    axios
+	    	.get('/user/seeIfLogged')
+	    	.then(response => {
+	    		if (response.data != null) {
+	    			this.mode = response.data.role;
+	    		} else {
+	    			this.mode = "notLogged";
+	    		}
+	    		
+	    	})
 	},
 	methods : {
 		getActive : function() {

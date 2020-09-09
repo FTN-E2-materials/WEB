@@ -91,7 +91,7 @@ public class UsersController {
 			}
 		});
 
-		post("/user/update", (req, res) -> {
+		post("/user/updateUser", (req, res) -> {
 			try {
 				res.type("application/json");
 				return gs.toJson(usersService.updateUser(gs.fromJson(req.body(), User.class)));
