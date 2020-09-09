@@ -13,6 +13,7 @@ const amenities = { template : "<amenities></amenities>"}
 const edit_apartment = { template : "<edit_apartment></edit_apartment>"}
 const homepage = { template : "<homepage></homepage>" }
 
+
 const router = new VueRouter({
     mode : 'hash',
     routes : [

@@ -91,7 +91,7 @@ public class UsersController {
 			}
 		});
 
-		post("/user/update", (req, res) -> {
+		post("/user/updateUser", (req, res) -> {
 			try {
 				res.type("application/json");
 				Session s=req.session(true);
