@@ -23,7 +23,7 @@ public abstract class User implements IIdentifiable<String> {
 		this.surname = surname;
 		this.gender = gender;
 		this.role = role;
-		this.profilePicture=profilePicture;
+		
 	}
 	
 	public String getUsername() {

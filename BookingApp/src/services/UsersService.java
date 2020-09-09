@@ -75,7 +75,6 @@ public class UsersService {
 		return (List<User>) userDao.getAll();
 	}
 
-
 	public boolean isThisMineApartment(String params, Host u) {
 		for (Apartment a : u.getForRent()) {
 			if (a.compareTo(Integer.parseInt(params))) {
