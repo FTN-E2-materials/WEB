@@ -955,6 +955,21 @@ input:focus {
     
 }
 
+.profile-view-part2 {
+    
+    width: 1000px;
+    min-height: 550px;
+    height:fit-content;
+    opacity: 0.9;
+    margin-bottom: 20px;
+    margin-top: 70px;
+    border-radius: 10px;
+    align-content: center;
+    background-color: #fff;
+    box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+    
+}
+
 .button-save-profile-view {
     margin-top: 90px;
     margin-left: 550px;
@@ -997,6 +1012,7 @@ input:focus {
 .row-reservations {
     display: flex;
     margin-left:40px;
+    margin-bottom:20px;
     }
 
 

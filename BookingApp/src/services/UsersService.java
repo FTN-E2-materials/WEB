@@ -73,8 +73,10 @@ public class UsersService {
 		return (List<User>) userDao.getAll();
 	}
 
-	public User updateUser(User fromJson) throws JsonSyntaxException, IOException {
-		return userDao.update(fromJson);
+	public User updateUser(User newUser,User oldUser) throws JsonSyntaxException, IOException {
+		User user=new User(newUser.username,oldUser.password, newUser.name,newUser.surname, newUser.gender,oldUser.role,oldUser.profilePicture);
+		userDao.update(user);
+		return user;
 	}
 
 	public boolean isThisMineApartment(String params, Host u) {

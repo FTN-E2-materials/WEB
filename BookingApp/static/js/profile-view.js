@@ -214,9 +214,11 @@ Vue.component("profile-view", {
             axios
             .post("/user/updateUser", JSON.stringify(userParameters))
             .then(response => {
-                if (response.data == null) {
+                if (response.data !=null && response.data!="") {
+                    toast("Uspesno ste izmenili apartman!");
                     window.location.href = "#/profile_view";
                 } else {
+                    toast("Doslo je do neke greske!");
                     window.location.href = "#/profile_view";
                 }
             })
