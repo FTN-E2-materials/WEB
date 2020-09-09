@@ -1363,6 +1363,7 @@ input[type="search"] {
     margin: 10px;
     height: 150px;
     width: 150px;
+    background-size: cover;
 }
 
 

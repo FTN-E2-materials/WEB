@@ -3,6 +3,7 @@ package controllers;
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
+import static spark.Spark.delete;
 
 import javax.ws.rs.core.Response;
 
@@ -36,6 +37,17 @@ public class ApartmentController {
 			} catch(Exception e) {
 				e.printStackTrace();
 				return "";
+			}
+		});
+		
+		delete("apartment/deleteApartment/:id", (req, res) -> {
+			res.type("application/json");
+			try {
+				apartmentService.deleteAparmtent(req.params("id"));
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
 			}
 		});
 		

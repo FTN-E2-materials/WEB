@@ -27,7 +27,8 @@ Vue.component("apartment-details", {
 			disabledDates: {},
 	        selectedDate : null,
 	        numOfEl : "",
-	        length : ""
+	        length : "",
+	        canDelete : false
 		}
 	},
 	template: `
@@ -91,6 +92,9 @@ Vue.component("apartment-details", {
         </div>
         <div  v-bind:hidden="canEdit==false" >
         <button v-on:click="EditApartment"class="submit">Izmeni apartman?</button>
+		</div> 
+		<div  v-bind:hidden="canDelete==false" >
+        	<button v-on:click="deleteApartment" class="submit">Obriši apartman?</button>
 		</div> 
         <div class = "comments" id="comment-section">
             <p>Komentari:</p>
@@ -188,6 +192,7 @@ Vue.component("apartment-details", {
 	    			this.canEdit = false;
 	    			this.canReserve = false;
 					this.canComment = false;
+					this.canDelete = false;
 					console.log("ne valja");
 	    		} else 
 	    		{
@@ -195,6 +200,7 @@ Vue.component("apartment-details", {
 	    				this.canEdit = false;
 	    				this.canReserve = true;
 						this.canComment = true;
+						this.canDelete = false;
 						//axios za komentarisanje
 	    			} else if (response.data.role === "Host") {
 		    			this.canReserve = false;
@@ -203,17 +209,20 @@ Vue.component("apartment-details", {
 				    	.get("user/canIEdit/" + this.$route.query.id)
 				    	.then(response => {
 				    		this.canEdit = response.data;
+							this.canDelete = response.data;
 				    		
 				    		console.log(response.data);
 				    	});
 		    		} else if (response.data.role === "Administrator") {
-		    			this.canEdit = false;
+		    			this.canEdit = true;
 		    			this.canReserve = false;
 						this.canComment = false;
+						this.canDelete = true;
 		    		
 		    		} else {
 		    			this.canEdit = false;
 		    			this.canReserve = false;
+						this.canDelete = false;
 		    		
 		    		}
 	    			
@@ -262,6 +271,20 @@ Vue.component("apartment-details", {
 					}
 				})
 			
+		},
+		deleteApartment : function() {
+			if (confirm("Da li ste sigurni da želite da obrišete ovaj apartman?")) {
+				axios
+					.delete("apartment/deleteApartment/" + this.$route.query.id)
+					.then(response => {
+						if (response.data) {
+							toast("Uspešno ste obrisali apartman!");
+							window.location.href = "#/apartments";
+						} else {
+							toast("Došlo je do neke greške!");
+						}
+					})
+			}
 		},
 		changeImage : function(next) {
 			this.mainPicture = this.pictures[next];

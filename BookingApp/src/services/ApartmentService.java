@@ -523,4 +523,9 @@ public class ApartmentService {
 		
 		return newApartment;
 	}
+
+	public void deleteAparmtent(String params) throws JsonSyntaxException, NumberFormatException, IOException {
+		apartmentDao.delete(apartmentDao.getByID(Integer.parseInt(params)));
+		
+	}
 }
