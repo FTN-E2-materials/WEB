@@ -259,6 +259,16 @@ public class ApartmentController {
 				return false;
 			}
 		});
+		
+		post("apartment/showComment", (req, res) -> {
+			res.type("application/json");
+			try {
+				return gs.toJson(apartmentService.showComment(gs.fromJson(req.body(), DeleteCommentDTO.class)));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		});
 	}
 	
 	

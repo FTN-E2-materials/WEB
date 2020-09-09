@@ -30,7 +30,8 @@ Vue.component("apartment-details", {
 	        numOfEl : "",
 	        length : "",
 	        canDelete : false,
-	        canDeleteComment : false
+	        canDeleteComment : false,
+	        mode : ""
 		}
 	},
 	template: `
@@ -102,7 +103,7 @@ Vue.component("apartment-details", {
         <div class = "comments" id="comment-section">
             <p>Komentari:</p>
             <div class = "comment-row"  v-for="c in comments">
-            	<div v-if="c.hidden==false">
+            	<div v-if="canSeeDeleted(c)">
 	                <div class = "comment-from">
 	                    <a :href = "'#/profile-view?id=' + c.guest.username">{{c.guest.username}} </a>
 	                </div>
@@ -110,7 +111,8 @@ Vue.component("apartment-details", {
 	                 	<p> {{c.text}} </p>
 	                 </div>
 	                 <div v-bind:hidden="canDeleteComment==false">
-	                 	<a href="#" @click="deleteComment(c)" class="hide-comment"> Sakrij komentar </a>
+	                 	<a v-if="c.hidden==false" href="#" @click="deleteComment(c)" class="hide-comment"> Sakrij komentar </a>
+	                 	<a v-if="c.hidden==true" href="#" @click="showComment(c)" class="hide-comment"> Prikaži komentar </a>
 	                 </div>
                  </div>
             </div>
@@ -209,6 +211,7 @@ Vue.component("apartment-details", {
 				
 	    		} else 
 	    		{
+	    			this.mode = response.data.role;
 	    			if (response.data.role === "Guest") {
 	    				this.canEdit = false;
 	    				this.canReserve = true;
@@ -342,6 +345,42 @@ Vue.component("apartment-details", {
 							this.comments = response.data.comments;
 						}
 					})
+			}
+		},
+		
+		showComment : function (comment) {
+
+			
+			if (confirm("Da li ste sigurni da želite da prikažete komentar?")) {
+				let object = {
+						apId : this.$route.query.id,
+						commentId : comment.id
+				}
+				
+				axios
+					.post("apartment/showComment", JSON.stringify(object))
+					.then(response => {
+						if (response.data) {
+							this.comments = response.data.comments;
+						}
+					})
+			}
+		},
+		canSeeDeleted : function(comment) {
+			if (!comment.hidden) {
+				return true;
+			}
+			
+			if (comment.hidden && this.mode === 'Administrator') {
+				return true;
+			}
+			
+			if (comment.hidden && this.mode === 'Guest') {
+				return false;
+			}
+			
+			if (this.canDeleteComment && comment.hidden && this.mode === 'Host') {
+				return true;
 			}
 		}
 	},

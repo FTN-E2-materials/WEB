@@ -545,4 +545,20 @@ public class ApartmentService {
 		apartmentDao.update(a);
 		return a;
 	}
+
+	public Apartment showComment(DeleteCommentDTO fromJson) throws JsonSyntaxException, IOException {
+		Apartment a = apartmentDao.getByID(fromJson.getApId());
+		List<ApartmentComment> comments = a.getComments();
+		
+		for (ApartmentComment c : comments) {
+			if (c.getId() == fromJson.getCommentId()) {
+				c.setHidden(false);
+				break;
+			}
+		}
+		
+		a.setComments(comments);
+		apartmentDao.update(a);
+		return a;
+	}
 }

@@ -1356,6 +1356,8 @@ input[type="search"] {
     border-width:1px;
     border-style:solid;
     border-color:black;
+    display: table;
+    width: 980px;
 }
 
 .comment-from {
@@ -1372,9 +1374,14 @@ input[type="search"] {
     margin: 10px;
     height: 150px;
     width: 150px;
-    object-fit: contain;
+    object-fit: cover;
 }
 
+.hide-comment {
+    float: right;
+    margin-bottom: 8px;
+    margin-right: 10px;
+}
 
 .col-grade {
     display: flex;
