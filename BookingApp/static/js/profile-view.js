@@ -8,6 +8,7 @@ Vue.component("profile-view", {
             gender: '',
             editMode:false,
             profileImage: '',
+            profileImageForBackend : "",
             isThisMe : false,
             errorMessage:'',
             role:''
@@ -88,15 +89,19 @@ Vue.component("profile-view", {
                 </div>
             </div>
 
+            <div v-bind:hidden="isThisMe==false">
             <div v-bind:hidden="role!='guest'">
             <div class = "username">
             <label class="username2" style="text-decoration:underline;" v-on:click="viewMyReservations">Pregled mojih rezervacija</label>
             </div>
             </div>
+            </div>
 
-            <div v-bind:hidden="role!='host'">
+            <div v-bind:hidden="isThisMe==false">
+            <div v-bind:hidden="role!= 'host'">
             <div class = "username">
             <label class="username2" style="text-decoration:underline;" v-on:click="viewMyApartments">Pregled mojih apartmana</label>
+            </div>
             </div>
             </div>
 
@@ -105,7 +110,7 @@ Vue.component("profile-view", {
             
         </div>
      
-  
+    	<div v-bind:hidden = "isThisMe == false">
         <div v-bind:hidden="editMode==true">
         <button class="profile-view-button" v-on:click="editProfile">Izmena profila</button>
         
@@ -116,7 +121,7 @@ Vue.component("profile-view", {
         <button class="profile-view-button" v-on:click="changePass">Promena lozinke </button>
         </div>
         
-    
+    	</div>
         <div v-bind:hidden="editMode!=true" class="button-save-profile-view">
         <button class="save-button" style="float:left" type="button" v-on:click="UpdateUser"> Sačuvaj izmene </button>
         <button class="save-button" v-on:click="cancelEdit" style="float:left" type="button"> Odustani</button>
@@ -182,8 +187,9 @@ Vue.component("profile-view", {
            
             reader.onload = (e) =>{
             	let img = e.target.result;
-            	img.replace("data:image\/(png|jpg|jpeg);base64", "");
+            	//img.replace("data:image\/(png|jpg|jpeg);base64", "");
             	console.log(img);
+            	this.profileImageForBackend = img;
             }
             reader.readAsDataURL(file);
         },
@@ -208,14 +214,14 @@ Vue.component("profile-view", {
                 name : this.name,
     			surname : this.surname,
                 gender : this.gender,
-                profileImage:this.profileImage
+                profilePicture:this.profileImageForBackend
 
             };
             axios
             .post("/user/updateUser", JSON.stringify(userParameters))
             .then(response => {
                 if (response.data !=null && response.data!="") {
-                    toast("Uspesno ste izmenili apartman!");
+                    toast("Uspesno ste izmenili profil!");
                     window.location.href = "#/profile_view";
                 } else {
                     toast("Doslo je do neke greske!");

@@ -3,6 +3,8 @@ package controllers;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
+import javax.ws.rs.core.Response;
+
 import com.google.gson.Gson;
 
 import beans.Administrator;
@@ -10,6 +12,7 @@ import beans.Guest;
 
 import beans.Host;
 import beans.User;
+import beans.UserRole;
 import dto.LoginDTO;
 import dto.PasswordChangeDTO;
 import dto.ProfileViewDTO;
@@ -96,13 +99,30 @@ public class UsersController {
 				res.type("application/json");
 				Session s=req.session(true);
 				User oldUser=s.attribute("user");
-				User newUser=gs.fromJson(req.body(), User.class));
-				User tryUpdate=gs.toJson(usersService.updateUser(newUser,oldUser));
-				if(tryUpdate!=null)
-				{
-					s.attribute("user",tryUpdate);
+				RegisterDTO newUser=gs.fromJson(req.body(), RegisterDTO.class);
+				
+				if (oldUser == null) {
+					Response.status(403).build();
 				}
-				return tryUpdate;
+				
+				if (oldUser.getRole() == UserRole.Administrator) {
+					Administrator a = (Administrator) oldUser;
+					Administrator forSession = usersService.updateAdmin(newUser, a);
+					s.attribute("user", a);
+					return forSession;
+				} else if (oldUser.getRole() == UserRole.Host) {
+					Host a = (Host) oldUser;
+					Host forSession = usersService.updateHost(newUser, a);
+					s.attribute("user", a);
+					return forSession;
+				} else {
+					Guest a = (Guest) oldUser;
+					Guest forSession = usersService.updateGuest(newUser, a);
+					s.attribute("user", a);
+					
+					return forSession;
+				}
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 				return "";

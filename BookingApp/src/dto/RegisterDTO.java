@@ -8,7 +8,10 @@ public class RegisterDTO {
 	private String username;
 	private String password;
 	private Gender gender;
-	
+	private String profilePicture;
+	public RegisterDTO() {
+		// TODO Auto-generated constructor stub
+	}
 	public RegisterDTO(String name, String surname, String username, String password, Gender gender) {
 		super();
 		this.name = name;
@@ -56,6 +59,14 @@ public class RegisterDTO {
 
 	public void setGender(Gender gender) {
 		this.gender = gender;
+	}
+
+	public String getProfilePicture() {
+		return profilePicture;
+	}
+
+	public void setProfilePicture(String profilePicture) {
+		this.profilePicture = profilePicture;
 	}
 	
 	

@@ -107,7 +107,6 @@ Vue.component("apartments", {
 	`,
 	
 	mounted ()  {
-		$('.multipleSelect').fastselect();
 		axios
 			.get("apartments/getActive")
 			.then(response => {

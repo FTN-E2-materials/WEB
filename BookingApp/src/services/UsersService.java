@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
+import beans.Administrator;
 import beans.Apartment;
 import beans.Gender;
 import beans.Guest;
@@ -19,6 +20,7 @@ import dto.RegisterDTO;
 
 public class UsersService {
 	private UsersDao userDao;
+	private Base64ToImage decoder = new Base64ToImage();
 	
 	public UsersService(UsersDao usersDao) {
 		this.userDao = usersDao;
@@ -73,11 +75,6 @@ public class UsersService {
 		return (List<User>) userDao.getAll();
 	}
 
-	public User updateUser(User newUser,User oldUser) throws JsonSyntaxException, IOException {
-		User user=new User(newUser.username,oldUser.password, newUser.name,newUser.surname, newUser.gender,oldUser.role,oldUser.profilePicture);
-		userDao.update(user);
-		return user;
-	}
 
 	public boolean isThisMineApartment(String params, Host u) {
 		for (Apartment a : u.getForRent()) {
@@ -90,6 +87,63 @@ public class UsersService {
 
 	public boolean canIComment(Guest h, String params) {
 		return h.canIComment(Integer.parseInt(params));
+	}
+
+	public Administrator updateAdmin(RegisterDTO newUser, Administrator a) throws JsonSyntaxException, IOException {
+		a.setGender(newUser.getGender());
+		a.setName(newUser.getName());
+		a.setSurname(newUser.getSurname());
+		if (newUser.getProfilePicture() != null) { 
+			if (!newUser.getProfilePicture().isEmpty() && newUser.getProfilePicture().startsWith("data:image")) {
+				String path = "images/profile_images/u" + newUser.getUsername() +".jpg";
+				System.out.println(path);
+				decoder.Base64DecodeAndSave(newUser.getProfilePicture(), path);
+				path = "./" + "images/profile_images/u" + newUser.getUsername() +".jpg";
+				a.setProfilePicture(path);
+			} else {
+				a.setProfilePicture(newUser.getProfilePicture());
+			}
+		}
+		
+		return (Administrator) userDao.update(a);
+	}
+	
+	public Guest updateGuest(RegisterDTO newUser, Guest a) throws JsonSyntaxException, IOException {
+		a.setGender(newUser.getGender());
+		a.setName(newUser.getName());
+		a.setSurname(newUser.getSurname());
+		if (newUser.getProfilePicture() != null) {
+			if (!newUser.getProfilePicture().isEmpty() && newUser.getProfilePicture().startsWith("data:image")) {
+				String path = "images/profile_images/u" + newUser.getUsername() +".jpg";
+				System.out.println(path);
+				decoder.Base64DecodeAndSave(newUser.getProfilePicture(), path);
+				path = "./" + "images/profile_images/u" + newUser.getUsername() +".jpg";
+				a.setProfilePicture(path);
+			} else {
+				a.setProfilePicture(newUser.getProfilePicture());
+			}
+		
+		}		
+		return (Guest) userDao.update(a);
+	}
+	
+	public Host updateHost(RegisterDTO newUser, Host a) throws JsonSyntaxException, IOException {
+		a.setGender(newUser.getGender());
+		a.setName(newUser.getName());
+		a.setSurname(newUser.getSurname());
+		if (newUser.getProfilePicture() != null) {
+			if (!newUser.getProfilePicture().isEmpty() && newUser.getProfilePicture().startsWith("data:image")) {
+				String path = "images/profile_images/u" + newUser.getUsername() +".jpg";
+				System.out.println(path);
+				decoder.Base64DecodeAndSave(newUser.getProfilePicture(), path);
+				path = "./" + "images/profile_images/u" + newUser.getUsername() +".jpg";
+				a.setProfilePicture(path);
+			} else {
+				a.setProfilePicture(newUser.getProfilePicture());
+			}
+		}
+		
+		return (Host) userDao.update(a);
 	}
 
 	
