@@ -197,5 +197,17 @@ public class UsersController {
 				return false;
 			}
 		});
+		
+		get("user/canIComment/:id", (req, res) -> {
+			res.type("application/json");
+			try {
+				Session ss = req.session(true);
+				Guest h = (Guest)ss.attribute("user");
+				return usersService.canIComment(h, req.params("id"));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		});
 	}
 }

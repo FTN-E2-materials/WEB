@@ -206,7 +206,7 @@ Vue.component("apartment-details", {
 					this.canComment = false;
 					this.canDelete = false;
 					console.log("ne valja");
-					this.canComment = true;
+					this.canComment = false;
 					this.canDeleteComment = false;
 				
 	    		} else 
@@ -215,11 +215,15 @@ Vue.component("apartment-details", {
 	    			if (response.data.role === "Guest") {
 	    				this.canEdit = false;
 	    				this.canReserve = true;
-						this.canComment = true;
 						this.canDelete = false;
 						this.canDeleteComment = false;
-						//axios za komentarisanje
-	    			} else if (response.data.role === "Host") {
+
+						axios 
+							.get("user/canIComment/" + this.$route.query.id)
+							.then(response => {
+								this.canComment = response.data;
+							})
+ 	    			} else if (response.data.role === "Host") {
 		    			this.canReserve = false;
 						this.canComment = false;
 			    		axios

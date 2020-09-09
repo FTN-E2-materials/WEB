@@ -18,6 +18,16 @@ public class Guest extends User {
 		this.rentedApartments = new ArrayList<Apartment>();
 		this.allReservations = new ArrayList<Reservation>();
 	}
+	
+	public boolean canIComment(int id) {
+		for (Reservation r : allReservations) {
+			if (r.getApartment().compareTo(id)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 
 	public List<Apartment> getRentedApartments() {
 		return rentedApartments;

@@ -86,5 +86,9 @@ public class UsersService {
 		return false;
 	}
 
+	public boolean canIComment(Guest h, String params) {
+		return h.canIComment(Integer.parseInt(params));
+	}
+
 	
 }
