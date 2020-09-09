@@ -71,7 +71,7 @@ Vue.component("apartment-details", {
         <div class = "other-image-line">
             <div class = "one-image-row" v-for='i in numOfRows' :key='i'>
                 <div v-for='j in numOfEl' :key='j'>
-					<img v-if="(j+(i-1)*2) < length" v-on:click="changeImage(j+(i-1)*2)" class = "one-image" :src="pictures[j+(i-1)*2]" >
+					<img v-if="(j+(i-1)*2 -1) < length" v-on:click="changeImage(j+(i-1)*2 -1)" class = "one-image" :src="pictures[j+(i-1)*2 -1]" >
                 </div>
 
             </div>

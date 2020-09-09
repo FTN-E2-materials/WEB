@@ -1113,7 +1113,7 @@ input:focus {
     width: 400px;
     height: 250px;
     border-radius: 10px;
-    background-size: contain;
+    background-size: cover;
     margin-left: 70px;
 }
 
@@ -1360,7 +1360,6 @@ input[type="search"] {
 }
 .one-image {
     border-radius: 10px;
-    background-size: cover;
     margin: 10px;
     height: 150px;
     width: 150px;

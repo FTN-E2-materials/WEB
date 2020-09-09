@@ -475,17 +475,15 @@ public class ApartmentService {
 	}
 
 	public Apartment updateApartment(ApartmentDTO apartmentParameters, Host host) throws FileNotFoundException, IOException, ParseException {
-int nextID = apartmentDao.generateNextID();
-		
 		List<String> convertedImages = new ArrayList<String>();
 		int i = 1;
 		for (String s : apartmentParameters.getApartmentPictures()) {
 			++i;
 			if (s.startsWith("data:image")) {
-				String path = "images/apartments/a" + nextID + i + ".jpg";
+				String path = "images/apartments/a" + apartmentParameters.getId() + i + ".jpg";
 				System.out.println(path);
 				decoder.Base64DecodeAndSave(s, path);
-				path = "./" + "images/apartments/a" + nextID + i + ".jpg"; 
+				path = "./" + "images/apartments/a" + apartmentParameters.getId() + i + ".jpg"; 
 				convertedImages.add(path);
 			} else {
 				convertedImages.add(s);

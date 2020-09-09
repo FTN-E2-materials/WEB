@@ -144,15 +144,16 @@ Vue.component("edit_apartment", {
                 <tr><td>Trenutni sadržaj apartmana: </td><td> </td><td></td></tr>
     			<tr  v-for="a in amenities">
     			<td></td>
-		    	<div class = "check-boxes-amenity">
+		    	<div class = "check-boxes-amenity" v-if="a.deleted==false">
 					<div class = "one-check-box">
-						<input type="checkbox" v-model="selectedAmenity"  id="a.id" name="a.id" :value="a.amenityName">	
+						<input v-if="isChecked(a)" @click="checkAmenity(a)" type="checkbox" :id="a.id" :name="a.id" :value="a.amenityName" checked>
+						<input v-else="isChecked(a)" @click="checkAmenity(a)" type="checkbox" :id="a.id" :name="a.id" :value="a.amenityName">	
 						<label class="amenity-label" for="a.amenityName"> {{a.amenityName}}</label><br>
 					</div>
 				</div>
     			</td>
     			</tr>
-    			<tr> <td> Omogući komentare: </td> <td> <input type="checkbox"  @click="checkedComment" id = "commentsEnabled"> Da </td> </tr>
+    			<tr> <td> Omogući komentare: </td> <td> <input type="checkbox" v-if="isCheckedForCom"  @click="checkedComment" id = "commentsEnabled" checked> <input type="checkbox" v-else @click="checkedComment" id = "commentsEnabled"> Da </td> </tr>
     			<tr><td colspan="2" align="center"> <button class="submit-add-apt" v-on:click="addApartment"> Izmeni </button></td> </tr>
             </table>
     <input id="latitude" hidden>
@@ -165,6 +166,8 @@ Vue.component("edit_apartment", {
     mounted () {
         this.next = false;
         console.log(this.next);
+   		
+
         axios
 			.get("/apartments/" + this.$route.query.id)
 			.then(response => {
@@ -185,13 +188,14 @@ Vue.component("edit_apartment", {
 				} else if (response.data.costCurrency == "Dinar") {
 					this.currency = "RSD";
 				} else {
-					this.currency = "Dollar";
+					this.currency = "Dolar";
 				}
 				
 				this.price = response.data.costForNight;
 				this.checkOutTime = response.data.checkOutTime;
 				this.applicationTime = response.data.checkInTime;
 				this.images = response.data.apartmentPictures;
+				
 
 				this.startDate = moment(response.data.periodsForRent.startDate).format("DD.MM.YYYY.");
 				this.endDate = moment(response.data.periodsForRent.endDate).format("DD.MM.YYYY.");
@@ -207,19 +211,26 @@ Vue.component("edit_apartment", {
 			    document.querySelector('#zipCode').value = response.data.location.address.city.zipCode;
 			    
 			    this.imageCount = response.data.apartmentPictures.length;
-			    document.querySelector('#commentsEnabled').value = response.data.commentsEnabled;
+			    this.commentsEnabled = response.data.commentsEnabled;
 			    this.commentsEnabled = response.data.commentsEnabled;
 			    
-			    for (a in response.data.amenities) {
-			    	
-			    	this.selectedAmenity.push(a.amenityName);
+			    for (a of response.data.amenities) {
+			    	console.log(a.amenityName);
+			    	this.selectedAmenity.push({
+			    		name : a.amenityName,
+			    		id : a.id});
 			    }
-			})
+			    
+			    for (image of response.data.apartmentPictures) {
+			    	this.imagesForBackend.push(image);
+			    }
+		});
         axios 
         	.get("/amenities")
         	.then(response => {
-        		this.amenities = response.data
-        	});
+        		this.amenities = response.data;
+ 
+        			});
         
         this.places = places({
         	appId: 'plQ4P1ZY8JUZ',
@@ -250,6 +261,28 @@ Vue.component("edit_apartment", {
     methods : {
     	checkedComment : function() {
     		this.commentsEnabled = !this.commentsEnabled;
+    	},
+    	isCheckedForCom : function() {
+    		return this.commentsEnabled;
+    	},
+    	isChecked : function(amenity) {
+    		for (a of this.selectedAmenity) {
+    			if (a.id == amenity.id) {
+    				return true;
+    			}
+    		}
+    		return false;
+    	},
+    	checkAmenity : function(amenity) {
+    		let newAmenity = [];
+    		for (a of this.selectedAmenity) {
+    			if (!(a.id == amenity.id)) {
+    				newAmenity.push( {
+    					name : a.name,
+    					id : a.id});
+    				}
+    			}
+    		this.selectedAmenity = newAmenity;
     	},
        NextButton : function()
        { 
@@ -354,6 +387,9 @@ Vue.component("edit_apartment", {
             this.createBase64Image(file);
             this.imageCount++;
             this.images.push(URL.createObjectURL(file));
+            for (i of this.images) {
+            	console.log(i);
+            }
         },
         createBase64Image(file){
             const reader= new FileReader();
@@ -426,7 +462,8 @@ Vue.component("edit_apartment", {
 	        	let amenitiesToSend = [];
 	        	for (amenity of this.selectedAmenity) {
 	        		amenitiesToSend.push({
-	        			amenityName : amenity
+	        			amenityName : amenity.name,
+	        			id : amenity.id
 	        		});
 	        	}
 	        	for (i of this.imagesForBackend) {
@@ -455,7 +492,7 @@ Vue.component("edit_apartment", {
 	               // state:'',
 	                location: locationCurr,
 	                costForNight:this.price,
-	                costCurrency:this.currency,
+	                currency:this.currency,
 	                active: false,
 	                checkInTime:this.applicationTime,
 	                checkOutTime:this.checkOutTime,
