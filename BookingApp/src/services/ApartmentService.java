@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Amenity;
@@ -16,6 +17,7 @@ import beans.Apartment;
 import beans.ApartmentAscendingComparator;
 import beans.ApartmentComment;
 import beans.ApartmentDescendingComparator;
+import beans.ApartmentType;
 import beans.DestinationDescendingComparator;
 import beans.Grade;
 import beans.Guest;
@@ -566,6 +568,17 @@ public class ApartmentService {
 	public List<Apartment> filterByAmenity(FilterDTO fromJson) throws JsonSyntaxException, IOException {
 		List<Amenity> amenities = fromJson.getList();
 		List<Apartment> filtered = new ArrayList<Apartment>();
+		ApartmentType type = null;
+		if (fromJson.getType() != null) {
+			if (!fromJson.getType().isEmpty()) {
+				if (fromJson.getType().equals("soba")) {
+					type = ApartmentType.Room;
+				} else {
+					type = ApartmentType.FullApartment;
+				}
+			}
+		}
+		
 		for (Apartment a : getActive())  {
 			boolean flagToAdd = true;
 			for (Amenity am : amenities) {
@@ -576,10 +589,69 @@ public class ApartmentService {
 			}
 			
 			if (flagToAdd) {
-				filtered.add(a);
-				System.out.println("aa");
+				if (type != null) {
+					if (a.getType() == type) {
+						filtered.add(a);
+					}
+				} else {
+					filtered.add(a);
+					System.out.println("aa");
+				}
 			}
  		}
+		
+		if (fromJson.isAscending()) {
+			Collections.sort(filtered, new ApartmentAscendingComparator());
+		} else if (fromJson.isDescending()) {
+			Collections.sort(filtered, new ApartmentDescendingComparator());
+		}
+		
+		System.out.println(filtered.size());
+		return filtered;
+	}
+
+	public List<Apartment> filterByAmenityForAdmin(FilterDTO fromJson) throws JsonSyntaxException, IOException {
+
+		List<Amenity> amenities = fromJson.getList();
+		List<Apartment> filtered = new ArrayList<Apartment>();
+		ApartmentType type = null;
+		if (fromJson.getType() != null) {
+			if (!fromJson.getType().isEmpty()) {
+				if (fromJson.getType().equals("soba")) {
+					type = ApartmentType.Room;
+				} else {
+					type = ApartmentType.FullApartment;
+				}
+			}
+		}
+		
+		for (Apartment a : apartmentDao.getAllNonDeleted())  {
+			boolean flagToAdd = true;
+			for (Amenity am : amenities) {
+				if (!a.doIHaveAmenity(am)) {
+					flagToAdd = false;
+					break;
+				}
+			}
+			
+			if (flagToAdd) {
+				if (type != null) {
+					if (a.getType() == type) {
+						filtered.add(a);
+					}
+				} else {
+					filtered.add(a);
+					System.out.println("aa");
+				}
+			}
+ 		}
+		
+		if (fromJson.isAscending()) {
+			Collections.sort(filtered, new ApartmentAscendingComparator());
+		} else if (fromJson.isDescending()) {
+			Collections.sort(filtered, new ApartmentDescendingComparator());
+		}
+		
 		System.out.println(filtered.size());
 		return filtered;
 	}

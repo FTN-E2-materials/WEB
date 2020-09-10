@@ -274,6 +274,13 @@ public class ApartmentController {
 		post("apartment/filterByAmenity", (req, res) -> {
 			res.type("application/json");	
 			try {
+				Session s = req.session(true);
+				User u = s.attribute("user");
+				if (u != null) {
+					if (u.getRole() == UserRole.Administrator) {
+						return gs.toJson(apartmentService.filterByAmenityForAdmin(gs.fromJson(req.body(), FilterDTO.class)));					
+					}
+				}
 				return gs.toJson(apartmentService.filterByAmenity(gs.fromJson(req.body(), FilterDTO.class)));
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -838,6 +838,26 @@ input:focus {
     box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
 
+.button-x {
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    border-style: none;
+    background: transparent;
+    margin-bottom: 10px;
+
+}
+
+
+.button-x:hover {
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    border-style: none;
+    background: transparent;
+    margin-bottom: 20px;
+    
+}
 
 .filters {
     width: 1000px;

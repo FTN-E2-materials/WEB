@@ -14,7 +14,11 @@ Vue.component("apartments", {
 			filteredApartments : [],
 			omg : null,
 			currentAmenities : [],
-			mySelect : null
+			mySelect : null,
+			ascending : false,
+			descending : false,
+			sort_type : "",
+			apt_type : ""
 		
 		}
 	
@@ -29,39 +33,40 @@ Vue.component("apartments", {
             <div class = "bydate">
             <h1 class="filter-reservations">Sadržaj </h1>
 			<div id="example">
-			  <select id="multiselect" v-on:change="signalChanged" v-on:click="signalChanged"   class="form-control" name="amenity" multiple="multiple">       
+			  <select id="multiselect"    class="form-control" name="amenity" multiple="multiple">       
 			  </select>
 			</div>
-			            </div>
+			</div>
 
             <div class = "bycost">
                 <h1 class="filter-reservations">Ceni:</h1>
                 <div class = "col-filters">
                     <div class = "col-date">
-                        <input v-on:change="mostExpensiveSort" type="radio" id="highest" class = "sortbycost" name="sortbycost" value="Najskuplje">
+                        <input v-on:change="sorting" v-model="sort_type" type="radio" id="highest" class = "sortbycost" name="sortbycost" value="najskuplje">
                         <p class = "sortbydate-font">Najskuplje</p>
                     </div>
                     <div class = "col-date">
-                        <input v-on:change="cheapestSort" type="radio" id="lowest" class = "sortbycost" name="sortbycost" value="Najjeftinije">
+                        <input v-on:change="sorting" v-model="sort_type" type="radio" id="lowest" class = "sortbycost" name="sortbycost" value="najjeftinije">
                         <p class = "sortbydate-font">Najjeftinije</p>
                     </div>
+                    	<button @click="uncheckRadioCost" class = "button-x"> <i class="material-icons">close</i> </button>
                 </div>
             </div>
-            
-            <div class = "bystatus">
-                <h1 class="filter-reservations">Statusu:</h1>
+            <div class = "bycost">
+                <h1 class="filter-reservations">Tip:</h1>
                 <div class = "col-filters">
                     <div class = "col-date">
-
+                        <input v-model="apt_type" type="radio" id="room" class = "sortbycost" name="type" value="soba">
+                        <p class = "sortbydate-font">Soba</p>
                     </div>
                     <div class = "col-date">
-
+                        <input type="radio" v-model="apt_type" id="apartment" class = "sortbycost" name="type" value="apartman">
+                        <p class = "sortbydate-font">Apartman</p>
                     </div>
+                    	<button @click="uncheckRadioType" class = "button-x"> <i class="material-icons">close</i> </button>
                 </div>
-            </div>
-            
             <button class = "submit" @click="search"> Pretraži </button>
-
+			</div>
         </div>
         
         <div class="reservations">
@@ -149,6 +154,10 @@ Vue.component("apartments", {
 					    {
 						      appendTo: '#example',
 						      selectAll: true,
+						      onChange : function(value) {
+						    	  console.log(value);
+						    	  this.sorting();
+						      }
 						      
 					    }
 					 )
@@ -257,33 +266,35 @@ Vue.component("apartments", {
 				}
 			})
 		},
-		signalChanged : function() {
-			
+		uncheckRadioCost : function() {
+			document.getElementById('highest').checked = false;
+			document.getElementById('lowest').checked = false;
+			this.sort_type = "";
+			this.descending = false;
+			this.ascending = false;
 		},
-		newestSort : function() {
-			
+		uncheckRadioType : function() {
+			document.getElementById('room').checked = false;
+			document.getElementById('apartment').checked = false;
+			this.apt_type = "";
 		},
-		
-		oldestSort : function() {
-			
-		}, 
-		showDestinations : function(destination) {
-			axios
-				.get("apartment/getApartmentsByCity/" + destination)
-				.then(response => {
-					if (response.data != null) {
-						this.apartments = response.data;
-						this.filteredApartments = response.data;
-					}
-				});
-		}, 
+		sorting : function() {
+			if (this.sort_type == 'najskuplje') {
+				this.descending = true;
+				this.ascending = false;
+			} else if (this.sort_type == 'najjeftinije') {
+				this.descending = false;
+				this.ascending = true;
+			} else {
+				this.descending = false;
+				this.ascending = false;
+			}
+		},
 		search : function() {
 			for(a of this.mySelect.getData()) {
 				console.log(a);
 			}
-			console.log("ASDSADSADASSAD");
-
-	        if (!(this.mySelect.getData().length== 0)) {
+			
 	        	let objectToSend = [];
 	        	this.apartments = [];
 	        	for (a of this.mySelect.getData()) {
@@ -292,9 +303,12 @@ Vue.component("apartments", {
 	        		});
 	        		console.log(a);
 	        	}
-	        	
+	        	console.log(this.descending);
 	        	let send = {
-	        			list : objectToSend
+	        			list : objectToSend,
+	        			ascending : this.ascending,
+	        			type : this.apt_type,
+	        			descending : this.descending
 	        	};
 	        	
 	        	axios 
@@ -307,23 +321,8 @@ Vue.component("apartments", {
 	        			this.apartments = response.data;
 	        		})
 	
-			} else {
-				axios
-					.get("apartments/getActive")
-					.then(response => {
-						if (response.data == null) {
-							
-						}
-						else {
-							this.filteredApartments = [];
-							this.apartments = response.data;
-
-							}
-					});
-			}
+			
 	      
 		}
 	}
-	
-
 });
