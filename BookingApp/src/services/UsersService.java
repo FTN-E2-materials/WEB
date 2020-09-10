@@ -42,6 +42,57 @@ public class UsersService {
 		return null;
 	}
 
+	public List<User> blockUser(String username) throws JsonSyntaxException, IOException{
+		User seeIfExists = userDao.getByID(username);
+		if (seeIfExists != null) {
+			seeIfExists.setBlocked(true);
+			seeIfExists.setUsername(username);
+			if(seeIfExists.getRole()==UserRole.Host)
+			{
+			
+				Host updatedUser=(Host) userDao.update(seeIfExists);
+				if(updatedUser!=null)
+				{
+					return getAll();
+				}
+			}
+				if(seeIfExists.getRole()==UserRole.Guest)
+			{
+				Guest updatedUser=(Guest) userDao.update(seeIfExists);
+				if(updatedUser!=null)
+				{
+					return getAll();
+				}
+			}
+		}
+		return null;
+	}
+
+	public List<User> UnblockUser(String username) throws JsonSyntaxException, IOException{
+		User seeIfExists = userDao.getByID(username);
+		if (seeIfExists != null) {
+			seeIfExists.setBlocked(false);
+			if(seeIfExists.getRole()==UserRole.Host)
+			{
+			
+				Host updatedUser=(Host) userDao.update(seeIfExists);
+				if(updatedUser!=null)
+				{
+					return getAll();
+				}
+			}
+				if(seeIfExists.getRole()==UserRole.Guest)
+			{
+				Guest updatedUser=(Guest) userDao.update(seeIfExists);
+				if(updatedUser!=null)
+				{
+					return getAll();
+				}
+			}
+		}
+		return null;
+	}
+
 	public User register(RegisterDTO tryRegisterUser) throws JsonSyntaxException, IOException {
 		User seeIfExists = userDao.getByID(tryRegisterUser.getUsername());
 		if (seeIfExists != null) {

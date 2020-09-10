@@ -34,7 +34,7 @@ public class UsersController {
 				User tryLogin = usersService.login(gs.fromJson(req.body(), LoginDTO.class));
 				if (tryLogin != null) {
 					if (tryLogin.isBlocked()) {
-						return "";
+						return "Korisnik je blokiran";
 					}
 					
 					Session session = req.session(true);
@@ -128,6 +128,32 @@ public class UsersController {
 				return "";
 			}
 		});
+		
+		post("/user/blockUser/:id", (req, res) -> {
+			res.type("application/json");
+			try{
+				return gs.toJson(usersService.blockUser(req.params("id")));
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+
+		post("/user/unblockUser/:id", (req, res) -> {
+			res.type("application/json");
+			try{
+				return gs.toJson(usersService.UnblockUser(req.params("id")));
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+
+	
+
+	
 
 		//change password
 		post("/user/changePassword", (req, res) -> {
@@ -237,5 +263,10 @@ public class UsersController {
 				return false;
 			}
 		});
+	}
+
+	private void put (String string, Object object) {
+		// TODO Auto-generated method stub
+		
 	}
 }

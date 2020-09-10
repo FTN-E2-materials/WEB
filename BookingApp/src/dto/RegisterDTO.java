@@ -9,6 +9,7 @@ public class RegisterDTO {
 	private String password;
 	private Gender gender;
 	private String profilePicture;
+	private boolean blocked;
 	public RegisterDTO() {
 		// TODO Auto-generated constructor stub
 	}
@@ -27,6 +28,14 @@ public class RegisterDTO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean getBlocked() {
+		return blocked;
+	}
+
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
 	}
 
 	public String getSurname() {

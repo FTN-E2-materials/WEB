@@ -138,7 +138,12 @@
     			.then(response => {
     				if (response.data == "") {
 						this.errorMessage="Neispravno korisničko ime ili lozinka.";
-    				} else {
+					} 
+					else if (response.data == "Korisnik je blokiran") {
+						this.errorMessage="Blokirani ste i ne možete da se prijavite.";
+					} 
+					
+					else {
     					window.location.href = "http://localhost:8088/";
     				}
 				})

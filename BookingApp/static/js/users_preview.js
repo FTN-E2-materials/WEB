@@ -65,6 +65,17 @@ Vue.component("users_preview" , {
         </div>
    </div>
 
+   <div v-if="user.role!='Administrator'">
+   <div class = "username">
+   <div v-if="user.blocked==false">
+       <label class="username2" style="text-decoration:underline;" @click=" BlockUser(user)">Blokiraj korisnika</label>
+    </div>
+    <div v-else>
+    <label class="username2" style="text-decoration:underline;" @click=" UnblockUser(user)">Odblokiraj korisnika</label>
+    </div>
+   </div>
+   </div>
+
    </div>
    </div>
    </div>
@@ -123,6 +134,17 @@ Vue.component("users_preview" , {
           </div>
        </div>
   </div>
+
+  <div v-if="user.role!='Administrator'">
+   <div class = "username">
+   <div v-if="user.blocked==false">
+       <label class="username2" style="text-decoration:underline;" @click=" BlockUser(user)">Blokiraj korisnika</label>
+    </div>
+    <div v-else>
+    <label class="username2" style="text-decoration:underline;" @click=" UnblockUser(user)">Odblokiraj korisnika</label>
+    </div>
+   </div>
+   </div>
 
   </div>
 
@@ -204,6 +226,32 @@ Vue.component("users_preview" , {
        },
        searchUnactive: function(){
         this.searchMode=false;
-    }
+    },
+        BlockUser:function(u){
+            axios 
+				.post("/user/blockUser/" + u.username)
+				.then(response => {
+					if (response.data == null) {
+						console.log("Ne valja");
+					}
+					else {
+						this.users = response.data;
+					}
+					
+				});
+        },
+        UnblockUser:function(u){
+            axios 
+				.post("/user/unblockUser/" + u.username)
+				.then(response => {
+					if (response.data == null) {
+						console.log("Ne valja");
+					}
+					else {
+						this.users = response.data;
+					}
+					
+				});
+        }
     
 }});
