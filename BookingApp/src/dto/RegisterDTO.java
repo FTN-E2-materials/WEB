@@ -1,6 +1,7 @@
 package dto;
 
 import beans.Gender;
+import beans.UserRole;
 
 public class RegisterDTO {
 	private String name;
@@ -10,6 +11,7 @@ public class RegisterDTO {
 	private Gender gender;
 	private String profilePicture;
 	private boolean blocked;
+	private UserRole role;
 	public RegisterDTO() {
 		// TODO Auto-generated constructor stub
 	}
@@ -76,6 +78,12 @@ public class RegisterDTO {
 
 	public void setProfilePicture(String profilePicture) {
 		this.profilePicture = profilePicture;
+	}
+	public UserRole getRole() {
+		return role;
+	}
+	public void setRole(UserRole role) {
+		this.role = role;
 	}
 	
 	
