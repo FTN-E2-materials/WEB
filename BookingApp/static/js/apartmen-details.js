@@ -31,7 +31,11 @@ Vue.component("apartment-details", {
 	        length : "",
 	        canDelete : false,
 	        canDeleteComment : false,
-	        mode : ""
+			mode : "",
+			
+			nonWorking_days:["1-1-2020","2-1-2020","7-1-2020","27-1-2020",,"15-2-2020","16-2-2020","17-2-2020","10-4-2020"
+			,"11-4-2020","12-4-2020","13-4-2020","22-4-2020","1-5-2020","2-5-2020","9-5-2020","24-5-2020"
+			,"28-6-2020","31-7-2020","10-9-2020","28-9-2020","21-10-2020","25-10-2020","11-11-2020","25-12-2020"]
 		}
 	},
 	template: `
@@ -61,8 +65,8 @@ Vue.component("apartment-details", {
                     <p>{{numOfRooms}}</p>
                 </div>
                 <div class = "one-info">
-                    <p>Cena po noći: </p>
-                    <p>{{costForNight}} {{currency}}</p>
+					<p>Cena po noći: </p>
+					<p>{{costForNight}} {{currency}}</p>
                 </div>
             </div>
             <div class = "ap-desc">
@@ -192,6 +196,18 @@ Vue.component("apartment-details", {
 				
 				for (a of response.data.amenities) {
 					this.amenityDetails = a.amenityName + " ";
+				}
+
+				var d = new Date();
+
+				var datestring = d.getDate()  + "-" + (d.getMonth()+1) + "-" + d.getFullYear();
+				if(d.getDay()==5 ||d.getDay()==6 ||d.getDay()==0)
+				{
+					this.costForNight-=this.costForNight*0.1;
+				}
+				if(this.nonWorking_days.includes(datestring))
+				{
+					this.costForNight+=this.costForNight*0.05;
 				}
 				
 

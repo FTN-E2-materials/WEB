@@ -9,7 +9,11 @@ Vue.component("my_apartments", {
 			ascending : false,
 			descending : false,
 			sort_type : "",
-			apt_type : ""
+			apt_type : "",
+			nonWorking_days:["1-1-2020","2-1-2020","7-1-2020","27-1-2020",,"15-2-2020","16-2-2020","17-2-2020","10-4-2020"
+			,"11-4-2020","12-4-2020","13-4-2020","22-4-2020","1-5-2020","2-5-2020","9-5-2020","24-5-2020"
+			,"28-6-2020","31-7-2020","28-9-2020","21-10-2020","25-10-2020","11-11-2020","10-9-2020","25-12-2020"]
+	
         }
     },
 
@@ -100,7 +104,25 @@ Vue.component("my_apartments", {
 				}
 				else {
 					this.apartments = response.data;
-				}
+					var d = new Date();
+					var datestring = d.getDate()  + "-" + (d.getMonth()+1) + "-" + d.getFullYear();
+			
+					let updatedApartments=[];
+					for(let i=0;i<this.apartments.length;i++)
+						{
+							if(d.getDay()==5 ||d.getDay()==6 ||d.getDay()==0)
+							{
+								this.apartments[i].costForNight=this.apartments[i].costForNight*0.9;
+							}
+							if(this.nonWorking_days.includes(datestring))
+							{
+								this.apartments[i].costForNight=this.apartments[i].costForNight*1.05;
+							}
+							updatedApartments.push(this.apartments[i]);
+						
+						}
+						this.apartments=updatedApartments;
+					}
 			});
 
 		axios 
@@ -129,9 +151,11 @@ Vue.component("my_apartments", {
 					 )
 
 				this.mySelect.loadSource(this.options);
+
+				
 				
 			});
-        
+		
        
     },
     methods : {
