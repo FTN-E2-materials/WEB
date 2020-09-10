@@ -7,7 +7,9 @@ Vue.component("reservations", {
 			cost : "",
 			status : "",
 			currency : "",
-			mode : "notLogged"
+			mode : "notLogged",
+			mySelect : null,
+			options : []
 		}
 	},
 	
@@ -16,20 +18,6 @@ Vue.component("reservations", {
     <div class="page">
         <div class="filters">
             <h1>Sortiraj po:</h1>
-            <div class = "bydate">
-                <h1 class="filter-reservations">Datumu:</h1>
-                <div class = "col-filters">
-                    <div class = "col-date">
-                        <input type="radio" id="newest" class = "sortbydate" name="sortbydate" value="Najnovije">
-                        <p class = "sortbydate-font">Najnovije</p>
-                    </div>
-                    <div class = "col-date">
-                        <input type="radio" id="oldest" class = "sortbydate" name="sortbydate" value="Najstarije">
-                        <p class = "sortbydate-font">Najstarije</p>
-                    </div>
-                </div>
-            </div>
-
             <div class = "bycost">
                 <h1 class="filter-reservations">Ceni:</h1>
                 <div class = "col-filters">
@@ -45,14 +33,11 @@ Vue.component("reservations", {
             </div>
             <div class = "bystatus">
                 <h1 class="filter-reservations">Statusu:</h1>
-                <div class = "col-filters">
-                    <div class = "col-date">
+              		<div id="example">
+						  <select id="multiselect"    class="form-control" name="amenity" multiple="multiple">       
+						  </select>
+						</div>
 
-                    </div>
-                    <div class = "col-date">
-
-                    </div>
-                </div>
             </div>
 
         </div>
@@ -124,6 +109,7 @@ Vue.component("reservations", {
 	    		} else 
 	    		{
 	    			if (response.data.role == "Guest") {
+
 	    				this.mode = 'guest';
 	    			} else if (response.data.role == "Host") {
 		    			this.mode = 'host';
@@ -136,6 +122,39 @@ Vue.component("reservations", {
 	    		toast("hello");
 	    		console.log(this.mode);
 	    	})
+	    	
+	    	
+			this.mySelect = new MSFmultiSelect(
+				document.querySelector('#multiselect'),
+					{
+						appendTo: '#example',
+						selectAll: true,
+						      
+					}	
+				)
+		
+		this.options.push({
+			caption : "Kreirana",
+			value : 1
+		});
+		this.options.push({
+			caption : "Prihvaćena",
+			value : 2
+		});	    				
+		this.options.push({
+			caption : "Odbijena",
+			value : 3
+		});
+		this.options.push({
+			caption : "Završena",
+			value : 4
+		});
+		this.options.push({
+			caption : "Odustanak",
+			value : 5
+		});
+		
+		this.mySelect.loadSource(this.options);
 	},
 	
 	methods : {

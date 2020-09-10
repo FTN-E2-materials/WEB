@@ -12,17 +12,16 @@ const reservations = { template : "<reservations></reservations>" }
 const amenities = { template : "<amenities></amenities>"}
 const edit_apartment = { template : "<edit_apartment></edit_apartment>"}
 const homepage = { template : "<homepage></homepage>" }
-const multiselect = { template : "<multiselect></multiselect>"}
 
 
 const router = new VueRouter({
     mode : 'hash',
-    routes : [
+    routes : [ 
+		{ path : "/apartments", component: apartments },
 		{ path : '/login', component: login },
 		{ path : '/profile-view', component: profile_view },
 		{ path : '/change_pass', component: change_pass },
-		{ path : '/edit_profile', component: edit_profile }, 
-		{ path : "/apartments", component: apartments },
+		{ path : '/edit_profile', component: edit_profile },
 		{ path : "/details", component: apartmentDetails },
 		{ path : "/users_preview", component: users_preview },
 		{ path : "/search", component: searchApartment },
@@ -31,16 +30,12 @@ const router = new VueRouter({
 		{ path : "/reservations", component: reservations },
 		{ path : "/amenities", component: amenities },
 		{ path : "/edit_apartment", component: edit_apartment },
-		{ path : "/homepage", component : homepage }
     ]
 });
 
 var app = new Vue({
     router: router, 
     el: '#webApp',
-    components : {
-    	multiselect
-    },
     data: {
     	mode : 'plsWork',
     	user : {

@@ -451,29 +451,36 @@ public class ApartmentService {
 		return filteredByApartment;
 	}
 
-	public List<Apartment> getActiveForHost(User host) {
+	public List<Apartment> getActiveForHost(User host) throws JsonSyntaxException, IOException {
 		if (host.getRole() != UserRole.Host) {
 			return null;
 		}
 		Host hostToGet = (Host) host;
 		List<Apartment> retVal = new ArrayList<Apartment>();
 		for (Apartment a : hostToGet.getForRent()) {
-			if (a.isActive()) {
-				retVal.add(a);
+			System.out.println(a.getID());
+			Apartment a1 = apartmentDao.getByID(a.getID());
+			if (a1 != null) {
+				if (a1.isActive()) {
+					retVal.add(a1);
+				}
 			}
 		}
 		return retVal;
 	}
 
-	public List<Apartment>  getInactiveForHost(User host) {
+	public List<Apartment>  getInactiveForHost(User host) throws JsonSyntaxException, IOException {
 		if (host.getRole() != UserRole.Host) {
 			return null;
 		}
 		Host hostToGet = (Host) host;
 		List<Apartment> retVal = new ArrayList<Apartment>();
 		for (Apartment a : hostToGet.getForRent()) {
-			if (!a.isActive()) {
-				retVal.add(a);
+			Apartment a1 = apartmentDao.getByID(a.getID());
+			if (a1 != null) {
+				if (!a1.isActive()) {
+					retVal.add(a1);
+				}
 			}
 		}
 		return retVal;
@@ -654,5 +661,65 @@ public class ApartmentService {
 		
 		System.out.println(filtered.size());
 		return filtered;
+	}
+
+	public List<Apartment> filterForHost(FilterDTO fromJson, Host host) throws JsonSyntaxException, IOException {
+
+		List<Amenity> amenities = fromJson.getList();
+		List<Apartment> filtered = new ArrayList<Apartment>();
+		ApartmentType type = null;
+		if (fromJson.getType() != null) {
+			if (!fromJson.getType().isEmpty()) {
+				if (fromJson.getType().equals("soba")) {
+					type = ApartmentType.Room;
+				} else {
+					type = ApartmentType.FullApartment;
+				}
+			}
+		}
+		
+		for (Apartment a : getActiveForHost(host))  {
+			boolean flagToAdd = true;
+			for (Amenity am : amenities) {
+				if (!a.doIHaveAmenity(am)) {
+					flagToAdd = false;
+					break;
+				}
+			}
+			
+			if (flagToAdd) {
+				if (type != null) {
+					if (a.getType() == type) {
+						filtered.add(a);
+					}
+				} else {
+					filtered.add(a);
+					System.out.println("aa");
+				}
+			}
+ 		}
+		
+		if (fromJson.isAscending()) {
+			Collections.sort(filtered, new ApartmentAscendingComparator());
+		} else if (fromJson.isDescending()) {
+			Collections.sort(filtered, new ApartmentDescendingComparator());
+		}
+		
+		System.out.println(filtered.size());
+		return filtered;
+	}
+
+	public List<Apartment> deactivateApartment(String params, Host h) throws JsonSyntaxException, IOException {
+		Apartment a = apartmentDao.getByID(Integer.parseInt(params));
+		a.setActive(false);
+		apartmentDao.update(a);
+		return getActiveForHost(h);
+	}
+
+	public List<Apartment> activateApartment(String params, Host h) throws JsonSyntaxException, IOException {
+		Apartment a = apartmentDao.getByID(Integer.parseInt(params));
+		a.setActive(true);
+		apartmentDao.update(a);
+		return getInactiveForHost(h);
 	}
 }

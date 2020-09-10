@@ -65,8 +65,9 @@ Vue.component("apartments", {
                     </div>
                     	<button @click="uncheckRadioType" class = "button-x"> <i class="material-icons">close</i> </button>
                 </div>
+            </div>
             <button class = "submit" @click="search"> Pretraži </button>
-			</div>
+
         </div>
         
         <div class="reservations">

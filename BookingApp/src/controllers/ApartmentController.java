@@ -287,6 +287,49 @@ public class ApartmentController {
 				return Response.status(500).build();
 			}
 		});
+		
+		post("apartment/filterAptForHost", (req, res) -> {
+			res.type("application/json");	
+			try {
+				Session s = req.session(true);
+				User u = s.attribute("user");
+				if (u != null) {
+					if (u.getRole() != UserRole.Host) {
+						return null;					
+					}
+				}
+				return gs.toJson(apartmentService.filterForHost(gs.fromJson(req.body(), FilterDTO.class), (Host) u));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return Response.status(500).build();
+			}
+		});
+		
+		put("apartment/deactivate/:id", (req, res) -> {
+			res.type("application/json");
+			
+			try {
+				Session ss = req.session(true);
+				Host h = (Host) ss.attribute("user");
+				return gs.toJson(apartmentService.deactivateApartment(req.params("id"), h));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		put("apartment/activate/:id", (req, res) -> {
+			res.type("application/json");
+			
+			try {
+				Session ss = req.session(true);
+				Host h = (Host) ss.attribute("user");
+				return gs.toJson(apartmentService.activateApartment(req.params("id"), h));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
+		
 	}
 	
 	
