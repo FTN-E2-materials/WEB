@@ -772,14 +772,13 @@ public class ApartmentService {
 		for (Reservation r : reservations) {
 			boolean flag = true;
 			for (ReservationStatus status : fromJson.getStatus()) {
-				if (!(r.getStatus() == status)) {
-					flag = false;
+				if ((r.getStatus() == status)) {
+					retVal.add(r);
 				}
+				
 			}
+			System.out.println("asdsa" + fromJson.getStatus().size());
 			
-			if (flag) {
-				retVal.add(r);
-			}
 		}
 		
 		if (fromJson.isAscending()) {

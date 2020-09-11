@@ -23,11 +23,11 @@ Vue.component("reservations", {
                 <h1 class="filter-reservations">Ceni:</h1>
                 <div class = "col-filters">
                     <div class = "col-date">
-                        <input type="radio" id="highest" v-model="sort_type" class = "sortbycost" name="sortbycost" value="descending">
+                        <input type="radio" id="highest" v-model="sort_type" class = "sortbycost" name="sortbycost" value="ascending">
                         <p class = "sortbydate-font">Najskuplje</p>
                     </div>
                     <div class = "col-date">
-                        <input type="radio" id="lowest" v-model="sort_type" class = "sortbycost" name="sortbycost" value="ascending">
+                        <input type="radio" id="lowest" v-model="sort_type" class = "sortbycost" name="sortbycost" value="descending">
                         <p class = "sortbydate-font">Najjeftinije</p>
                     </div>
                     <button @click="uncheckRadioCost" class = "button-x"> <i class="material-icons">close</i> </button>
@@ -295,15 +295,16 @@ Vue.component("reservations", {
 			}
 			let statuses = [];
 			for (value of this.mySelect.getData()) {
-				if (value == 2) {
+				console.log(value);
+				if (value == 1) {
 					statuses.push('Created');
-				} else if (value == 3) {
+				} else if (value == 2) {
 					statuses.push('Accepted') 
-				} else if (value == 4) {
+				} else if (value == 3) {
 					statuses.push('Declined');
-				} else if (value == 5) {
+				} else if (value == 4) {
 					statuses.push('Finished');
-				} else if (value == 6) {
+				} else if (value == 5) {
 					statuses.push('Withdrawn');
 				}
 			}
