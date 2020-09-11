@@ -99,8 +99,8 @@ public class UsersService {
 			return null;
 		}
 		
-		User newUser = new Guest(tryRegisterUser.getName(), tryRegisterUser.getSurname(),
-				tryRegisterUser.getUsername(), tryRegisterUser.getPassword(), 
+		User newUser = new Guest(tryRegisterUser.getUsername(), tryRegisterUser.getPassword(),
+				tryRegisterUser.getName(), tryRegisterUser.getSurname(), 
 				tryRegisterUser.getGender(), UserRole.Guest);
 		System.out.println(tryRegisterUser.getUsername());
 		userDao.create(newUser);
