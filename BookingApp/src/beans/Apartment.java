@@ -241,6 +241,7 @@ public class Apartment implements IIdentifiable<Integer> {
 	}
 	
 	public boolean isValidPeriod(Date startDate, Date endDate) {
+		// TODO! Popravi algoritam glupa si
 		boolean flag = false;
 		for (Period p : periodsForRent) {
 			if (startDate.compareTo(p.getStartDate()) >= 0) {

@@ -362,6 +362,23 @@ public class ApartmentController {
 				return Response.status(500).build();
 			}
 		});
+		
+		post("apartment/filterReservations", (req, res) -> {
+			try {
+				res.type("application/json");
+				Session ss = req.session(true);
+				User u = ss.attribute("user");
+				if (u == null) {
+					return Response.status(403).build();
+				}
+				
+				return gs.toJson(apartmentService.filterReservations(gs.fromJson(req.body(), FilterDTO.class), u));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
+		});
 	}
 	
 	

@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Amenity;
@@ -24,6 +23,8 @@ import beans.Guest;
 import beans.Host;
 import beans.Period;
 import beans.Reservation;
+import beans.ReservationAscendingComparator;
+import beans.ReservationDescendingComparator;
 import beans.ReservationStatus;
 import beans.User;
 import beans.UserRole;
@@ -443,7 +444,7 @@ public class ApartmentService {
 					filteredByUser.add(r);
 				}
 			}
-			
+			System.out.println(filteredByUser.size());
 			return filteredByUser;
 		} else if (user.getRole() == UserRole.Guest) {
 			Guest guest = (Guest) user;
@@ -756,5 +757,36 @@ public class ApartmentService {
 
 	public List<Reservation> getReservationsForAdmin() throws JsonSyntaxException, IOException {
 		return reservationDao.getAllNonDeleted();
+	}
+
+	public List<Reservation> filterReservations(FilterDTO fromJson, User u) throws JsonSyntaxException, IOException {
+		List<Reservation> reservations = new ArrayList<Reservation>();
+		List<Reservation> retVal = new ArrayList<Reservation>();
+		
+		if (u.getRole() == UserRole.Administrator) {
+			reservations = this.getReservationsForAdmin();
+		} else {
+			reservations = this.getReservationsByUser(u.getUsername());
+		}
+		
+		for (Reservation r : reservations) {
+			boolean flag = true;
+			for (ReservationStatus status : fromJson.getStatus()) {
+				if (!(r.getStatus() == status)) {
+					flag = false;
+				}
+			}
+			
+			if (flag) {
+				retVal.add(r);
+			}
+		}
+		
+		if (fromJson.isAscending()) {
+			Collections.sort(retVal, new ReservationAscendingComparator());
+		} else if (fromJson.isDescending()) {
+			Collections.sort(retVal, new ReservationDescendingComparator());
+		}
+		return retVal;
 	}
 }

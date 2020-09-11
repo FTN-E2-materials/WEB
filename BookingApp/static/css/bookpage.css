@@ -1055,10 +1055,10 @@ input:focus {
 }
 
 .reservation-image {
-    width: 300px;   
+    width: 400px;   
     margin: 10px;
     border-radius: 10px;
-    height: 200px;
+    height: 280px;
 }
 
 .image-source {

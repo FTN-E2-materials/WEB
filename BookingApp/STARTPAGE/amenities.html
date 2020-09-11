@@ -104,3 +104,122 @@
 
 </body>
 </html>
+
+
+<div class="page">
+    <div class="filters">
+        <h1>Sortiraj po:</h1>
+        <div class = "bycost">
+            <h1 class="filter-reservations">Ceni:</h1>
+            <div class = "col-filters">
+                <div class = "col-date">
+                    <input type="radio" id="highest" v-model="sort_type" class = "sortbycost" name="sortbycost" value="descending">
+                    <p class = "sortbydate-font">Najskuplje</p>
+                </div>
+                <div class = "col-date">
+                    <input type="radio" id="lowest" v-model="sort_type" class = "sortbycost" name="sortbycost" value="ascending">
+                    <p class = "sortbydate-font">Najjeftinije</p>
+                </div>
+                <button @click="uncheckRadioCost" class = "button-x"> <i class="material-icons">close</i> </button>
+            
+            </div>
+        </div>
+        <div class = "bystatus">
+            <h1 class="filter-reservations">Statusu:</h1>
+                  <div id="example">
+                      <select id="multiselect"    class="form-control" name="amenity" multiple="multiple">       
+                      </select>
+                    </div>
+
+        </div>
+        
+        <button class = "submit" @click="search"> Pretraži </button>
+
+    </div>
+
+    <div class="reservations">
+        <div class = "row-reservations" v-for = "r in reservations">
+            <div class="col-with-picture">
+                <h1 class = "reservation-destination">{{r.apartment.apartmentTitle}}</h1>
+                <p class = "reservation-date">Datum rezervacije: {{parseDate(r.startDate)}}</p>
+                <div class = "col-picture">
+                    <div>				
+                        <img :src="r.apartment.apartmentPictures[0]" class= "reservation-image" alt = "a.apartmentTitle">
+                    </div>
+                </div>
+            </div>
+            <div class="col-informations">
+                <h1 class = "info-reservation">Broj noćenja: {{r.numberOfNights}}</h1>
+                <h1 class = "info-reservation">Status: {{getStatus(r)}}</h1>
+                <p class = "reservation-date">Poruka o rezervaciji: {{r.message}}</p>
+                <h1 class = "info-reservation" v-if="r.apartment.costCurrency == 'Euro'">Ukupna cena: {{r.cost}} eura</h1>
+                <h1 class = "info-reservation" v-if="r.apartment.costCurrency == 'Dollar'">Ukupna cena: {{r.cost}} dolara</h1>
+                <h1 class = "info-reservation" v-if="r.apartment.costCurrency == 'Dinar'">Ukupna cena: {{r.cost}} dinara</h1>
+
+                <h1 class = "info-reservation" v-if="mode!='guest'">Korisničko ime gosta: {{r.guest.username}}</h1>
+                <h1 class = "info-reservation" v-if="mode!='host'">Korisničko ime domaćina: {{r.apartment.hostUsername}}</h1>
+
+                <div class="more-buttons">
+                        <div class = "one-button">
+                            <div class = "icons">
+                                <i class="material-icons">information</i>
+                            </div>
+                            <a  :href="'#/details?id=' + r.apartment.id" class = "link">Pregledaj apartman</a>
+                        </div>  
+                        <div class = "one-button" v-if="mode=='host'">
+                            <div v-if="r.status == 'Created'">
+
+                                <div class = "icons">
+                                    <i class="material-icons">menu</i>
+                                </div>   
+                                   <a class="link" href="#" v-on:click="acceptReservation(r)">Prihvati rezervaciju</a>
+                           </div>
+                        </div>
+                        <div class = "one-button" v-if="mode=='host'">
+                            <div  v-if="r.status == 'Created'">
+                                <div class = "icons">
+                                    <i class="material-icons">menu</i>
+                                </div>   
+                                   <a class="link" href = "#" v-on:click="declineReservation(r)">Odbij rezervaciju</a>
+                            </div>
+                        
+                        <div class = "one-button" v-if="mode=='host'">
+                        
+                            <div v-if="r.status=='Accepted'">
+                            <div class = "icons">
+                                <i class="material-icons">menu</i>
+                            </div>   
+                                <a class="link" href="#" v-on:click="declineReservation(r)" >Odbij rezervaciju</a>
+                            </div>
+                       </div>
+                        <div class = "one-button" v-if="mode=='host'">
+                            <div  v-if="isFinished(r)">
+                            <div class = "icons">
+                                <i class="material-icons">menu</i>
+                            </div>  
+                            
+                                <a class="link" href="#" v-on:click="finishReservation(r)">Završi rezervaciju</a>
+                               </div>
+                       </div>
+                        </div>                          
+                    </div>
+                </div>                    
+                        <div class = "one-button">
+                               
+                               <div v-if="mode=='guest'">
+                                   <div v-if="r.status=='Accepted'">
+                                    <div class = "icons">
+                                        <i class="material-icons">menu</i>
+                                    </div>   
+                                    <a class="link" href="#" v-on:click="withdrawReservation(r)" >Otkaži rezervaciju</a>
+                                </div>
+                                   <div v-if="r.status=='Created'">
+                                    <div class = "icons">
+                                        <i class="material-icons">menu</i>
+                                    </div>   
+                                    <a class="link" href="#" v-on:click="withdrawReservation(r)" >Otkaži rezervaciju</a>
+                                </div>
+                               </div>
+                        </div>          
+    </div>
+             
