@@ -49,8 +49,9 @@ public class UsersService {
 			seeIfExists.setUsername(username);
 			if(seeIfExists.getRole()==UserRole.Host)
 			{
-			
+				
 				Host updatedUser=(Host) userDao.update(seeIfExists);
+				
 				if(updatedUser!=null)
 				{
 					return getAll();
@@ -99,12 +100,18 @@ public class UsersService {
 			return null;
 		}
 		
-		User newUser = new Guest(tryRegisterUser.getUsername(), tryRegisterUser.getPassword(),
-				tryRegisterUser.getName(), tryRegisterUser.getSurname(), 
-				tryRegisterUser.getGender(), UserRole.Guest);
-		System.out.println(tryRegisterUser.getUsername());
-		userDao.create(newUser);
-		return newUser;
+
+		if (tryRegisterUser.getRole() == UserRole.Host) {
+			Host newHost = new Host(tryRegisterUser.getUsername(), tryRegisterUser.getPassword(), tryRegisterUser.getName(), tryRegisterUser.getSurname(), tryRegisterUser.getGender(), tryRegisterUser.getRole());
+			userDao.create(newHost);
+			return newHost;
+		} else if (tryRegisterUser.getRole() == UserRole.Guest)  {
+			Guest guest = new Guest(tryRegisterUser.getUsername(), tryRegisterUser.getPassword(), tryRegisterUser.getName(), tryRegisterUser.getSurname(), tryRegisterUser.getGender(), tryRegisterUser.getRole());
+			userDao.create(guest);
+			return guest;
+		}
+		return null;
+
 	}
 
 	public User changePassword(User user, String newPass) throws JsonSyntaxException, IOException {
@@ -145,10 +152,10 @@ public class UsersService {
 		a.setSurname(newUser.getSurname());
 		if (newUser.getProfilePicture() != null) { 
 			if (!newUser.getProfilePicture().isEmpty() && newUser.getProfilePicture().startsWith("data:image")) {
-				String path = "images/profile_images/u" + newUser.getUsername() +".jpg";
+				String path = "images/profile_images/u" + a.getUsername() +".jpg";
 				System.out.println(path);
 				decoder.Base64DecodeAndSave(newUser.getProfilePicture(), path);
-				path = "./" + "images/profile_images/u" + newUser.getUsername() +".jpg";
+				path = "./" + "images/profile_images/u" + a.getUsername() +".jpg";
 				a.setProfilePicture(path);
 			} else {
 				a.setProfilePicture(newUser.getProfilePicture());
@@ -164,10 +171,10 @@ public class UsersService {
 		a.setSurname(newUser.getSurname());
 		if (newUser.getProfilePicture() != null) {
 			if (!newUser.getProfilePicture().isEmpty() && newUser.getProfilePicture().startsWith("data:image")) {
-				String path = "images/profile_images/u" + newUser.getUsername() +".jpg";
+				String path = "images/profile_images/u" + a.getUsername() +".jpg";
 				System.out.println(path);
 				decoder.Base64DecodeAndSave(newUser.getProfilePicture(), path);
-				path = "./" + "images/profile_images/u" + newUser.getUsername() +".jpg";
+				path = "./" + "images/profile_images/u" + a.getUsername() +".jpg";
 				a.setProfilePicture(path);
 			} else {
 				a.setProfilePicture(newUser.getProfilePicture());
@@ -183,10 +190,10 @@ public class UsersService {
 		a.setSurname(newUser.getSurname());
 		if (newUser.getProfilePicture() != null) {
 			if (!newUser.getProfilePicture().isEmpty() && newUser.getProfilePicture().startsWith("data:image")) {
-				String path = "images/profile_images/u" + newUser.getUsername() +".jpg";
+				String path = "images/profile_images/u" + a.getUsername() +".jpg";
 				System.out.println(path);
 				decoder.Base64DecodeAndSave(newUser.getProfilePicture(), path);
-				path = "./" + "images/profile_images/u" + newUser.getUsername() +".jpg";
+				path = "./" + "images/profile_images/u" + a.getUsername() +".jpg";
 				a.setProfilePicture(path);
 			} else {
 				a.setProfilePicture(newUser.getProfilePicture());

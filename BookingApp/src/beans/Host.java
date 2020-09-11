@@ -64,6 +64,11 @@ public class Host extends User {
 	}
 	
 	public boolean isApartmentMine(Apartment a) {
+		for (Apartment ap : this.forRent) {
+			if (ap.compareTo(a.getID())) {
+				return true;
+			}
+		}
 		return false;
 	}
 

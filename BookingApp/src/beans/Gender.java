@@ -1,5 +1,5 @@
 package beans;
 
 public enum Gender {
-	Male, Female;
+	Male, Female, Other;
 }

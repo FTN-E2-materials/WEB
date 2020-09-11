@@ -3,12 +3,14 @@ package dto;
 import java.util.List;
 
 import beans.Amenity;
+import beans.ReservationStatus;
 
 public class FilterDTO {
 	private List<Amenity> list;
 	private boolean ascending;
 	private boolean descending;
 	private String type;
+	private List<ReservationStatus> status;
 	
 	public FilterDTO() {
 		// TODO Auto-generated constructor stub
@@ -36,6 +38,12 @@ public class FilterDTO {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public List<ReservationStatus> getStatus() {
+		return status;
+	}
+	public void setStatus(List<ReservationStatus> status) {
+		this.status = status;
 	}
 	
 	

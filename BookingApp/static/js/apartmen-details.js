@@ -32,6 +32,8 @@ Vue.component("apartment-details", {
 	        canDelete : false,
 	        canDeleteComment : false,
 			mode : "",
+			numOfNights : "",
+			message : "",
 			
 			nonWorking_days:["1-1-2020","2-1-2020","7-1-2020","27-1-2020",,"15-2-2020","16-2-2020","17-2-2020","10-4-2020"
 			,"11-4-2020","12-4-2020","13-4-2020","22-4-2020","1-5-2020","2-5-2020","9-5-2020","24-5-2020"
@@ -85,16 +87,27 @@ Vue.component("apartment-details", {
             </div>
         </div>
 		<div>
-		<div v-bind:hidden="canReserve==false">
-		<button v-on:click="showForm" class="submit">Rezerviši?</button>
-		</div>
-        	<div v-bind:hidden="reserve==false">
+		
+        </div>
+        <div v-bind:hidden="canReserve==false">
+		
+		
+        	<div>
         	<div class = "reserve-apartment">
 	        	<p> Unesite željeni datum: </p>
 	        	<vuejs-datepicker name="startDate" class = "date-res" type="date" v-model="selectedDate" :disabledDates="disabledDates" format="dd.MM.yyyy."></vuejs-datepicker>
-	            <p> Broj noćenja: </p>
-	            <input type = "number" class = "number">     
+
+ 
             </div>
+            <div class = "reserve-apartment">
+            	<p> Broj noćenja: </p>
+	            <input type = "number" min="1" v-model="numOfNights" class = "number">     
+            </div>
+            <div class ="reserve-apartment">
+            	<p> Poruka domaćinu: </p>
+	            <input type = "text" v-model="message">  
+	         </div>
+            <button v-on:click="showForm" class="submit">Rezerviši</button>
             </div>
         </div>
         <div  v-bind:hidden="canEdit==false" >
@@ -211,6 +224,38 @@ Vue.component("apartment-details", {
 				}
 				
 
+
+			    axios 
+		    	.get("apartments/getDisabledDates/" + this.$route.query.id)
+		    	.then(response => {
+		    		let disabled = [];
+		    		for (reservation of response.data) {
+
+			    		let date = moment(reservation.startDate).format("YYYY-MM-DD");
+			    		let toDate = new Date(date);
+			    		console.log(date);
+		    			disabled.push({from : toDate, to : new Date(toDate.getTime() + reservation.numberOfNights*24*60*60*1000)});
+		    		}
+
+				    let lastDate = new Date();
+					for (period of this.apartment.periodsForRent) {
+			    		let date = moment(period.startDate).format("YYYY-MM-DD");
+			    		let toDate = new Date(date);
+				    	if (this.isAfterToday(toDate)) {
+				    		disabled.push({
+					    		from : lastDate,
+					    		to : toDate
+					    	});
+					    	lastDate = new Date(moment(period.endDate).format("YYYY-MM-DD"));
+				    	}
+				    }
+					
+					for (a of disabled) {
+						console.log(a.from + " " + a.to);
+					}
+					this.disabledDates["ranges"] = disabled;
+					this.disabledDates["to"] = new Date(Date.now());
+		    	})
 			});
 	    axios
 	    	.get('/user/seeIfLogged')
@@ -224,6 +269,7 @@ Vue.component("apartment-details", {
 					console.log("ne valja");
 					this.canComment = false;
 					this.canDeleteComment = false;
+					console.log("wuuuuuuuuuuuuuuuuuuuut");
 				
 	    		} else 
 	    		{
@@ -233,6 +279,7 @@ Vue.component("apartment-details", {
 	    				this.canReserve = true;
 						this.canDelete = false;
 						this.canDeleteComment = false;
+						console.log("wut");
 
 						axios 
 							.get("user/canIComment/" + this.$route.query.id)
@@ -272,6 +319,14 @@ Vue.component("apartment-details", {
 
 	},
 	methods : {
+		isAfterToday : function(date) {
+			if (date.getTime() <= (new Date()).getTime()) {
+				return false;
+			} else {
+				return true;
+				console.log("ASdassa");
+			}
+		},
 		leaveComment : function() {
 			let commentParameters = {
 					text : this.textComment,
@@ -330,22 +385,26 @@ Vue.component("apartment-details", {
 			console.log(next);
 		},
 		showForm : function() {
-
-		    axios 
-	    	.get("apartments/getDisabledDates/" + this.$route.query.id)
-	    	.then(response => {
-	    		let disabled = [];
-	    		for (reservation of response.data) {
-
-		    		let date = moment(reservation.startDate).format("YYYY-MM-DD");
-		    		let toDate = new Date(date);
-		    		console.log(date);
-	    			disabled.push({from : toDate, to : new Date(toDate.getTime() + reservation.numberOfNights*24*60*60*1000)});
-	    		}
-				this.disabledDates["ranges"] = disabled;
-				this.disabledDates["to"] = new Date(Date.now() - 8640000);
-	    	})
-			this.reserve = true;
+			let parameters = {
+				apartment : this.apartment,
+				startDate : moment(this.selectedDate).format("DD.MM.YYYY."),
+				numberOfNights : this.numOfNights,
+				message : this.message
+			};
+			
+			axios 
+				.post("apartment/reserveApartment", JSON.stringify(parameters))
+				.then(response => {
+					if (response.status == 500) {
+						toast("Došlo je do greške na serveru.");
+					} else {
+						if (response.data != null) {
+							toast("Uspešno ste rezervisalil apartman!");
+						} else {
+							toast("Nemoguće je rezervisati apartman u tom periodu!");
+						}
+					}
+				})
 		},
 		EditApartment:function(){
 			window.location.href = "#/edit_apartment?id=" + this.$route.query.id;

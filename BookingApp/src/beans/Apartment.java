@@ -1,6 +1,7 @@
 package beans;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Apartment implements IIdentifiable<Integer> {
@@ -22,6 +23,8 @@ public class Apartment implements IIdentifiable<Integer> {
 	private boolean deleted;
 	private List<Amenity> amenities;
 	private List<Period> periodsForRent;
+	private boolean hostBlocked;
+	private String hostUsername;
 	
 	public Apartment() {}
 	
@@ -219,5 +222,34 @@ public class Apartment implements IIdentifiable<Integer> {
 		}
 		
 		return false;
+	}
+
+	public boolean isHostBlocked() {
+		return hostBlocked;
+	}
+
+	public void setHostBlocked(boolean hostBlocked) {
+		this.hostBlocked = hostBlocked;
+	}
+
+	public String getHostUsername() {
+		return hostUsername;
+	}
+
+	public void setHostUsername(String hostUsername) {
+		this.hostUsername = hostUsername;
+	}
+	
+	public boolean isValidPeriod(Date startDate, Date endDate) {
+		// TODO! Popravi algoritam glupa si
+		boolean flag = false;
+		for (Period p : periodsForRent) {
+			if (startDate.compareTo(p.getStartDate()) >= 0) {
+				if (endDate.compareTo(p.getEndDate()) <= 0) {
+					flag = true;
+				}
+			}
+		}
+		return flag;
 	}
 }

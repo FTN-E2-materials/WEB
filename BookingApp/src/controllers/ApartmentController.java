@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 import com.google.gson.Gson;
 
 import beans.Apartment;
+import beans.Guest;
 import beans.Host;
 import beans.ReservationStatus;
 import beans.User;
@@ -18,6 +19,7 @@ import dto.ApartmentDTO;
 import dto.CommentDTO;
 import dto.DeleteCommentDTO;
 import dto.FilterDTO;
+import dto.ReservationDTO;
 import dto.SearchDTO;
 import services.ApartmentService;
 import spark.Session;
@@ -89,10 +91,20 @@ public class ApartmentController {
 			}
 		});
 		
-		get("apartments/reservations/:id", (req, res) -> {
+		get("apartment/reservationsForUser", (req, res) -> {
 			res.type("application/json");
 			try {
-				return gs.toJson(apartmentService.getReservationsByUser(req.params("id")));
+				Session s = req.session(true);
+				User u = s.attribute("user");
+				if (u == null) {
+					return Response.status(403).build();
+				} 
+				
+				if (u.getRole() == UserRole.Administrator) {
+					return gs.toJson(apartmentService.getReservationsForAdmin());
+				} else {
+					return gs.toJson(apartmentService.getReservationsByUser(u.getUsername()));
+				}
 			} catch(Exception e) {
 				e.printStackTrace();
 				return "";
@@ -330,6 +342,43 @@ public class ApartmentController {
 			}
 		});
 		
+		post("apartment/reserveApartment", (req, res) -> {
+			res.type("application/json");
+			try {
+				Session ss = req.session(true);
+				User u = ss.attribute("user");
+				if (u == null) {
+					return Response.status(403).build();
+				}
+				
+				if (u.getRole() != UserRole.Guest) {
+					return Response.status(403).build();
+				}
+				
+				return gs.toJson(apartmentService.reserveApartment(gs.fromJson(req.body(), ReservationDTO.class), (Guest) u));
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				return Response.status(500).build();
+			}
+		});
+		
+		post("apartment/filterReservations", (req, res) -> {
+			try {
+				res.type("application/json");
+				Session ss = req.session(true);
+				User u = ss.attribute("user");
+				if (u == null) {
+					return Response.status(403).build();
+				}
+				
+				return gs.toJson(apartmentService.filterReservations(gs.fromJson(req.body(), FilterDTO.class), u));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
+		});
 	}
 	
 	

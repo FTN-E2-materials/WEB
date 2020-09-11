@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Amenity;
@@ -24,6 +23,8 @@ import beans.Guest;
 import beans.Host;
 import beans.Period;
 import beans.Reservation;
+//import beans.ReservationAscendingComparator;
+//import beans.ReservationDescendingComparator;
 import beans.ReservationStatus;
 import beans.User;
 import beans.UserRole;
@@ -69,7 +70,7 @@ public class ApartmentService {
 				apartmentParameters.getNumberOfGuests(), apartmentParameters.getLocation(), new ArrayList<ApartmentComment>(), 
 				apartmentParameters.getCostForNight(), true, apartmentParameters.getCheckInTime(), apartmentParameters.getCheckOutTime(), convertedImages);
 		newApartment.setID(nextID);
-		
+		newApartment.setHostUsername(host.getUsername());
 		newApartment.setCommentsEnabled(apartmentParameters.isCommentsEnabled());
 		newApartment.setCostCurrency(apartmentParameters.getCurrency());
 		newApartment.setAmenities(apartmentParameters.getAmenities());
@@ -102,7 +103,8 @@ public class ApartmentService {
 		ArrayList<Apartment> apartments = (ArrayList<Apartment>) apartmentDao.getAllNonDeleted();
 		ArrayList<Apartment> activeApartments = new ArrayList<Apartment>();
 		for (Apartment a : apartments) {
-			if (a.isActive()) {
+			Host h = (Host) userDao.getByID(a.getHostUsername());
+			if (a.isActive() && !h.isBlocked()) {
 				activeApartments.add(a);
 			}
 			
@@ -124,12 +126,15 @@ public class ApartmentService {
 	}
 	
 	public List<Apartment> getApartmentsByCity(String city) throws JsonSyntaxException, IOException {
-		List<Apartment> apartments = apartmentDao.getAll();
+		List<Apartment> apartments = apartmentDao.getAllNonDeleted();
 		List<Apartment> filtered = new ArrayList<Apartment>();
 		
 		for (Apartment a : apartments) {
-			if (a.getLocation().getAddress().getCity().getCity().toLowerCase().contains(city)) {
-				filtered.add(a);
+			Host h = (Host) userDao.getByID(a.getHostUsername());
+			if (a.isActive() && !h.isBlocked()) {
+				if (a.getLocation().getAddress().getCity().getCity().toLowerCase().contains(city)) {
+					filtered.add(a);
+				}
 			}
 		}
 		return filtered;
@@ -193,8 +198,36 @@ public class ApartmentService {
 		}
 	}
 
-	public boolean reserveApartment(ReservationDTO reservation) {
-		return false;
+	public Reservation reserveApartment(ReservationDTO reservation, Guest guest) throws ParseException, JsonSyntaxException, IOException {
+		Date startDate = null;
+		if (reservation.getStartDate() != null) {
+			startDate = new SimpleDateFormat("dd.MM.yyyy.").parse(reservation.getStartDate());
+		} 
+		
+		Date endDate = new Date(startDate.getTime() + reservation.getNumberOfNights()*24*60*60*1000);
+		boolean flag = true;
+		if (reservation.getApartment().isValidPeriod(startDate, endDate)) {
+
+			for (Reservation r : reservationDao.getAllNonDeleted()) {
+				if (r.getApartment().compareTo(reservation.getApartment().getID())) {
+					if (r.isDateInIntersection(startDate, endDate)) {
+						flag = false;
+					}
+				}
+			}
+		} else {
+			flag = false;
+		}
+		
+		if (flag) {
+			Reservation r = new Reservation(reservation.getApartment(), startDate, reservation.getNumberOfNights(), 
+					reservation.getApartment().getCostForNight()*reservation.getNumberOfNights(),
+					reservation.getMessage(), guest, ReservationStatus.Created);
+			reservationDao.create(r);
+			return r;
+		}
+		
+		return null;
 	}
 	
 	public void cancelReservation(Reservation reservation) {
@@ -242,10 +275,6 @@ public class ApartmentService {
 		ArrayList<Apartment> allApartments = (ArrayList<Apartment>) apartmentDao.getAllNonDeleted();
 		ArrayList<Apartment> sortedList = new ArrayList<Apartment>();
 		
-		return null;
-	}
-	
-	public List<Apartment> sortOldest() {
 		return null;
 	}
 	
@@ -336,33 +365,36 @@ public class ApartmentService {
 		List<Apartment> filtered = new ArrayList<Apartment>();
 		boolean addAp = false;
 		for (Apartment a : allApartments) {
-			addAp = false;
-			if (!fromJson.getLocation().isEmpty()) {
-				if (fromJson.getLocation().toLowerCase().contains(a.getLocation().getAddress().getCity().getCity().toLowerCase())
-						|| fromJson.getLocation().toLowerCase().contains(a.getLocation().getAddress().getCity().getState().getState().toLowerCase()) ) {
-					addAp = true;
-				} else {
-					break;
+			Host h = (Host) userDao.getByID(a.getHostUsername());
+			if (a.isActive() && !h.isBlocked()) {
+				addAp = false;
+				if (!fromJson.getLocation().isEmpty()) {
+					if (fromJson.getLocation().toLowerCase().contains(a.getLocation().getAddress().getCity().getCity().toLowerCase())
+							|| fromJson.getLocation().toLowerCase().contains(a.getLocation().getAddress().getCity().getState().getState().toLowerCase()) ) {
+						addAp = true;
+					} else {
+						break;
+					}
 				}
-			}
-			
-			if (!fromJson.getNumberOfGuests().isEmpty()) {
-					if (Integer.parseInt(fromJson.getNumberOfGuests()) == a.getNumberOfGuests()) {
+				
+				if (!fromJson.getNumberOfGuests().isEmpty()) {
+						if (Integer.parseInt(fromJson.getNumberOfGuests()) == a.getNumberOfGuests()) {
+							addAp = true;
+						} else {
+							addAp = false;
+						}
+				}
+				
+				if (!fromJson.getNumberOfRooms().isEmpty()) {
+					if (Integer.parseInt(fromJson.getNumberOfRooms()) == a.getNumberOfRooms()) {
 						addAp = true;
 					} else {
 						addAp = false;
 					}
-			}
-			
-			if (!fromJson.getNumberOfRooms().isEmpty()) {
-				if (Integer.parseInt(fromJson.getNumberOfRooms()) == a.getNumberOfRooms()) {
-					addAp = true;
-				} else {
-					addAp = false;
 				}
-			}
-			if (addAp) {
-				filtered.add(a);
+				if (addAp) {
+					filtered.add(a);
+				}
 			}
 		}
 		
@@ -412,7 +444,7 @@ public class ApartmentService {
 					filteredByUser.add(r);
 				}
 			}
-			
+			System.out.println(filteredByUser.size());
 			return filteredByUser;
 		} else if (user.getRole() == UserRole.Guest) {
 			Guest guest = (Guest) user;
@@ -509,7 +541,7 @@ public class ApartmentService {
 		newApartment.setCommentsEnabled(apartmentParameters.isCommentsEnabled());
 		newApartment.setCostCurrency(apartmentParameters.getCurrency());
 		newApartment.setAmenities(apartmentParameters.getAmenities());
-		
+		newApartment.setHostUsername(host.getUsername());
 		List<Period> periods = apartmentDao.getByID(apartmentParameters.getId()).getPeriodsForRent();
 
 		Period p = new Period();
@@ -721,5 +753,39 @@ public class ApartmentService {
 		a.setActive(true);
 		apartmentDao.update(a);
 		return getInactiveForHost(h);
+	}
+
+	public List<Reservation> getReservationsForAdmin() throws JsonSyntaxException, IOException {
+		return reservationDao.getAllNonDeleted();
+	}
+
+	public List<Reservation> filterReservations(FilterDTO fromJson, User u) throws JsonSyntaxException, IOException {
+		List<Reservation> reservations = new ArrayList<Reservation>();
+		List<Reservation> retVal = new ArrayList<Reservation>();
+		
+		if (u.getRole() == UserRole.Administrator) {
+			reservations = this.getReservationsForAdmin();
+		} else {
+			reservations = this.getReservationsByUser(u.getUsername());
+		}
+		
+		for (Reservation r : reservations) {
+			boolean flag = true;
+			for (ReservationStatus status : fromJson.getStatus()) {
+				if ((r.getStatus() == status)) {
+					retVal.add(r);
+				}
+				
+			}
+			System.out.println("asdsa" + fromJson.getStatus().size());
+			
+		}
+		
+	//	if (fromJson.isAscending()) {
+		//	Collections.sort(retVal, new ReservationAscendingComparator());
+	//	} else if (fromJson.isDescending()) {
+	//		Collections.sort(retVal, new ReservationDescendingComparator());
+	//	}
+		return retVal;
 	}
 }

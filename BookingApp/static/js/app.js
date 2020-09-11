@@ -12,6 +12,7 @@ const reservations = { template : "<reservations></reservations>" }
 const amenities = { template : "<amenities></amenities>"}
 const edit_apartment = { template : "<edit_apartment></edit_apartment>"}
 const homepage = { template : "<homepage></homepage>" }
+const add_nonWorkingDays={template:"<add_nonWorkingDays></add_nonWorkingDays>"}
 
 
 const router = new VueRouter({
@@ -30,6 +31,7 @@ const router = new VueRouter({
 		{ path : "/reservations", component: reservations },
 		{ path : "/amenities", component: amenities },
 		{ path : "/edit_apartment", component: edit_apartment },
+		{ path : "/add_nonWorkingDays", component: add_nonWorkingDays}
     ]
 });
 

@@ -9,7 +9,8 @@ Vue.component("reservations", {
 			currency : "",
 			mode : "notLogged",
 			mySelect : null,
-			options : []
+			options : [],
+			sort_type : ""
 		}
 	},
 	
@@ -22,13 +23,15 @@ Vue.component("reservations", {
                 <h1 class="filter-reservations">Ceni:</h1>
                 <div class = "col-filters">
                     <div class = "col-date">
-                        <input type="radio" id="highest" class = "sortbycost" name="sortbycost" value="Najskuplje">
+                        <input type="radio" id="highest" v-model="sort_type" class = "sortbycost" name="sortbycost" value="ascending">
                         <p class = "sortbydate-font">Najskuplje</p>
                     </div>
                     <div class = "col-date">
-                        <input type="radio" id="lowest" class = "sortbycost" name="sortbycost" value="Najjeftinije">
+                        <input type="radio" id="lowest" v-model="sort_type" class = "sortbycost" name="sortbycost" value="descending">
                         <p class = "sortbydate-font">Najjeftinije</p>
                     </div>
+                    <button @click="uncheckRadioCost" class = "button-x"> <i class="material-icons">close</i> </button>
+                
                 </div>
             </div>
             <div class = "bystatus">
@@ -39,6 +42,8 @@ Vue.component("reservations", {
 						</div>
 
             </div>
+            
+            <button class = "submit" @click="search"> Pretraži </button>
 
         </div>
 
@@ -55,17 +60,14 @@ Vue.component("reservations", {
                 </div>
                 <div class="col-informations">
                     <h1 class = "info-reservation">Broj noćenja: {{r.numberOfNights}}</h1>
-                    <h1 class = "info-reservation" v-if="r.status=='Accepted'">Status: Prihvaceno</h1>
-                    <h1 class = "info-reservation" v-if="r.status=='Rejected'">Status: Odbijeno</h1>
-                    <h1 class = "info-reservation" v-if="r.status=='Withdrawn'">Status: Otkazano</h1>
-                    <h1 class = "info-reservation" v-if="r.status=='Created'">Status: Kreirano</h1>
-                    <h1 class = "info-reservation" v-if="r.status=='Finished'">Status: Zavrseno</h1>
+                    <h1 class = "info-reservation">Status: {{getStatus(r)}}</h1>
                     <p class = "reservation-date">Poruka o rezervaciji: {{r.message}}</p>
                     <h1 class = "info-reservation" v-if="r.apartment.costCurrency == 'Euro'">Ukupna cena: {{r.cost}} eura</h1>
                     <h1 class = "info-reservation" v-if="r.apartment.costCurrency == 'Dollar'">Ukupna cena: {{r.cost}} dolara</h1>
                     <h1 class = "info-reservation" v-if="r.apartment.costCurrency == 'Dinar'">Ukupna cena: {{r.cost}} dinara</h1>
 
-                    <h1 class = "info-reservation">Korisnicko ime gosta: {{r.guest.username}}</h1>
+                    <h1 class = "info-reservation" v-if="mode!='guest'">Korisničko ime gosta: {{r.guest.username}}</h1>
+                    <h1 class = "info-reservation" v-if="mode!='host'">Korisničko ime domaćina: {{r.apartment.hostUsername}}</h1>
 
                     <div class="more-buttons">
                             <div class = "one-button">
@@ -73,30 +75,73 @@ Vue.component("reservations", {
                                     <i class="material-icons">information</i>
                                 </div>
                                 <a  :href="'#/details?id=' + r.apartment.id" class = "link">Pregledaj apartman</a>
-                            </div>                          
-                        </div>
-                    </div>                    
-                            <div class = "one-button">
-                                <button class = "submit" v-on:click="acceptReservation(r)"  v-if="r.stauts=='Created' && mode=='host'">Prihvati rezervaciju</button>
-                                <button class = "submit" v-on:click="declineReservation(r)" v-if="(r.stauts=='Created' && mode=='host') || (r.status == 'Accepted' && mode=='host')">Odbij rezervaciju</button>
-                                <button class = "submit" v-on:click="finishReservation(r)" v-if="r.stauts=='Accepted' && isFinished(r.startDate) == true && mode=='host'">Završi rezervaciju</button>
-                                <button class = "submit" v-on:click="withdrawReservation(r)" v-if="r.stauts=='Accepted'== true && mode=='guest'">Otkaži rezervaciju</button>
-                                <button class = "submit" v-on:click="withdrawReservation(r)" v-if="r.stauts=='Created' == true && mode=='host'">Otkaži rezervaciju</button>
-                            </div>                          
-                        </div>
-                </div>
-               
+                            </div>  
+                            <div  v-if="mode=='host'">
+                            	<div v-if="r.status == 'Created'" class = "one-button">
+
+	                                <div class = "icons">
+	                                    <i class="material-icons">menu</i>
+	                                </div>   
+	                               	<a class="link" href="#" v-on:click="acceptReservation(r)">Prihvati rezervaciju</a>
+	                           </div>
+	                        </div>
+	                        <div  v-if="mode=='host'">
+	                            <div  v-if="r.status == 'Created'" class = "one-button">
+		                        	<div class = "icons">
+		                            	<i class="material-icons">menu</i>
+		                            </div>   
+	                               	<a class="link" href = "#" v-on:click="declineReservation(r)">Odbij rezervaciju</a>
+	                            </div>
+	                        </div>
+	                        <div v-if="mode=='host'">
+	                        
+	                            <div v-if="r.status=='Accepted'" class = "one-button" >
+	                        	<div class = "icons">
+	                            	<i class="material-icons">menu</i>
+	                            </div>   
+	                            	<a class="link" href="#" v-on:click="declineReservation(r)" >Odbij rezervaciju</a>
+	                            </div>
+	                       </div>
+	                        <div v-if="mode=='host'">
+	                        	<div  v-if="isFinished(r)" class = "one-button" >
+	                        	<div class = "icons">
+	                            	<i class="material-icons">menu</i>
+	                            </div>  
+	                            
+	                            	<a class="link" href="#" v-on:click="finishReservation(r)">Završi rezervaciju</a>
+	                           	</div>
+	                       </div>               
+                            <div>
+                           		
+                           		<div v-if="mode=='guest'"  class = "one-button">
+	                           		<div v-if="r.status=='Accepted'">
+			                        	<div class = "icons">
+			                            	<i class="material-icons">menu</i>
+			                            </div>   
+		                            	<a class="link" href="#" v-on:click="withdrawReservation(r)" >Otkaži rezervaciju</a>
+		                            </div>
+	                           		<div v-if="r.status=='Created'"  class = "one-button">
+			                        	<div class = "icons">
+			                            	<i class="material-icons">menu</i>
+			                            </div>   
+		                            	<a class="link" href="#" v-on:click="withdrawReservation(r)" >Otkaži rezervaciju</a>
+		                            </div>
+                           		</div>
+                            </div>          
+                                            
+                 </div>
+
             </div>
-
-
         </div>
+    </div>
+</div>
 
 	
 	`,
 	
 	mounted() {
 		axios
-			.get("/apartments/reservations/" + this.$route.query.id)
+			.get("/apartment/reservationsForUser")
 			.then(response => {
 				this.reservations = response.data;
 			});
@@ -113,6 +158,7 @@ Vue.component("reservations", {
 	    				this.mode = 'guest';
 	    			} else if (response.data.role == "Host") {
 		    			this.mode = 'host';
+		    			console.log("asdsad");
 		    		} else if (response.data.role == "Administrator") {
 		    			this.mode = 'admin';
 		    		} else {
@@ -150,7 +196,7 @@ Vue.component("reservations", {
 			value : 4
 		});
 		this.options.push({
-			caption : "Odustanak",
+			caption : "Otkazane",
 			value : 5
 		});
 		
@@ -161,9 +207,32 @@ Vue.component("reservations", {
 		parseDate : function(date) {
 			return moment(date).format("DD.MM.YYYY."); 
 		},
-		
-		isFinished : function(date) {
-			return moment(date).format("DD.MM.YYYY.").isBefore(moment())
+		getStatus : function(r) {
+			if (r.status == 'Created') {
+				return 'Kreirano';
+			} else if (r.status == 'Accepted') {
+				return 'Prihvaćeno';
+			} else if (r.status == 'Declined') {
+				return 'Odbijeno';
+			} else if (r.status == 'Withdrawn') {
+				return 'Otkazano';
+			} else if (r.status == 'Finished') {
+				return 'Završeno';
+			} else {
+				return "";
+			}
+		},
+		uncheckRadioCost : function() {
+			document.getElementById('highest').checked = false;
+			document.getElementById('lowest').checked = false;
+			this.sort_type = "";
+		},
+		isFinished : function(r) {
+			if (r.status == 'Accepted' && new Date(moment(r.startDate).format("DD.MM.YYYY.")).getTime() >= new Date().getTime()) {
+				return true; 
+			} else {
+				return false;
+			}
 		},
 		acceptReservation : function(reservation) {
 			axios
@@ -175,6 +244,7 @@ Vue.component("reservations", {
 						toast("O ne, dogodila se greška prilikom prihvatanja rezervacije!");
 					}
 				});
+			this.search();
 		},
 		declineReservation : function(reservation) {
 			axios
@@ -186,6 +256,7 @@ Vue.component("reservations", {
 					toast("O ne, dogodila se greška prilikom prihvatanja rezervacije!");
 				}
 			});
+			this.search();
 		},
 		withdrawReservation : function(reservation) {
 			axios
@@ -197,6 +268,7 @@ Vue.component("reservations", {
 					toast("O ne, dogodila se greška prilikom prihvatanja rezervacije!");
 				}
 			});
+			this.search();
 		}, 
 		finishReservation : function(reservation) {
 			axios
@@ -208,9 +280,48 @@ Vue.component("reservations", {
 					toast("O ne, dogodila se greška prilikom prihvatanja rezervacije!");
 				}
 			});
+			this.search();
 		},
 		message : function() {
 			toast("wut");
+		},
+		search : function() {
+			let ascending = false;
+			let descending = false;
+			if (this.sort_type === 'ascending') {
+				ascending = true;
+			} else if (this.sort_type === 'descending') {
+				descending = true;
+			}
+			let statuses = [];
+			for (value of this.mySelect.getData()) {
+				console.log(value);
+				if (value == 1) {
+					statuses.push('Created');
+				} else if (value == 2) {
+					statuses.push('Accepted') 
+				} else if (value == 3) {
+					statuses.push('Declined');
+				} else if (value == 4) {
+					statuses.push('Finished');
+				} else if (value == 5) {
+					statuses.push('Withdrawn');
+				}
+			}
+			let parameters = {
+					ascending : ascending,
+					descending : descending, 
+					status : statuses
+			}
+			axios
+				.post("apartment/filterReservations", JSON.stringify(parameters))
+				.then (response => {
+					if(response.data != null) {
+						this.reservations = response.data;
+					} else {
+						toast("Došlo je do neke greške!");
+					}
+				});
 		}
 	}
 	

@@ -13,7 +13,8 @@
 		    	passwordRepeat: '',
 			    passwordLog:'',
 				errorMessage:'',
-				registrationError: ''
+				registrationError: '',
+				roleRegister : ""
 		    }
 	},
 	
@@ -94,6 +95,21 @@
 	</tr>
 	</label>
 	
+	<label class = "login-label">
+	<span>Uloga</span>
+	
+	<tr class="radio_button">
+	<td>
+	<input type="radio" id="guest" name="role" value="Guest" v-model="roleRegister" style="width:70px;">
+	<span for="male" style="width:70px;">Gost</span>
+	</td>
+	<td>
+	<input type="radio" id="host" name="role" value="Host" v-model="roleRegister"  style="width:70px;">
+	<span for="female"  style="width:70px;">Domaćin</span>
+	</td>
+	</tr>
+	</label>
+	
 	<p style="color:red">{{registrationError}}</p>
     <button type="button" class="submit-reg" v-on:click="registerUser">Registrujte se</button>
 </div>
@@ -155,7 +171,7 @@
     	registerUser : function() {
 			let flag=true;
 			
-			if(this.nameRegister=="" ||this.surnameRegister=="" ||this.usernameRegister=="" ||this.passwordRegister=="" || this.genderRegister=="")
+			if(this.nameRegister=="" || this.roleRegister == "" ||this.surnameRegister=="" ||this.usernameRegister=="" ||this.passwordRegister=="" || this.genderRegister=="")
 			{
 				registrationError="Morate popuniti sva polja u formi.";
 				flag=false;
@@ -170,15 +186,17 @@
 				let genderReg;
 				if (this.genderRegister == 'Musko') {
 					genderReg = 'Male';
-				} else {
+				} else if(this.genderRegister == 'Zensko'){
 					genderReg = 'Female';
+				} else {
+					genderReg = 'Other';
 				}
 				let registrationParameters = {
     				name : this.nameRegister,
     				surname : this.surnameRegister,
     				username : this.usernameRegister,
     				password : this.passwordRegister,
-    				role : 'Guest',
+    				role : this.roleRegister,
     				gender : genderReg
     		};
 
