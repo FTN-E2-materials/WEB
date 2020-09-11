@@ -49,8 +49,9 @@ public class UsersService {
 			seeIfExists.setUsername(username);
 			if(seeIfExists.getRole()==UserRole.Host)
 			{
-			
+				
 				Host updatedUser=(Host) userDao.update(seeIfExists);
+				
 				if(updatedUser!=null)
 				{
 					return getAll();
@@ -149,10 +150,10 @@ public class UsersService {
 		a.setSurname(newUser.getSurname());
 		if (newUser.getProfilePicture() != null) { 
 			if (!newUser.getProfilePicture().isEmpty() && newUser.getProfilePicture().startsWith("data:image")) {
-				String path = "images/profile_images/u" + newUser.getUsername() +".jpg";
+				String path = "images/profile_images/u" + a.getUsername() +".jpg";
 				System.out.println(path);
 				decoder.Base64DecodeAndSave(newUser.getProfilePicture(), path);
-				path = "./" + "images/profile_images/u" + newUser.getUsername() +".jpg";
+				path = "./" + "images/profile_images/u" + a.getUsername() +".jpg";
 				a.setProfilePicture(path);
 			} else {
 				a.setProfilePicture(newUser.getProfilePicture());
@@ -168,10 +169,10 @@ public class UsersService {
 		a.setSurname(newUser.getSurname());
 		if (newUser.getProfilePicture() != null) {
 			if (!newUser.getProfilePicture().isEmpty() && newUser.getProfilePicture().startsWith("data:image")) {
-				String path = "images/profile_images/u" + newUser.getUsername() +".jpg";
+				String path = "images/profile_images/u" + a.getUsername() +".jpg";
 				System.out.println(path);
 				decoder.Base64DecodeAndSave(newUser.getProfilePicture(), path);
-				path = "./" + "images/profile_images/u" + newUser.getUsername() +".jpg";
+				path = "./" + "images/profile_images/u" + a.getUsername() +".jpg";
 				a.setProfilePicture(path);
 			} else {
 				a.setProfilePicture(newUser.getProfilePicture());
@@ -187,10 +188,10 @@ public class UsersService {
 		a.setSurname(newUser.getSurname());
 		if (newUser.getProfilePicture() != null) {
 			if (!newUser.getProfilePicture().isEmpty() && newUser.getProfilePicture().startsWith("data:image")) {
-				String path = "images/profile_images/u" + newUser.getUsername() +".jpg";
+				String path = "images/profile_images/u" + a.getUsername() +".jpg";
 				System.out.println(path);
 				decoder.Base64DecodeAndSave(newUser.getProfilePicture(), path);
-				path = "./" + "images/profile_images/u" + newUser.getUsername() +".jpg";
+				path = "./" + "images/profile_images/u" + a.getUsername() +".jpg";
 				a.setProfilePicture(path);
 			} else {
 				a.setProfilePicture(newUser.getProfilePicture());

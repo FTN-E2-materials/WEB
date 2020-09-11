@@ -55,17 +55,18 @@ Vue.component("reservations", {
                 </div>
                 <div class="col-informations">
                     <h1 class = "info-reservation">Broj noćenja: {{r.numberOfNights}}</h1>
-                    <h1 class = "info-reservation" v-if="r.status=='Accepted'">Status: Prihvaceno</h1>
+                    <h1 class = "info-reservation" v-if="r.status=='Accepted'">Status: Prihvaćeno</h1>
                     <h1 class = "info-reservation" v-if="r.status=='Rejected'">Status: Odbijeno</h1>
                     <h1 class = "info-reservation" v-if="r.status=='Withdrawn'">Status: Otkazano</h1>
                     <h1 class = "info-reservation" v-if="r.status=='Created'">Status: Kreirano</h1>
-                    <h1 class = "info-reservation" v-if="r.status=='Finished'">Status: Zavrseno</h1>
+                    <h1 class = "info-reservation" v-if="r.status=='Finished'">Status: Završeno</h1>
                     <p class = "reservation-date">Poruka o rezervaciji: {{r.message}}</p>
                     <h1 class = "info-reservation" v-if="r.apartment.costCurrency == 'Euro'">Ukupna cena: {{r.cost}} eura</h1>
                     <h1 class = "info-reservation" v-if="r.apartment.costCurrency == 'Dollar'">Ukupna cena: {{r.cost}} dolara</h1>
                     <h1 class = "info-reservation" v-if="r.apartment.costCurrency == 'Dinar'">Ukupna cena: {{r.cost}} dinara</h1>
 
-                    <h1 class = "info-reservation">Korisnicko ime gosta: {{r.guest.username}}</h1>
+                    <h1 class = "info-reservation" v-if="mode!='guest'">Korisničko ime gosta: {{r.guest.username}}</h1>
+                    <h1 class = "info-reservation" v-if="mode!='host'">Korisničko ime domaćina: {{r.apartment.hostUsername}}</h1>
 
                     <div class="more-buttons">
                             <div class = "one-button">
@@ -96,7 +97,7 @@ Vue.component("reservations", {
 	
 	mounted() {
 		axios
-			.get("/apartments/reservations/" + this.$route.query.id)
+			.get("/apartment/reservationsForUser")
 			.then(response => {
 				this.reservations = response.data;
 			});
@@ -150,7 +151,7 @@ Vue.component("reservations", {
 			value : 4
 		});
 		this.options.push({
-			caption : "Odustanak",
+			caption : "Otkazane",
 			value : 5
 		});
 		
