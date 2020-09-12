@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Amenity;
@@ -127,7 +128,7 @@ public class ApartmentService {
 	}
 	
 	public List<Apartment> getAllApartments() throws JsonSyntaxException, IOException {
-		return apartmentDao.getAll();
+		return apartmentDao.getAllNonDeleted();
 	}
 	
 	public List<Apartment> getApartmentsByCity(String city) throws JsonSyntaxException, IOException {
@@ -847,5 +848,25 @@ public class ApartmentService {
 			
 		}
 		return false;
+	}
+
+	public List<User> getGuestsForHost(Host h) throws JsonSyntaxException, IOException {
+		List<User> retVal = new ArrayList<User>();
+		for (Reservation r : this.getReservationsByUser(h.getID())) {
+			boolean flag = true;
+			for (User u : retVal) {
+			
+				if (u.compareTo(r.getGuest().getUsername())) {
+					flag = false;
+					break;
+				}
+			}
+			if (flag) {
+				if (!retVal.contains(r.getGuest())) {
+					retVal.add(userDao.getByID(r.getGuest().getID()));
+				}
+			}
+		}
+		return retVal;
 	}
 }

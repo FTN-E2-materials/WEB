@@ -118,11 +118,11 @@ Vue.component("add_apartment", {
                 <td>{{errorEndDate}}</td>
                 </tr>
                 <tr><td>Vreme prijave: </td>
-                <td><input type="time" v-model="applicationTime" class="input-apt" v-on:change="signalChange"></td>
+                <td><input type="time" id="startTime" v-model="applicationTime" class="input-apt" v-on:change="signalChange"></td>
                 <td>{{errorCheckIn}}</td>
                 </tr>
                 <tr><td>Vreme odjave: </td>
-                <td><input type="time" v-model="checkOutTime" class="input-apt" v-on:change="signalChange"></td>
+                <td><input type="time" id="endTime" v-model="checkOutTime" class="input-apt" v-on:change="signalChange"></td>
                 <td>{{errorCheckOut}}</td>
                 </tr>
                 <tr><td>Cena za jednu noć: </td>
@@ -254,6 +254,8 @@ Vue.component("add_apartment", {
 </div> 
 </div>*/
     mounted () {
+    	document.getElementById("startTime").value = "14:00";
+    	document.getElementById("endTime").value = "10:00";
         this.next = false;
         console.log(this.next);
         

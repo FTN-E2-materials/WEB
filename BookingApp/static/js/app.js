@@ -82,6 +82,16 @@ var app = new Vue({
     	getReservations : function() {
     		window.location.href = "http://localhost:8088/#/reservations?id=" + this.user.username;
     
+    	},
+    	canSeePreview : function() {
+    		console.log(this.mode);
+    		if (this.mode == 'host') {
+    			return false;
+    		} else if (this.mode == 'admin') {
+    			return false;
+    		} else {
+    			return true;
+    		}
     	}
     }
 });

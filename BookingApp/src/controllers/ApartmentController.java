@@ -36,7 +36,18 @@ public class ApartmentController {
 			res.type("application/json");
 			
 			try {
-				return gs.toJson(apartmentService.getActive());
+				Session s = req.session(true);
+				User u = s.attribute("user");
+				if (u != null) {
+					if (u.getRole() == UserRole.Administrator) {
+						return gs.toJson(apartmentService.getAllApartments());
+					
+					} else {
+						return gs.toJson(apartmentService.getActive());
+				}
+				} else {
+					return gs.toJson(apartmentService.getActive());
+				}
 				
 			} catch(Exception e) {
 				e.printStackTrace();
@@ -396,6 +407,19 @@ public class ApartmentController {
 					return Response.status(403).build();
 				}
 				return gs.toJson(apartmentService.canIComment(req.params("id"), (Guest)u));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return Response.status(500).build();
+			}
+		});
+		
+		get("apartment/getUserPreviewForHost", (req, res) -> {
+			res.type("application/json");
+			
+			try {
+				Session s = req.session();
+				Host h = (Host) s.attribute("user");
+				return gs.toJson(apartmentService.getGuestsForHost(h));
 			} catch (Exception e) {
 				e.printStackTrace();
 				return Response.status(500).build();

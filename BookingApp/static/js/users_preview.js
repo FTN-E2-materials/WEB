@@ -6,7 +6,8 @@ Vue.component("users_preview" , {
             searchMode:false,
             searchInput:'',
             searchResult:'',
-            searchedUsers:[]
+            searchedUsers:[],
+            canBlock : false
         }
         
     },
@@ -65,6 +66,7 @@ Vue.component("users_preview" , {
         </div>
    </div>
 
+   <div v-bind:hidden="canBlock==false">
    <div v-if="user.role!='Administrator'">
    <div class = "username">
    <div v-if="user.blocked==false">
@@ -75,7 +77,7 @@ Vue.component("users_preview" , {
     </div>
    </div>
    </div>
-
+   </div>
    </div>
    </div>
    </div>
@@ -134,16 +136,18 @@ Vue.component("users_preview" , {
           </div>
        </div>
   </div>
-
-  <div v-if="user.role!='Administrator'">
-   <div class = "username">
-   <div v-if="user.blocked==false">
-       <label class="username2" style="text-decoration:underline;" @click=" BlockUser(user)">Blokiraj korisnika</label>
-    </div>
-    <div v-else>
-    <label class="username2" style="text-decoration:underline;" @click=" UnblockUser(user)">Odblokiraj korisnika</label>
-    </div>
-   </div>
+  
+  <div v-bind:hidden="canBlock==false">
+	  <div v-if="user.role!='Administrator'">
+		   <div class = "username">
+			   <div v-if="user.blocked==false">
+			       <label class="username2" style="text-decoration:underline;" @click=" BlockUser(user)">Blokiraj korisnika</label>
+			    </div>
+		    	<div v-else>
+		    		<label class="username2" style="text-decoration:underline;" @click=" UnblockUser(user)">Odblokiraj korisnika</label>
+		    	</div>
+	    	</div>
+	   </div>
    </div>
 
   </div>
@@ -156,16 +160,42 @@ Vue.component("users_preview" , {
    </div>
 `,
     mounted () {
-        axios
-        .get("user/getAll")
-        .then(response => {
-            if (response.data == null) {
-                this.users=null;
-            }
-            else {
-                this.users = response.data;
-            }
-        })
+    	
+    	axios 
+    		.get("user/seeIfLogged") 
+    		.then(response => {
+    			if (response.data.role == 'Administrator') {
+    		        axios
+    		        .get("user/getAll")
+    		        .then(response => {
+    		            if (response.data == null) {
+    		                this.canBlock = false;
+    		                this.users=null;
+    		            }
+    		            else {
+    		                this.users = response.data;
+    		                this.canBlock = true;
+    		            }
+    		        })
+    			} else if (response.data.role == 'Host') {
+    		        axios
+    		        .get("apartment/getUserPreviewForHost")
+    		        .then(response => {
+    		            if (response.data == null) {
+    		                this.canBlock = false;
+    		                this.users=null;
+    		            }
+    		            else {
+    		                this.users = response.data;
+    		                this.canBlock = false;
+    		            }
+    		        })
+    				
+    			} else {
+    				window.location.href = "#/";
+    				this.canBlock = false;
+    			}
+    		});
 
     },
     methods : {
