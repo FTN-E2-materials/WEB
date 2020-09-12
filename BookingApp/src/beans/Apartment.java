@@ -244,10 +244,9 @@ public class Apartment implements IIdentifiable<Integer> {
 		// TODO! Popravi algoritam glupa si
 		boolean flag = false;
 		for (Period p : periodsForRent) {
-			if (startDate.compareTo(p.getStartDate()) >= 0) {
-				if (endDate.compareTo(p.getEndDate()) <= 0) {
-					flag = true;
-				}
+			if (startDate.compareTo(p.getStartDate()) >= 0 && endDate.compareTo(p.getEndDate()) <= 0) {
+				// Onda je bas unutar perioda jednog
+				flag = true;
 			}
 		}
 		return flag;
