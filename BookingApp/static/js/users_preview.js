@@ -7,7 +7,10 @@ Vue.component("users_preview" , {
             searchInput:'',
             searchResult:'',
             searchedUsers:[],
-            canBlock : false
+            canBlock : false,
+            genderFilter:'All',
+            roleFilter:'All',
+            filteredUsers:[]
         }
         
     },
@@ -15,7 +18,21 @@ Vue.component("users_preview" , {
     template:`
     <div class="profile-view-part2">
     <h2>Pregled korisnika</h2>
-    <input type="search" placeholder="Pretraži..." style="margin-left:700px;" v-on:input="searchActive(this.value)" v-on:blur="searchUnactive" v-model="searchInput" />
+    <div style="display:flex;">
+    <select style="margin-left:300px;border:none;" v-on:change="FilterChanged" id="roleFilter" >
+    <option value="All" >Svi tipovi korisnika</option>
+    <option value="Administrator" >Admini</option>
+    <option value="Guest">Gosti</option>
+    <option value="Host">Domaćini</option>
+    </select>
+    <select style="margin-left:30px;border:none;width:100px;" v-on:change="FilterChanged()" id="genderFilter" >
+    <option value="All" >Svi polovi</option>
+    <option value="Male">Muško</option>
+    <option value="Female">Žensko</option>
+    <option value="Other">Ostalo</option>
+    </select>
+    <input type="search" placeholder="Pretraži..." style="margin-left:130px;" v-on:input="searchActive(this.value)" v-on:blur="searchUnactive" v-model="searchInput" />
+    </div>
     <div    v-bind:hidden="searchMode!=false">
     <div class = "row-reservations" v-for = "user in users">
         <div class="row-reservations">
@@ -98,7 +115,6 @@ Vue.component("users_preview" , {
        <div class="col-informations">
 
 
-
   <div class = "username">
       <label class="username2">Ime:</label>
       <div class = "col-filters">
@@ -170,10 +186,13 @@ Vue.component("users_preview" , {
     		        .then(response => {
     		            if (response.data == null) {
     		                this.canBlock = false;
-    		                this.users=null;
+                            this.users=null;
+                            this.filteredUsers=null;
     		            }
     		            else {
-    		                this.users = response.data;
+                            this.users = response.data;
+                            this.filteredUsers = response.data;
+            
     		                this.canBlock = true;
     		            }
     		        })
@@ -183,10 +202,12 @@ Vue.component("users_preview" , {
     		        .then(response => {
     		            if (response.data == null) {
     		                this.canBlock = false;
-    		                this.users=null;
+                            this.users=null;
+                            this.filteredUsers=null;
     		            }
     		            else {
-    		                this.users = response.data;
+                            this.users = response.data;
+                            this.filteredUsers = response.data;
     		                this.canBlock = false;
     		            }
     		        })
@@ -202,49 +223,31 @@ Vue.component("users_preview" , {
        searchActive: function(){
            this.searchMode=true;
            this.searchedUsers=[];
-           for (var i = 0, len = this.users.length; i < len; i++) {
-            if(this.users[i].name.toLowerCase().includes(this.searchInput.toLowerCase()))
+           for (var i = 0, len = this.filteredUsers.length; i < len; i++) {
+            if(this.filteredUsers[i].name.toLowerCase().includes(this.searchInput.toLowerCase()))
             {
-               if(this.searchedUsers.indexOf(this.users[i])==-1)
+               if(this.searchedUsers.indexOf(this.filteredUsers[i])==-1)
                {
-                this.searchedUsers.push(this.users[i]);
+                this.searchedUsers.push(this.filteredUsers[i]);
                }
                     
                 
             }
-            if(this.users[i].surname.toLowerCase().includes(this.searchInput.toLowerCase()) ==true) {
-                if(this.searchedUsers.indexOf(this.users[i])==-1)
+            if(this.filteredUsers[i].surname.toLowerCase().includes(this.searchInput.toLowerCase()) ==true) {
+                if(this.searchedUsers.indexOf(this.filteredUsers[i])==-1)
                     {
-                        this.searchedUsers.push(this.users[i]);
+                        this.searchedUsers.push(this.filteredUsers[i]);
                     }
                      
               }
-              if(this.users[i].username.toLowerCase().includes(this.searchInput.toLowerCase())==true) {
-                if(this.searchedUsers.indexOf(this.users[i])==-1)
+              if(this.filteredUsers[i].username.toLowerCase().includes(this.searchInput.toLowerCase())==true) {
+                if(this.searchedUsers.indexOf(this.filteredUsers[i])==-1)
                     {
-                    this.searchedUsers.push(this.users[i]);
+                    this.searchedUsers.push(this.filteredUsers[i]);
                     }
                    
                 }
-                let gender='';
-                if(this.users[i].gender=='Female')
-                {
-                    gender="zensko";
-                }
-                if(this.users[i].gender=='Male')
-                {
-                    gender="musko";
-                }
-                if(this.users[i].gender=='Other')
-                {
-                    gender="ostalo";
-                }
-                if(gender.toLowerCase().includes(this.searchInput.toLowerCase())==true) {
-                    if(this.searchedUsers.indexOf(this.users[i])==-1)
-                    {
-                        this.searchedUsers.push(this.users[i]);
-                    }
-                }
+            
             }
             
            
@@ -282,6 +285,70 @@ Vue.component("users_preview" , {
 					}
 					
 				});
-        }
+        },
+        FilterChanged:function(v){
+            this.searchMode=true;
+           this.filteredUsers=[]; 
+            var role=document.getElementById("roleFilter");
+            this.roleFilter=role.options[role.selectedIndex].value;
+            console.log(this.roleFilter);
+           
+
+            var gender=document.getElementById("genderFilter");
+            this.genderFilter=gender.options[gender.selectedIndex].value;
+            console.log(this.genderFilter);
+         
+
+           
+                
+                if(this.roleFilter!="All" && this.genderFilter!="All")
+                {   
+                    
+                for (var i = 0, len = this.users.length; i < len; i++) {
+                    if(this.users[i].role==this.roleFilter && this.users[i].gender==this.genderFilter) {
+                        
+                            this.filteredUsers.push(this.users[i]);
+                    }
+                }
+
+                }
+
+                if(this.roleFilter=="All" && this.genderFilter!="All")
+                {   
+                    
+                for (var i = 0, len = this.users.length; i < len; i++) {
+                    if(this.users[i].gender==this.genderFilter) {
+                        
+                            this.filteredUsers.push(this.users[i]);
+                    }
+                }
+                
+                }
+
+                if(this.roleFilter!="All" && this.genderFilter=="All")
+                {   
+                    
+                for (var i = 0, len = this.users.length; i < len; i++) {
+                    if(this.users[i].role==this.roleFilter) {
+                        
+                            this.filteredUsers.push(this.users[i]);
+                    }
+                }
+
+                }
+
+                if(this.roleFilter=="All" && this.genderFilter=="All")
+                {   
+                    
+                for (var i = 0, len = this.users.length; i < len; i++) {
+                      
+                            this.filteredUsers.push(this.users[i]);
+                    
+
+                }
+                }
+        this.searchedUsers=this.filteredUsers;
+}}
+
     
-}});
+});
