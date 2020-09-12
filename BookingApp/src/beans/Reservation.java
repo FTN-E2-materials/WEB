@@ -12,6 +12,11 @@ public class Reservation implements IIdentifiable<Integer> {
 	private Guest guest;
 	private ReservationStatus status;
 	private boolean deleted;
+	
+	public Reservation() {
+	// TODO Auto-generated constructor stub
+	}
+	
 	public Reservation(Apartment apartment, Date startDate, int numberOfNights, double cost, String message,
 			Guest guest, ReservationStatus status) {
 		super();

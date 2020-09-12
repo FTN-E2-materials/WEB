@@ -21,7 +21,7 @@ public class Guest extends User {
 	
 	public boolean canIComment(int id) {
 		for (Reservation r : allReservations) {
-			if (r.getApartment().compareTo(id)) {
+			if (r.getApartment().compareTo(id) && (r.getStatus() == ReservationStatus.Accepted || r.getStatus() == ReservationStatus.Finished)) {
 				return true;
 			}
 		}
@@ -78,6 +78,10 @@ public class Guest extends User {
 			return true;
 		}
 		return false;
+	}
+	
+	public void addAparment(Apartment a) {
+		this.rentedApartments.add(a);
 	}
 	
 

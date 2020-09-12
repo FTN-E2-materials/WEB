@@ -266,7 +266,7 @@ Vue.component("apartment-details", {
 						console.log("wut");
 
 						axios 
-							.get("user/canIComment/" + this.$route.query.id)
+							.get("apartment/canIComment/" + this.$route.query.id)
 							.then(response => {
 								this.canComment = response.data;
 							})
@@ -314,7 +314,6 @@ Vue.component("apartment-details", {
 		leaveComment : function() {
 			let commentParameters = {
 					text : this.textComment,
-					username : "volim-da-putujem",
 					grade : this.grade,
 					apartment : this.apartment.id
 					
@@ -325,7 +324,9 @@ Vue.component("apartment-details", {
 				.post("/apartments/leaveComment", JSON.stringify(commentParameters))
 				.then(response => {
 					if (response.data != null) {
-
+						toast("Uspešno ste komentarisali!");
+						this.textComment = "";
+						this.grade = "";
 						this.apartment = response.data;
 						this.checkInTime = response.data.checkInTime;
 						this.checkOutTime = response.data.checkOutTime;
@@ -346,6 +347,8 @@ Vue.component("apartment-details", {
 						this.numOfRows = response.data.apartmentPictures.length / 3 + 1;
 						
 					
+					} else {
+						toast("Došlo je do neke greške!");
 					}
 				})
 			

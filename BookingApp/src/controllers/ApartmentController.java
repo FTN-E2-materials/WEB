@@ -73,7 +73,14 @@ public class ApartmentController {
 		post("apartments/leaveComment", (req, res) -> {
 			try {
 				res.type("application/json");
-				return gs.toJson(apartmentService.addComment(gs.fromJson(req.body(), CommentDTO.class)));
+				Session s = req.session(true);
+				User u = s.attribute("user");
+				if (u == null) {
+					Response.status(403).build();
+				}
+				CommentDTO cm = gs.fromJson(req.body(), CommentDTO.class);
+				cm.setUsername(u.getUsername());
+				return gs.toJson(apartmentService.addComment(cm));
 			} catch (Exception e) {
 				e.printStackTrace();
 				return "";
@@ -378,6 +385,21 @@ public class ApartmentController {
 				return null;
 			}
 			
+		});
+		
+		get("apartment/canIComment/:id", (req, res) -> {
+			res.type("application/json");
+			try {
+				Session s = req.session(true);
+				User u = s.attribute("user");
+				if (u.getRole() != UserRole.Guest) {
+					return Response.status(403).build();
+				}
+				return gs.toJson(apartmentService.canIComment(req.params("id"), (Guest)u));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return Response.status(500).build();
+			}
 		});
 	}
 	

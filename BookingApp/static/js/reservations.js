@@ -244,7 +244,15 @@ Vue.component("reservations", {
 						toast("O ne, dogodila se greška prilikom prihvatanja rezervacije!");
 					}
 				});
-			this.search();
+			if (this.sort_type != "" || this.mySelect.getData().length != 0) {
+				this.search();	
+			} else {
+				axios
+				.get("/apartment/reservationsForUser")
+				.then(response => {
+					this.reservations = response.data;
+				});
+			}
 		},
 		declineReservation : function(reservation) {
 			axios
@@ -255,8 +263,16 @@ Vue.component("reservations", {
 				} else {
 					toast("O ne, dogodila se greška prilikom prihvatanja rezervacije!");
 				}
-			});
-			this.search();
+			});			
+			if (this.sort_type != "" || this.mySelect.getData().length != 0) {
+				this.search();	
+			} else {
+				axios
+				.get("/apartment/reservationsForUser")
+				.then(response => {
+					this.reservations = response.data;
+				});
+			}
 		},
 		withdrawReservation : function(reservation) {
 			axios
@@ -268,7 +284,15 @@ Vue.component("reservations", {
 					toast("O ne, dogodila se greška prilikom prihvatanja rezervacije!");
 				}
 			});
-			this.search();
+			if (this.sort_type != "" || this.mySelect.getData().length != 0) {
+				this.search();	
+			} else {
+				axios
+				.get("/apartment/reservationsForUser")
+				.then(response => {
+					this.reservations = response.data;
+				});
+			}
 		}, 
 		finishReservation : function(reservation) {
 			axios
@@ -280,7 +304,15 @@ Vue.component("reservations", {
 					toast("O ne, dogodila se greška prilikom prihvatanja rezervacije!");
 				}
 			});
-			this.search();
+			if (this.sort_type != "" || this.mySelect.getData().length != 0) {
+				this.search();	
+			} else {
+				axios
+				.get("/apartment/reservationsForUser")
+				.then(response => {
+					this.reservations = response.data;
+				});
+			}
 		},
 		message : function() {
 			toast("wut");
@@ -308,6 +340,7 @@ Vue.component("reservations", {
 					statuses.push('Withdrawn');
 				}
 			}
+			
 			let parameters = {
 					ascending : ascending,
 					descending : descending, 

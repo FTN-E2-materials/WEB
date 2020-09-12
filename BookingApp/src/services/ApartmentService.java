@@ -228,6 +228,7 @@ public class ApartmentService {
 			Reservation r = new Reservation(reservation.getApartment(), startDate, reservation.getNumberOfNights(), 
 					reservation.getApartment().getCostForNight()*reservation.getNumberOfNights(),
 					reservation.getMessage(), guest, ReservationStatus.Created);
+			r.setID(reservationDao.generateNextID());
 			if (checkIfHoliday(startDate, endDate)) {
 				double newPrice = r.getCost();
 				newPrice = newPrice + newPrice*0.05;
@@ -237,7 +238,12 @@ public class ApartmentService {
 				newPrice = newPrice - newPrice*0.1;
 				r.setCost(newPrice);
 			}
-
+			
+			Reservation r1 = new Reservation();
+			r1.setID(r.getID());
+			guest.addReservation(r1);
+			
+			userDao.update(guest);
 			reservationDao.create(r);
 			return r;
 		}
@@ -315,12 +321,6 @@ public class ApartmentService {
 		return true;
 	}
 	
-	public List<Apartment> sortNewest() throws JsonSyntaxException, IOException {
-		ArrayList<Apartment> allApartments = (ArrayList<Apartment>) apartmentDao.getAllNonDeleted();
-		ArrayList<Apartment> sortedList = new ArrayList<Apartment>();
-		
-		return null;
-	}
 	
 	public List<Apartment> sortCheapest() throws JsonSyntaxException, IOException {
 		List<Apartment> apartments = getActive();
@@ -457,9 +457,6 @@ public class ApartmentService {
 		return null;
 	}
 
-	private boolean isCompatible(Apartment a, SearchDTO fromJson) {
-		return false;
-	}
 	
 	private List<Reservation> filterReservationsFromToday(List<Reservation> allReservations) {
 		List<Reservation> filtered = new ArrayList<Reservation>();
@@ -508,6 +505,12 @@ public class ApartmentService {
 		if (reservationtForChange != null) {
 			reservationtForChange.setStatus(accepted);
 			reservationDao.update(reservationtForChange);
+			
+			if (accepted == ReservationStatus.Accepted) {
+				Guest g = (Guest) userDao.getByID(reservationtForChange.getGuest().getID());
+				g.addAparment(reservationtForChange.getApartment());
+				userDao.update(g);
+			}
 			return reservationtForChange;
 		}
 		return null;
@@ -831,5 +834,18 @@ public class ApartmentService {
 			Collections.sort(retVal, new ReservationDescendingComparator());
 		}
 		return retVal;
+	}
+	
+	public boolean canIComment(String id, Guest g) throws JsonSyntaxException, IOException {
+		Apartment a = apartmentDao.getByID(Integer.parseInt(id));
+		for (Reservation r : reservationDao.getAllNonDeleted()) {
+			if (r.getApartment().compareTo(a.getID()) && r.getGuest().compareTo(g.getID())) {
+				if (r.getStatus() == ReservationStatus.Accepted || r.getStatus() == ReservationStatus.Finished) {
+					return true;
+				}
+			}
+			
+		}
+		return false;
 	}
 }
