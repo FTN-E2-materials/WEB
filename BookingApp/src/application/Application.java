@@ -6,24 +6,19 @@ import static spark.Spark.staticFiles;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import beans.City;
-import beans.Gender;
-import beans.Host;
-import beans.State;
-import beans.UserRole;
 import controllers.AmenityController;
 import controllers.ApartmentController;
+import controllers.HolidayController;
 import controllers.UsersController;
 import dao.AmenityDao;
 import dao.ApartmentDao;
+import dao.HolidayDao;
 import dao.ReservationDao;
 import dao.UsersDao;
-import dto.LocationsDTO;
 import services.AmenityService;
 import services.ApartmentService;
+import services.HolidayService;
 import services.UsersService;
 
 public class Application {
@@ -33,6 +28,11 @@ public class Application {
 		port(8088);
 		staticFiles.externalLocation(new File("./static").getCanonicalPath());
 
+		HolidayDao holidayDao = new HolidayDao("./files/holidays.json");
+		HolidayService holidayService = new HolidayService(holidayDao);
+		HolidayController holidayController = new HolidayController(holidayService);
+		
+		
 		UsersDao usersDao = new UsersDao("./files/users.json");
 		UsersService usersService = new UsersService(usersDao);
 		UsersController usersController = new UsersController(usersService);

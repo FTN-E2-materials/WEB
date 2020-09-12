@@ -2,7 +2,7 @@ package beans;
 
 import java.util.Date;
 
-public class Holiday {
+public class Holiday implements IIdentifiable<Integer> {
 	private int id;
 	private String holidayName;
 	private boolean deleted;
@@ -50,6 +50,26 @@ public class Holiday {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	@Override
+	public Integer getID() {
+		return this.id;
+	}
+
+	@Override
+	public void setID(Integer id) {
+		this.id = id;
+		
+	}
+
+	@Override
+	public boolean compareTo(Integer id) {
+		if (this.id == id) {
+			return true;
+		}
+		
+		return false;
 	}
 	
 

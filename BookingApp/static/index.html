@@ -19,7 +19,7 @@
 		    	<ul class = "nav-navbar">
 		        <li class = "menu"><a href="#/apartments">Početna</a></li>
 				<li class = "menu" hidden><a href="#/homepage" hidden>Preporučeno</a></li>
-				<li class = "menu"><a href="#/add_nonWorkingDays">Dodaj neradne dane</a></li>
+				<li class = "menu" v-bind:hidden="mode!='admin'"><a href="#/add_nonWorkingDays" v-bind:hidden="mode!='admin'">Dodaj neradne dane</a></li>
 		        <li class = "menu"><a href="#/search">Rezerviši sada</a></li>
 		        <li class = "menu" v-bind:hidden="mode=='notLogged'"><a v-bind:hidden="mode=='notLogged'" href="#/reservations">Rezervacije</a></li>
 				<li class = "menu" v-bind:hidden="mode!='host'" ><a href="#/my_apartments">Moji apartmani</a></li>

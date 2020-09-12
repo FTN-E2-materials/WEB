@@ -23,6 +23,8 @@ import beans.Guest;
 import beans.Host;
 import beans.Period;
 import beans.Reservation;
+import beans.ReservationAscendingComparator;
+import beans.ReservationDescendingComparator;
 //import beans.ReservationAscendingComparator;
 //import beans.ReservationDescendingComparator;
 import beans.ReservationStatus;
@@ -781,11 +783,11 @@ public class ApartmentService {
 			
 		}
 		
-	//	if (fromJson.isAscending()) {
-		//	Collections.sort(retVal, new ReservationAscendingComparator());
-	//	} else if (fromJson.isDescending()) {
-	//		Collections.sort(retVal, new ReservationDescendingComparator());
-	//	}
+		if (fromJson.isAscending()) {
+			Collections.sort(retVal, new ReservationAscendingComparator());
+		} else if (fromJson.isDescending()) {
+			Collections.sort(retVal, new ReservationDescendingComparator());
+		}
 		return retVal;
 	}
 }
