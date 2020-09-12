@@ -21,6 +21,8 @@ Vue.component("homepage", {
     </div>
 	`,
 	mounted () {
+		window.location.href = "#/apartments";
+		/*
 		axios
 			.get("apartment/getMostPopularDestinations")
 			.then(response => {
@@ -31,6 +33,7 @@ Vue.component("homepage", {
 				}
 				console.log(this.destinations.length);
 			});
+			*/
 	}, 
 	methods : {
 		showApartments : function(destination) {

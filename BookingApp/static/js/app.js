@@ -18,6 +18,7 @@ const add_nonWorkingDays={template:"<add_nonWorkingDays></add_nonWorkingDays>"}
 const router = new VueRouter({
     mode : 'hash',
     routes : [ 
+		{ path : "/homepage", component: homepage },
 		{ path : "/apartments", component: apartments },
 		{ path : '/login', component: login },
 		{ path : '/profile-view', component: profile_view },
@@ -31,7 +32,7 @@ const router = new VueRouter({
 		{ path : "/reservations", component: reservations },
 		{ path : "/amenities", component: amenities },
 		{ path : "/edit_apartment", component: edit_apartment },
-		{ path : "/add_nonWorkingDays", component: add_nonWorkingDays}
+		{ path : "/add_nonWorkingDays", component: add_nonWorkingDays }
     ]
 });
 

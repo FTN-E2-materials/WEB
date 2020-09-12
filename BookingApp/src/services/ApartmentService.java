@@ -437,6 +437,14 @@ public class ApartmentService {
 						addAp = false;
 					}
 				}
+				
+				if (fromJson.getCost() != 0) {
+					if (a.translateCostToSameCurrency() <= fromJson.getCost()) {
+						addAp = true;
+					} else {
+						addAp = false;
+					}
+				}
 				if (addAp) {
 					filtered.add(a);
 				}

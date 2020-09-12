@@ -14,7 +14,8 @@ Vue.component("search-apartment", {
 	        guestNum : "",
 	        endDate : null,
 	        showResults : false,
-	        apartments : null
+	        apartments : null,
+	        cost : ""
 		}
 	},
 	template: `
@@ -26,6 +27,10 @@ Vue.component("search-apartment", {
                     <div class = "column">
                         <label for="destination">Destinacija:</label>
                         <input type="text" id="email" placeholder="Mesto, Država" v-model="locationSearch" name="dest">
+                    </div>
+                    <div class = "column">
+                        <label for="destination">Cena do:</label>
+                        <input type="number" id="cost" min="1"  class = "number" v-model="cost" name="dest">
                     </div>
                     <div class = "column">
                         <label for="rooms">Broj soba:</label>
@@ -123,7 +128,8 @@ Vue.component("search-apartment", {
 				numberOfGuests : this.guestNum,
 				numberOfRooms : this.roomNum,
 				dateFrom : start,
-				dateTo : end
+				dateTo : end,
+				cost : this.cost
 			}
 			console.log(searchParameters.dateFrom);
 				

@@ -30,6 +30,7 @@
 		        <li class = "menu" style="float:right" v-bind:hidden="mode=='notLogged'"  v-on:click = "viewProfile" ><a :href="'#/profile-view?id=' + user.username" v-on:click = "viewProfile" v-bind:hidden ="mode=='notLogged'">Profil</a></li>
 			</ul>
             </div>
+            
 			<router-view :key="$route.fullPath"></router-view>
 		</div>
 		

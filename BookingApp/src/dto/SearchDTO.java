@@ -1,11 +1,12 @@
 package dto;
 
 public class SearchDTO {
-	public String location;
-	public String numberOfGuests;
-	public String numberOfRooms;
-	public String dateFrom;
-	public String dateTo;
+	private String location;
+	private String numberOfGuests;
+	private String numberOfRooms;
+	private String dateFrom;
+	private String dateTo;
+	private int cost;
 	
 	public SearchDTO() {
 		// TODO Auto-generated constructor stub
@@ -62,6 +63,18 @@ public class SearchDTO {
 
 	public void setDateTo(String dateTo) {
 		this.dateTo = dateTo;
+	}
+
+
+
+	public int getCost() {
+		return cost;
+	}
+
+
+
+	public void setCost(int cost) {
+		this.cost = cost;
 	}
 	
 	
