@@ -20,6 +20,7 @@ import beans.ApartmentType;
 import beans.DestinationDescendingComparator;
 import beans.Grade;
 import beans.Guest;
+import beans.Holiday;
 import beans.Host;
 import beans.Period;
 import beans.Reservation;
@@ -47,11 +48,13 @@ public class ApartmentService {
 	private UsersDao userDao;
 	private ReservationDao reservationDao;
 	private Base64ToImage decoder = new Base64ToImage();
+	private HolidayService holidayService;
 	
-	public ApartmentService(ApartmentDao apartmentDao, UsersDao userDao, ReservationDao reservationDao) {
+	public ApartmentService(ApartmentDao apartmentDao, UsersDao userDao, ReservationDao reservationDao, HolidayService holidayService) {
 		this.apartmentDao = apartmentDao;
 		this.reservationDao = reservationDao;
 		this.userDao = userDao;
+		this.holidayService = holidayService;
 	}
 	
 	public Apartment saveNewApartment(ApartmentDTO apartmentParameters, Host host) throws JsonSyntaxException, IOException, ParseException {
@@ -225,6 +228,16 @@ public class ApartmentService {
 			Reservation r = new Reservation(reservation.getApartment(), startDate, reservation.getNumberOfNights(), 
 					reservation.getApartment().getCostForNight()*reservation.getNumberOfNights(),
 					reservation.getMessage(), guest, ReservationStatus.Created);
+			if (checkIfHoliday(startDate, endDate)) {
+				double newPrice = r.getCost();
+				newPrice = newPrice + newPrice*0.05;
+				r.setCost(newPrice);
+			} else if (checkIfWeekend(startDate, endDate)) {
+				double newPrice = r.getCost();
+				newPrice = newPrice - newPrice*0.1;
+				r.setCost(newPrice);
+			}
+
 			reservationDao.create(r);
 			return r;
 		}
@@ -232,6 +245,35 @@ public class ApartmentService {
 		return null;
 	}
 	
+	private boolean checkIfWeekend(java.util.Date startDate, java.util.Date endDate) {
+		Date nextDate = startDate;
+		while(nextDate.compareTo(endDate) <= 0) {
+			if (nextDate.getDay() == 6) {
+				return true;
+			} else if (nextDate.getDay() == 7) {
+				return true;
+			} else if (nextDate.getDay() == 1) {
+				return true;
+			}
+			nextDate = new Date(nextDate.getTime() + 24*60*60*1000);
+		}
+		return false;
+	}
+
+	private boolean checkIfHoliday(Date startDate, Date endDate) throws JsonSyntaxException, IOException {
+		for (Holiday h : holidayService.getAllHolidays()) {
+			Date nextDate = startDate;
+			while(nextDate.compareTo(endDate) <= 0) {
+				if (nextDate.compareTo(h.getDate()) == 0) {
+					return true;
+				}
+				nextDate = new Date(nextDate.getTime() + 24*60*60*1000);
+			}
+		}
+		return false;
+		
+	}
+
 	public void cancelReservation(Reservation reservation) {
 	}
 	

@@ -39,7 +39,7 @@ public class Application {
 		
 		ApartmentDao apartmentDao = new ApartmentDao("./files/apartments.json");
 		ReservationDao reservationDao = new ReservationDao("./files/reservations.json");
-		ApartmentService apartmentService = new ApartmentService(apartmentDao, usersDao, reservationDao);
+		ApartmentService apartmentService = new ApartmentService(apartmentDao, usersDao, reservationDao, holidayService);
 		ApartmentController apartmentControlle = new ApartmentController(apartmentService);
 		
 		AmenityDao amenityDao = new AmenityDao("./files/amenities.json");
