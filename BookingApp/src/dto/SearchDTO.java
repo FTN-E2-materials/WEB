@@ -1,5 +1,9 @@
 package dto;
 
+import java.util.List;
+
+import beans.Apartment;
+
 public class SearchDTO {
 	private String location;
 	private String numberOfGuests;
@@ -7,6 +11,7 @@ public class SearchDTO {
 	private String dateFrom;
 	private String dateTo;
 	private int cost;
+	private List<Apartment> apartments;
 	
 	public SearchDTO() {
 		// TODO Auto-generated constructor stub
@@ -75,6 +80,18 @@ public class SearchDTO {
 
 	public void setCost(int cost) {
 		this.cost = cost;
+	}
+
+
+
+	public List<Apartment> getApartments() {
+		return apartments;
+	}
+
+
+
+	public void setApartments(List<Apartment> apartments) {
+		this.apartments = apartments;
 	}
 	
 	

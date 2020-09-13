@@ -3,6 +3,7 @@ package dto;
 import java.util.List;
 
 import beans.Amenity;
+import beans.Apartment;
 import beans.ReservationStatus;
 
 public class FilterDTO {
@@ -11,6 +12,7 @@ public class FilterDTO {
 	private boolean descending;
 	private String type;
 	private List<ReservationStatus> status;
+	private List<String> apartments;
 	
 	public FilterDTO() {
 		// TODO Auto-generated constructor stub
@@ -44,6 +46,12 @@ public class FilterDTO {
 	}
 	public void setStatus(List<ReservationStatus> status) {
 		this.status = status;
+	}
+	public List<String> getApartments() {
+		return apartments;
+	}
+	public void setApartments(List<String> apartments) {
+		this.apartments = apartments;
 	}
 	
 	

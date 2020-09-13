@@ -425,6 +425,18 @@ public class ApartmentController {
 				return Response.status(500).build();
 			}
 		});
+		
+		post("apartment/filterSearchedApartments", (req, res) -> {
+			res.type("application/json");
+			
+			try {
+				return gs.toJson(apartmentService.filterSearched(gs.fromJson(req.body(), FilterDTO.class)));
+			} catch (Exception e) {
+				e.printStackTrace();
+				res.status(500);
+				return null;
+			}
+		}); 
 	}
 	
 	

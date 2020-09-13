@@ -300,13 +300,13 @@ Vue.component("add_apartment", {
     	},
        checkValidForm : function()
        { 
-	       	this.address = document.querySelector('#address').value;
-	    	this.country = document.querySelector('#country').value;
-	    	this.state = document.querySelector('#country').value;
-		    this.zipCode = document.querySelector('#zipCode').value;
-		    this.longitude = document.querySelector('#longitude').value;
-		    this.latitude = document.querySelector('#latitude').value;
-		    this.city = document.querySelector('#city').value;
+	       this.address = document.querySelector('#address').value;
+	       this.country = document.querySelector('#country').value;
+	       this.state = document.querySelector('#country').value;
+		   this.zipCode = document.querySelector('#zipCode').value;
+		   this.longitude = document.querySelector('#longitude').value;
+		   this.latitude = document.querySelector('#latitude').value;
+		   this.city = document.querySelector('#city').value;
            let flag=true;
            if( this.apartmentType=='') {
         	   this.errorType = "Tip apartmana je obavezno polje!";

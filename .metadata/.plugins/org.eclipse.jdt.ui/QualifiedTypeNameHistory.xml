@@ -12,5 +12,14 @@
     <fullyQualifiedTypeName name="beans.User"/>
     <fullyQualifiedTypeName name="dto.PasswordChangeDTO"/>
     <fullyQualifiedTypeName name="beans.UserRole"/>
+    <fullyQualifiedTypeName name="dto.ReservationDTO"/>
+    <fullyQualifiedTypeName name="beans.Guest"/>
     <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="dao.HolidayDao"/>
+    <fullyQualifiedTypeName name="beans.ReservationDescendingComparator"/>
+    <fullyQualifiedTypeName name="beans.ReservationAscendingComparator"/>
+    <fullyQualifiedTypeName name="org.eclipse.jetty.server.Response"/>
+    <fullyQualifiedTypeName name="javax.ws.rs.core.Response"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="beans.Holiday"/>
 </qualifiedTypeNameHistroy>

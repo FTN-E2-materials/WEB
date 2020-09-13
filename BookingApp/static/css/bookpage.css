@@ -441,7 +441,7 @@ p {
 
 .booking-section {
     position: relative;
-    height: 200px;
+    display: table;
     width: 1400px;
     opacity: 0.9;
     margin-top: 100px;
@@ -485,6 +485,7 @@ label span{
 }
 
 .number {
+	margin-top: 11px;
     width: 50px;
 }
 input{
@@ -528,10 +529,14 @@ input:focus {
     display: flex;
 }
 .column {
-    margin: 40px 0px 40px 20px;
-    width: 200px;
+    margin: 40px 40px 40px 30px;
+    width: 150px;
 }
 
+.column2 {
+	margin: 40px 0px 40px 130px;
+    width: 150px;
+}
 
 .add_btn {
     display: block;
@@ -828,8 +833,8 @@ input:focus {
 
 
 .reservations-booking {
-    width: 1200px;
-    height: 1000px;
+    width: 1400px;
+	display: table;
     margin-top: 100px;
     opacity: 0.9;
     border-radius: 10px;
@@ -1670,6 +1675,10 @@ input[type="search"]::-webkit-search-cancel-button {
     background: -webkit-linear-gradient(left, #5E548E, #E0B1CB);
     font-size: 15px;
     cursor: pointer;
+}
+
+.search {
+	width: 150px;
 }
 
  

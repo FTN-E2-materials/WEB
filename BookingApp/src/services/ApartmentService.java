@@ -337,6 +337,7 @@ public class ApartmentService {
 
 	public List<Apartment> findAvailable(SearchDTO fromJson) {
 		try {
+			System.out.println("dasdas");
 			List<Apartment> filtered = filterApartments(fromJson);
 			List<Apartment> retVal = new ArrayList<Apartment>();
 			System.out.println(filtered.size());
@@ -407,6 +408,7 @@ public class ApartmentService {
 
 	private List<Apartment> filterApartments(SearchDTO fromJson) throws JsonSyntaxException, IOException {
 		List<Apartment> allApartments = apartmentDao.getAllNonDeleted();
+		System.out.println("hostUsernamedomacin1");
 		List<Apartment> filtered = new ArrayList<Apartment>();
 		boolean addAp = false;
 		for (Apartment a : allApartments) {
@@ -876,5 +878,54 @@ public class ApartmentService {
 			}
 		}
 		return retVal;
+	}
+
+	public List<Apartment> filterSearched(FilterDTO fromJson) throws JsonSyntaxException, IOException {
+		List<Amenity> amenities = fromJson.getList();
+		List<Apartment> filtered = new ArrayList<Apartment>();
+		ApartmentType type = null;
+		if (fromJson.getType() != null) {
+			if (!fromJson.getType().isEmpty()) {
+				if (fromJson.getType().equals("soba")) {
+					type = ApartmentType.Room;
+				} else {
+					type = ApartmentType.FullApartment;
+				}
+			}
+		}
+		System.out.println(fromJson.getApartments().size());
+		System.out.println(fromJson.getApartments().size());
+		for (String s : fromJson.getApartments())  {
+			boolean flagToAdd = true;
+			Apartment a = apartmentDao.getByID(Integer.parseInt(s));
+			for (Amenity am : amenities) {
+				if (!a.doIHaveAmenity(am)) {
+					flagToAdd = false;
+					break;
+				}
+			}
+			
+			if (flagToAdd) {
+				if (type != null) {
+					if (a.getType() == type) {
+						filtered.add(a);
+					}
+				} else {
+					filtered.add(a);
+					System.out.println("aa");
+				}
+			}
+ 		}
+		
+		if (fromJson.isAscending()) {
+			Collections.sort(filtered, new ApartmentAscendingComparator());
+		} else if (fromJson.isDescending()) {
+			Collections.sort(filtered, new ApartmentDescendingComparator());
+		}
+		
+		System.out.println(filtered.size());
+		System.out.println(filtered.size());
+		System.out.println(filtered.size());
+		return filtered;
 	}
 }
