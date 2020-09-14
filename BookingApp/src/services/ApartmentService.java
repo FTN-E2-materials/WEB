@@ -85,13 +85,14 @@ public class ApartmentService {
 		
 		Period p = new Period();
 		
+		System.out.println(apartmentParameters.getStartDate());
 		if (!apartmentParameters.getStartDate().isEmpty()) {
-			p.setStartDate(new SimpleDateFormat("dd.MM.yyyy.").parse(apartmentParameters.getStartDate()));
+			p.setStartDate(new SimpleDateFormat("yyyy-mm-dd").parse(apartmentParameters.getStartDate()));
 		} 
 		
 
 		if (!apartmentParameters.getEndDate().isEmpty()) {
-			p.setEndDate(new SimpleDateFormat("dd.MM.yyyy.").parse(apartmentParameters.getEndDate()));
+			p.setEndDate(new SimpleDateFormat("yyyy-mm-dd").parse(apartmentParameters.getEndDate()));
 		} 
 		
 		

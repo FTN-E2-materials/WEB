@@ -20,6 +20,6 @@
     <fullyQualifiedTypeName name="beans.ReservationAscendingComparator"/>
     <fullyQualifiedTypeName name="org.eclipse.jetty.server.Response"/>
     <fullyQualifiedTypeName name="javax.ws.rs.core.Response"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="beans.Holiday"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
 </qualifiedTypeNameHistroy>

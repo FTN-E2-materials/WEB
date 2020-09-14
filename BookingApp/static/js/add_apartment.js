@@ -444,6 +444,8 @@ Vue.component("add_apartment", {
 	        	for (i of this.imagesForBackend) {
 	        		console.log(i);
 	        	}
+	        
+			    
 	            let apartmentParameters= {
 	                apartmentTitle:this.apartmentName,
 	                type:this.apartmentType,
@@ -460,7 +462,9 @@ Vue.component("add_apartment", {
 	                checkInTime:this.applicationTime,
 	                checkOutTime:this.checkOutTime,
 	                amenities : amenitiesToSend,
-	                commentsEnabled : this.commentsEnabled
+	                commentsEnabled : this.commentsEnabled,	                
+	                startDate : dateFrom,
+	                endDate : dateTo
 	                
 	            
 	            };
