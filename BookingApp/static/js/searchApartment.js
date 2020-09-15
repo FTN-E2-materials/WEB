@@ -52,7 +52,7 @@ Vue.component("search-apartment", {
                         <input type="search" id="destination" style="width=200px;" placeholder="Mesto, Država" v-model="locationSearch" name="dest">
                     </div>
                     <div class = "column2">
-                        <label for="destination">Cena do:</label>
+                        <label for="destination">Cena do (u €):</label>
                         <input type="number" id="cost" min="1"  class = "number" v-model="cost" name="dest">
                     </div>
                     <div class = "column">

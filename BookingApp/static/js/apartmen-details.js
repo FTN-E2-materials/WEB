@@ -19,13 +19,13 @@ Vue.component("apartment-details", {
 			canEdit : false, 
 			canReserve: false,
 			comments: null,
+			disabledDates : {},
 			canComment: true,
 			textComment: "",
 			grade: "",
 			user: null,
 			amenityDetails: "",
-			reserve : false,			
-			disabledDates: {},
+			reserve : false,		
 	        selectedDate : null,
 	        numOfEl : "",
 	        length : "",
@@ -204,7 +204,7 @@ Vue.component("apartment-details", {
 				console.log(this.numOfRows);
 				
 				for (a of response.data.amenities) {
-					this.amenityDetails = a.amenityName + " ";
+					this.amenityDetails = this.amenityDetails + a.amenityName + " ";
 				}
 
 				var d = new Date();

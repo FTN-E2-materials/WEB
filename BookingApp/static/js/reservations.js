@@ -51,7 +51,7 @@ Vue.component("reservations", {
             <div class = "row-reservations" v-for = "r in reservations">
                 <div class="col-with-picture">
                     <h1 class = "reservation-destination">{{r.apartment.apartmentTitle}}</h1>
-                    <p class = "reservation-date">Datum rezervacije: {{parseDate(r.startDate)}}</p>
+                    <p class = "reservation-date">Datum rezervacije: {{parseDate(r.startDate)}} do {{parseDate(r.endDate)}}</p>
                     <div class = "col-picture">
                         <div>				
 							<img :src="r.apartment.apartmentPictures[0]" class= "reservation-image" alt = "a.apartmentTitle">
@@ -59,6 +59,7 @@ Vue.component("reservations", {
                     </div>
                 </div>
                 <div class="col-informations">
+                    <h1 class = "info-reservation" v-if="r.apartment.active==false">Apartman trenutno nije aktivan.</h1>
                     <h1 class = "info-reservation">Broj noćenja: {{r.numberOfNights}}</h1>
                     <h1 class = "info-reservation">Status: {{getStatus(r)}}</h1>
                     <p class = "reservation-date">Poruka o rezervaciji: {{r.message}}</p>
@@ -70,62 +71,76 @@ Vue.component("reservations", {
                     <h1 class = "info-reservation" v-if="mode!='host'">Korisničko ime domaćina: {{r.apartment.hostUsername}}</h1>
 
                     <div class="more-buttons">
-                            <div class = "one-button">
+                			<div v-if="mode=='guest'">
+                            <div class = "one-button" v-if="r.apartment.active==true">
                                 <div class = "icons">
                                     <i class="material-icons">information</i>
                                 </div>
                                 <a  :href="'#/details?id=' + r.apartment.id" class = "link">Pregledaj apartman</a>
-                            </div>  
+                            </div> 
+                            </div>
+                            <div v-else>
+                                <div class = "one-button">
+                                <div class = "icons">
+                                    <i class="material-icons">information</i>
+                                </div>
+                                <a  :href="'#/details?id=' + r.apartment.id" class = "link">Pregledaj apartman</a>
+                            </div> 
+                            </div>
                             <div  v-if="mode=='host'">
-                            	<div v-if="r.status == 'Created'" class = "one-button">
-
-	                                <div class = "icons">
-	                                    <i class="material-icons">menu</i>
-	                                </div>   
-	                               	<a class="link" href="#" v-on:click="acceptReservation(r)">Prihvati rezervaciju</a>
-	                           </div>
-	                        </div>
-	                        <div  v-if="mode=='host'">
-	                            <div  v-if="r.status == 'Created'" class = "one-button">
+	                            	<div v-if="r.apartment.active==true">
+	                            	<div v-if="r.status == 'Created'" class = "one-button">
+	
+		                                <div class = "icons">
+		                                    <i class="material-icons">menu</i>
+		                                </div>   
+		                               	<a class="link" href="#" v-on:click="acceptReservation(r)">Prihvati rezervaciju</a>
+		                           </div>
+		                        </div>
+		                        <div  v-if="mode=='host'">
+		                            <div  v-if="r.status == 'Created'" class = "one-button">
+			                        	<div class = "icons">
+			                            	<i class="material-icons">menu</i>
+			                            </div>   
+		                               	<a class="link" href = "#" v-on:click="declineReservation(r)">Odbij rezervaciju</a>
+		                            </div>
+		                        </div>
+		                        <div v-if="mode=='host'">
+		                        
+		                            <div v-if="r.status=='Accepted'" class = "one-button" >
 		                        	<div class = "icons">
 		                            	<i class="material-icons">menu</i>
 		                            </div>   
-	                               	<a class="link" href = "#" v-on:click="declineReservation(r)">Odbij rezervaciju</a>
-	                            </div>
-	                        </div>
-	                        <div v-if="mode=='host'">
-	                        
-	                            <div v-if="r.status=='Accepted'" class = "one-button" >
-	                        	<div class = "icons">
-	                            	<i class="material-icons">menu</i>
-	                            </div>   
-	                            	<a class="link" href="#" v-on:click="declineReservation(r)" >Odbij rezervaciju</a>
-	                            </div>
-	                       </div>
-	                        <div v-if="mode=='host'">
-	                        	<div  v-if="isFinished(r)" class = "one-button" >
-	                        	<div class = "icons">
-	                            	<i class="material-icons">menu</i>
-	                            </div>  
-	                            
-	                            	<a class="link" href="#" v-on:click="finishReservation(r)">Završi rezervaciju</a>
+		                            	<a class="link" href="#" v-on:click="declineReservation(r)" >Odbij rezervaciju</a>
+		                            </div>
+		                       </div>
+		                        <div v-if="mode=='host'">
+		                        	<div  v-if="isFinished(r)" class = "one-button" >
+		                        	<div class = "icons">
+		                            	<i class="material-icons">menu</i>
+		                            </div>  
+		                            
+		                            	<a class="link" href="#" v-on:click="finishReservation(r)">Završi rezervaciju</a>
+		                           	</div>
 	                           	</div>
 	                       </div>               
                             <div>
                            		
-                           		<div v-if="mode=='guest'"  class = "one-button">
-	                           		<div v-if="r.status=='Accepted'">
-			                        	<div class = "icons">
-			                            	<i class="material-icons">menu</i>
-			                            </div>   
-		                            	<a class="link" href="#" v-on:click="withdrawReservation(r)" >Otkaži rezervaciju</a>
-		                            </div>
-	                           		<div v-if="r.status=='Created'"  class = "one-button">
-			                        	<div class = "icons">
-			                            	<i class="material-icons">menu</i>
-			                            </div>   
-		                            	<a class="link" href="#" v-on:click="withdrawReservation(r)" >Otkaži rezervaciju</a>
-		                            </div>
+                           		<div v-if="mode=='guest'">
+                           			<div v-if="r.apartment.active==true">
+		                           		<div v-if="r.status=='Accepted'"   class = "one-button">
+				                        	<div class = "icons">
+				                            	<i class="material-icons">menu</i>
+				                            </div>   
+			                            	<a class="link" href="#" v-on:click="withdrawReservation(r)" >Otkaži rezervaciju</a>
+			                            </div>
+		                           		<div v-if="r.status=='Created'"  class = "one-button">
+				                        	<div class = "icons">
+				                            	<i class="material-icons">menu</i>
+				                            </div>   
+			                            	<a class="link" href="#" v-on:click="withdrawReservation(r)" >Otkaži rezervaciju</a>
+			                            </div>
+			                        </div>
                            		</div>
                             </div>          
                                             
@@ -257,16 +272,18 @@ Vue.component("reservations", {
 					} else {
 						toast("O ne, dogodila se greška prilikom prihvatanja rezervacije!");
 					}
+					
+
+					if (this.sort_type != "" || this.mySelect.getData().length != 0) {
+						this.search();	
+					} else {
+						axios
+						.get("/apartment/reservationsForUser")
+						.then(response => {
+							this.reservations = response.data;
+						});
+					}
 				});
-			if (this.sort_type != "" || this.mySelect.getData().length != 0) {
-				this.search();	
-			} else {
-				axios
-				.get("/apartment/reservationsForUser")
-				.then(response => {
-					this.reservations = response.data;
-				});
-			}
 		},
 		declineReservation : function(reservation) {
 			axios
@@ -277,16 +294,17 @@ Vue.component("reservations", {
 				} else {
 					toast("O ne, dogodila se greška prilikom prihvatanja rezervacije!");
 				}
-			});			
-			if (this.sort_type != "" || this.mySelect.getData().length != 0) {
-				this.search();	
-			} else {
-				axios
-				.get("/apartment/reservationsForUser")
-				.then(response => {
-					this.reservations = response.data;
-				});
-			}
+				
+				if (this.sort_type != "" || this.mySelect.getData().length != 0) {
+					this.search();	
+				} else {
+					axios
+					.get("/apartment/reservationsForUser")
+					.then(response => {
+						this.reservations = response.data;
+					});
+				}
+			});	
 		},
 		withdrawReservation : function(reservation) {
 			axios
@@ -297,16 +315,17 @@ Vue.component("reservations", {
 				} else {
 					toast("O ne, dogodila se greška prilikom prihvatanja rezervacije!");
 				}
+
+				if (this.sort_type != "" || this.mySelect.getData().length != 0) {
+					this.search();	
+				} else {
+					axios
+					.get("/apartment/reservationsForUser")
+					.then(response => {
+						this.reservations = response.data;
+					});
+				}
 			});
-			if (this.sort_type != "" || this.mySelect.getData().length != 0) {
-				this.search();	
-			} else {
-				axios
-				.get("/apartment/reservationsForUser")
-				.then(response => {
-					this.reservations = response.data;
-				});
-			}
 		}, 
 		finishReservation : function(reservation) {
 			axios
@@ -317,16 +336,17 @@ Vue.component("reservations", {
 				} else {
 					toast("O ne, dogodila se greška prilikom prihvatanja rezervacije!");
 				}
+
+				if (this.sort_type != "" || this.mySelect.getData().length != 0) {
+					this.search();	
+				} else {
+					axios
+					.get("/apartment/reservationsForUser")
+					.then(response => {
+						this.reservations = response.data;
+					});
+				}
 			});
-			if (this.sort_type != "" || this.mySelect.getData().length != 0) {
-				this.search();	
-			} else {
-				axios
-				.get("/apartment/reservationsForUser")
-				.then(response => {
-					this.reservations = response.data;
-				});
-			}
 		},
 		message : function() {
 			toast("wut");

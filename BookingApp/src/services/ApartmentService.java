@@ -351,7 +351,7 @@ public class ApartmentService {
 				} 				
 			
 				Date endDate = null;
-				if (fromJson.getDateFrom() != null) {
+				if (fromJson.getDateTo() != null) {
 					endDate = new SimpleDateFormat("dd.MM.yyyy.").parse(fromJson.getDateTo());
 				} 
 
@@ -409,7 +409,6 @@ public class ApartmentService {
 
 	private List<Apartment> filterApartments(SearchDTO fromJson) throws JsonSyntaxException, IOException {
 		List<Apartment> allApartments = apartmentDao.getAllNonDeleted();
-		System.out.println("hostUsernamedomacin1");
 		List<Apartment> filtered = new ArrayList<Apartment>();
 		boolean addAp = false;
 		for (Apartment a : allApartments) {
@@ -493,6 +492,8 @@ public class ApartmentService {
 		if (user.getRole() == UserRole.Host) {
 			Host host = (Host) user;
 			for (Reservation r : allReservations) {
+				Apartment a = apartmentDao.getByID(r.getApartment().getID());
+				r.getApartment().setActive(a.isActive());
 				if (host.isApartmentMine(r.getApartment())) {
 					filteredByUser.add(r);
 				}
@@ -502,6 +503,8 @@ public class ApartmentService {
 		} else if (user.getRole() == UserRole.Guest) {
 			Guest guest = (Guest) user;
 			for (Reservation r : allReservations) {
+				Apartment a = apartmentDao.getByID(r.getApartment().getID());
+				r.getApartment().setActive(a.isActive());
 				if (r.getGuest().getUsername().equals(guest.getUsername())) {
 					filteredByUser.add(r);
 				}
@@ -851,9 +854,11 @@ public class ApartmentService {
 	public boolean canIComment(String id, Guest g) throws JsonSyntaxException, IOException {
 		Apartment a = apartmentDao.getByID(Integer.parseInt(id));
 		for (Reservation r : reservationDao.getAllNonDeleted()) {
-			if (r.getApartment().compareTo(a.getID()) && r.getGuest().compareTo(g.getID())) {
-				if (r.getStatus() == ReservationStatus.Accepted || r.getStatus() == ReservationStatus.Finished) {
-					return true;
+			if (a.isCommentsEnabled()) {
+				if (r.getApartment().compareTo(a.getID()) && r.getGuest().compareTo(g.getID())) {
+					if (r.getStatus() == ReservationStatus.Accepted || r.getStatus() == ReservationStatus.Finished) {
+						return true;
+					}
 				}
 			}
 			
