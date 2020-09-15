@@ -13,12 +13,12 @@ const amenities = { template : "<amenities></amenities>"}
 const edit_apartment = { template : "<edit_apartment></edit_apartment>"}
 const homepage = { template : "<homepage></homepage>" }
 const add_nonWorkingDays={template:"<add_nonWorkingDays></add_nonWorkingDays>"}
-
+const forbidden = { template: "<forbidden></forbidden>" }
 
 const router = new VueRouter({
     mode : 'hash',
-    routes : [ 
-		{ path : "/homepage", component: homepage },
+    base : '/apartments',
+    routes : [
 		{ path : "/apartments", component: apartments },
 		{ path : '/login', component: login },
 		{ path : '/profile-view', component: profile_view },
@@ -32,7 +32,8 @@ const router = new VueRouter({
 		{ path : "/reservations", component: reservations },
 		{ path : "/amenities", component: amenities },
 		{ path : "/edit_apartment", component: edit_apartment },
-		{ path : "/add_nonWorkingDays", component: add_nonWorkingDays }
+		{ path : "/add_nonWorkingDays", component: add_nonWorkingDays },
+		{ path : "/forbidden", component: forbidden }
     ]
 });
 
@@ -65,6 +66,8 @@ var app = new Vue({
 	    			this.user = response.data;
 	    		}
 	    	})
+	    	
+	    	window.location.href = "#/apartments";
     },
     methods : {
     	logOut : function() {
@@ -75,6 +78,7 @@ var app = new Vue({
     				console.log(this.mode);
     				window.location.href = "#/login";
     			})
+    		
     	},
     	viewProfile : function() {
 

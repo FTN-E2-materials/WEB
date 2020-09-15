@@ -96,6 +96,20 @@ Vue.component("my_apartments", {
      ` ,
 
     mounted () {
+
+    	axios
+    		.get("apartmetns/canISee")
+    		.then(response => {
+    			if (response.status == 403) {
+    				window.location.href = "#/forbidden";
+    			}
+    		})
+    		.catch(function(error) {
+    			if (error.response.status == 403) {
+    				window.location.href = "#/forbidden";
+    			}
+    		});
+		
         axios
 			.get("/apartment/getActiveForHost")
 			.then(response => {

@@ -176,7 +176,18 @@ Vue.component("users_preview" , {
    </div>
 `,
     mounted () {
-    	
+    	axios
+    		.get("userPreview/canISee")
+    		.then(response => {
+    			if (response.status == 403) {
+    				window.location.href = "#/forbidden";
+    			}
+    		})
+    		.catch(function(error) {
+    			if (error.response.status == 403) {
+    				window.location.href = "#/forbidden";
+    			}
+    		});
     	axios 
     		.get("user/seeIfLogged") 
     		.then(response => {

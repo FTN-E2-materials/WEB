@@ -52,6 +52,19 @@ Vue.component("add_nonWorkingDays", {
 	`,
 	
 	mounted ()  {
+
+    	axios
+    		.get("holidays/canISee")
+    		.then(response => {
+    			if (response.status == 403) {
+    				window.location.href = "#/forbidden";
+    			}
+    		})
+    		.catch(function(error) {
+    			if (error.response.status == 403) {
+    				window.location.href = "#/forbidden";
+    			}
+    		});
 		axios 
 			.get("holiday/getAll")
 			.then(response => {

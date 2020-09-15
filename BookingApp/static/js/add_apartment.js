@@ -254,6 +254,20 @@ Vue.component("add_apartment", {
 </div> 
 </div>*/
     mounted () {
+    	
+
+    	axios
+    		.get("addApartment/canISee")
+    		.then(response => {
+    			if (response.status == 403) {
+    				window.location.href = "#/forbidden";
+    			}
+    		})
+    		.catch(function(error) {
+    			if (error.response.status == 403) {
+    				window.location.href = "#/forbidden";
+    			}
+    		});
     	document.getElementById("startTime").value = "14:00";
     	document.getElementById("endTime").value = "10:00";
         this.next = false;

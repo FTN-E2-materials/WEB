@@ -38,6 +38,19 @@ Vue.component("change_pass",{
     </div>
     </div>`,
     mounted() {
+
+    	axios
+    		.get("editProfile/canISee")
+    		.then(response => {
+    			if (response.status == 403) {
+    				window.location.href = "#/forbidden";
+    			}
+    		})
+    		.catch(function(error) {
+    			if (error.response.status == 403) {
+    				window.location.href = "#/forbidden";
+    			}
+    		});
         axios
         .get('/user/seeIfLogged')
         .then(response=> {

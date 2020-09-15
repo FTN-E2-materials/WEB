@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import controllers.AmenityController;
 import controllers.ApartmentController;
+import controllers.ForbiddenEntryController;
 import controllers.HolidayController;
 import controllers.UsersController;
 import dao.AmenityDao;
@@ -45,6 +46,8 @@ public class Application {
 		AmenityDao amenityDao = new AmenityDao("./files/amenities.json");
 		AmenityService amenityService = new AmenityService(amenityDao);
 		AmenityController amenityController = new AmenityController(amenityService);
+		
+		ForbiddenEntryController entryController = new ForbiddenEntryController();
 	
 		get("/test", (req, res) -> {
 			return "Works";

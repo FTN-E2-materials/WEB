@@ -68,6 +68,19 @@ Vue.component("amenities", {
 
 	`,
 	mounted() {
+
+    	axios
+    		.get("amenities/canISee")
+    		.then(response => {
+    			if (response.status == 403) {
+    				window.location.href = "#/forbidden";
+    			}
+    		})
+    		.catch(function(error) {
+    			if (error.response.status == 403) {
+    				window.location.href = "#/forbidden";
+    			}
+    		});
 		axios
 			.get("/amenities")
 			.then(response => {
