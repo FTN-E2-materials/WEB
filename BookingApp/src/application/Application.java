@@ -37,15 +37,16 @@ public class Application {
 		UsersDao usersDao = new UsersDao("./files/users.json");
 		UsersService usersService = new UsersService(usersDao);
 		UsersController usersController = new UsersController(usersService);
-		
-		ApartmentDao apartmentDao = new ApartmentDao("./files/apartments.json");
-		ReservationDao reservationDao = new ReservationDao("./files/reservations.json");
-		ApartmentService apartmentService = new ApartmentService(apartmentDao, usersDao, reservationDao, holidayService);
-		ApartmentController apartmentControlle = new ApartmentController(apartmentService);
-		
+
 		AmenityDao amenityDao = new AmenityDao("./files/amenities.json");
 		AmenityService amenityService = new AmenityService(amenityDao);
 		AmenityController amenityController = new AmenityController(amenityService);
+		
+		ApartmentDao apartmentDao = new ApartmentDao("./files/apartments.json");
+		ReservationDao reservationDao = new ReservationDao("./files/reservations.json");
+		ApartmentService apartmentService = new ApartmentService(apartmentDao, usersDao, reservationDao, holidayService, amenityDao);
+		ApartmentController apartmentControlle = new ApartmentController(apartmentService);
+		
 		
 		ForbiddenEntryController entryController = new ForbiddenEntryController();
 	

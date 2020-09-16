@@ -19,12 +19,14 @@ Vue.component("users_preview" , {
     <div class="profile-view-part2">
     <h2>Pregled korisnika</h2>
     <div style="display:flex;">
+    div v-bind:hidden="canBlock==false">
     <select style="margin-left:300px;border:none;" v-on:change="FilterChanged" id="roleFilter" >
     <option value="All" >Svi tipovi korisnika</option>
     <option value="Administrator" >Admini</option>
     <option value="Guest">Gosti</option>
     <option value="Host">Domaćini</option>
     </select>
+    </div>
     <select style="margin-left:30px;border:none;width:100px;" v-on:change="FilterChanged()" id="genderFilter" >
     <option value="All" >Svi polovi</option>
     <option value="Male">Muško</option>

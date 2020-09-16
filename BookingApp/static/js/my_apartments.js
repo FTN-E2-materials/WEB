@@ -98,7 +98,7 @@ Vue.component("my_apartments", {
     mounted () {
 
     	axios
-    		.get("apartmetns/canISee")
+    		.get("apartmentss/canISee")
     		.then(response => {
     			if (response.status == 403) {
     				window.location.href = "#/forbidden";
@@ -237,7 +237,9 @@ Vue.component("my_apartments", {
 	        	this.apartments = [];
 	        	for (a of this.mySelect.getData()) {
 	        		objectToSend.push({
-	        			id : a - 1
+	        			id : a,
+	        			amenityName : "",
+	        			deleted : false
 	        		});
 	        		console.log(a);
 	        	}

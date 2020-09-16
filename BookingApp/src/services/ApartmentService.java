@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Amenity;
@@ -32,6 +31,7 @@ import beans.ReservationDescendingComparator;
 import beans.ReservationStatus;
 import beans.User;
 import beans.UserRole;
+import dao.AmenityDao;
 import dao.ApartmentDao;
 import dao.ReservationDao;
 import dao.UsersDao;
@@ -50,9 +50,11 @@ public class ApartmentService {
 	private ReservationDao reservationDao;
 	private Base64ToImage decoder = new Base64ToImage();
 	private HolidayService holidayService;
+	private AmenityDao amenityDao;
 	
-	public ApartmentService(ApartmentDao apartmentDao, UsersDao userDao, ReservationDao reservationDao, HolidayService holidayService) {
+	public ApartmentService(ApartmentDao apartmentDao, UsersDao userDao, ReservationDao reservationDao, HolidayService holidayService, AmenityDao amenityDao) {
 		this.apartmentDao = apartmentDao;
+		this.amenityDao = amenityDao;
 		this.reservationDao = reservationDao;
 		this.userDao = userDao;
 		this.holidayService = holidayService;
@@ -74,7 +76,7 @@ public class ApartmentService {
 		
 		Apartment newApartment = new Apartment(apartmentParameters.getApartmentTitle(), apartmentParameters.getType(), apartmentParameters.getNumberOfRooms(), 
 				apartmentParameters.getNumberOfGuests(), apartmentParameters.getLocation(), new ArrayList<ApartmentComment>(), 
-				apartmentParameters.getCostForNight(), true, apartmentParameters.getCheckInTime(), apartmentParameters.getCheckOutTime(), convertedImages);
+				apartmentParameters.getCostForNight(), false, apartmentParameters.getCheckInTime(), apartmentParameters.getCheckOutTime(), convertedImages);
 		newApartment.setID(nextID);
 		newApartment.setHostUsername(host.getUsername());
 		newApartment.setCommentsEnabled(apartmentParameters.isCommentsEnabled());
@@ -87,12 +89,12 @@ public class ApartmentService {
 		
 		System.out.println(apartmentParameters.getStartDate());
 		if (!apartmentParameters.getStartDate().isEmpty()) {
-			p.setStartDate(new SimpleDateFormat("yyyy-mm-dd").parse(apartmentParameters.getStartDate()));
+			p.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse(apartmentParameters.getStartDate()));
 		} 
 		
 
 		if (!apartmentParameters.getEndDate().isEmpty()) {
-			p.setEndDate(new SimpleDateFormat("yyyy-mm-dd").parse(apartmentParameters.getEndDate()));
+			p.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse(apartmentParameters.getEndDate()));
 		} 
 		
 		
@@ -112,6 +114,16 @@ public class ApartmentService {
 		for (Apartment a : apartments) {
 			Host h = (Host) userDao.getByID(a.getHostUsername());
 			if (a.isActive() && !h.isBlocked()) {
+				List<Amenity> amenities = new ArrayList<Amenity>();
+				for (Amenity am : a.getAmenities()) {
+					
+					Amenity toAdd = amenityDao.getByID(am.getID());
+					if (toAdd != null) {
+						amenities.add(toAdd);
+					}
+				}
+				
+				a.setAmenities(amenities);
 				activeApartments.add(a);
 			}
 			
@@ -121,15 +133,32 @@ public class ApartmentService {
 	}
 	
 	public Apartment getApartmentById(String id) throws JsonSyntaxException, IOException {
-		return apartmentDao.getByID(Integer.parseInt(id));
-	}
-	
-	public boolean checkIfReservedForDate(Date wantedDate) {
-		return false;
+		Apartment a = apartmentDao.getByID(Integer.parseInt(id));
+		List<Amenity> amenities = new ArrayList<Amenity>();
+		for (Amenity am : a.getAmenities()) {					
+			Amenity toAdd = amenityDao.getByID(am.getID());
+			if (toAdd != null) {
+				amenities.add(toAdd);
+			}
+		}
+		a.setAmenities(amenities);
+		return a;
 	}
 	
 	public List<Apartment> getAllApartments() throws JsonSyntaxException, IOException {
-		return apartmentDao.getAllNonDeleted();
+		List<Apartment> retVal = new ArrayList<Apartment>();
+		for (Apartment a : apartmentDao.getAllNonDeleted()) {
+			List<Amenity> amenities = new ArrayList<Amenity>();
+			for (Amenity am : a.getAmenities()) {
+				Amenity toAdd = amenityDao.getByID(am.getID());
+				if (toAdd != null) {
+					amenities.add(toAdd);
+				}
+			}
+			a.setAmenities(amenities);
+			retVal.add(a);
+		}
+		return retVal;
 	}
 	
 	public List<Apartment> getApartmentsByCity(String city) throws JsonSyntaxException, IOException {
@@ -139,7 +168,15 @@ public class ApartmentService {
 		for (Apartment a : apartments) {
 			Host h = (Host) userDao.getByID(a.getHostUsername());
 			if (a.isActive() && !h.isBlocked()) {
+				
 				if (a.getLocation().getAddress().getCity().getCity().toLowerCase().contains(city)) {
+					List<Amenity> amenities = new ArrayList<Amenity>();
+					for (Amenity am : a.getAmenities()) {
+						Amenity toAdd = amenityDao.getByID(am.getID());
+						if (toAdd != null) {
+							amenities.add(toAdd);
+						}
+					}
 					filtered.add(a);
 				}
 			}
@@ -281,9 +318,6 @@ public class ApartmentService {
 		return false;
 		
 	}
-
-	public void cancelReservation(Reservation reservation) {
-	}
 	
 	public Apartment addComment(CommentDTO commentDTO) throws JsonSyntaxException, NumberFormatException, IOException {
 		Apartment apartmentToComment = apartmentDao.getByID(Integer.parseInt(commentDTO.getApartment()));
@@ -338,10 +372,8 @@ public class ApartmentService {
 
 	public List<Apartment> findAvailable(SearchDTO fromJson) {
 		try {
-			System.out.println("dasdas");
 			List<Apartment> filtered = filterApartments(fromJson);
 			List<Apartment> retVal = new ArrayList<Apartment>();
-			System.out.println(filtered.size());
 			if (filtered.size() > 0) {
 
 				Date startDate = null;
@@ -366,7 +398,6 @@ public class ApartmentService {
 			    				if (!r.isDateInIntersection(startDate, endDate)) {
 			    					addToList = true;
 			    				} else {
-			    					System.out.println("asdsa");
 			    					addToList = false;
 			    				}
 			    			}
@@ -420,7 +451,7 @@ public class ApartmentService {
 							|| fromJson.getLocation().toLowerCase().contains(a.getLocation().getAddress().getCity().getState().getState().toLowerCase()) ) {
 						addAp = true;
 					} else {
-						break;
+						continue;
 					}
 				}
 				
@@ -448,6 +479,14 @@ public class ApartmentService {
 					}
 				}
 				if (addAp) {
+					List<Amenity> amenities = new ArrayList<Amenity>();
+					for (Amenity am : a.getAmenities()) {
+						Amenity toAdd = amenityDao.getByID(am.getID());
+						if (toAdd != null) {
+							amenities.add(toAdd);
+						}
+					}
+					a.setAmenities(amenities);
 					filtered.add(a);
 				}
 			}
@@ -556,6 +595,14 @@ public class ApartmentService {
 			Apartment a1 = apartmentDao.getByID(a.getID());
 			if (a1 != null) {
 				if (a1.isActive()) {
+					List<Amenity> amenities = new ArrayList<Amenity>();
+					for (Amenity am : a1.getAmenities()) {
+						Amenity toAdd = amenityDao.getByID(am.getID());
+						if (toAdd != null) {
+							amenities.add(toAdd);
+						}
+					}
+					a1.setAmenities(amenities);
 					retVal.add(a1);
 				}
 			}
@@ -573,6 +620,14 @@ public class ApartmentService {
 			Apartment a1 = apartmentDao.getByID(a.getID());
 			if (a1 != null) {
 				if (!a1.isActive()) {
+					List<Amenity> amenities = new ArrayList<Amenity>();
+					for (Amenity am : a1.getAmenities()) {
+						Amenity toAdd = amenityDao.getByID(am.getID());
+						if (toAdd != null) {
+							amenities.add(toAdd);
+						}
+					}
+					a1.setAmenities(amenities);
 					retVal.add(a1);
 				}
 			}
@@ -580,7 +635,7 @@ public class ApartmentService {
 		return retVal;
 	}
 
-	public Apartment updateApartment(ApartmentDTO apartmentParameters, Host host) throws FileNotFoundException, IOException, ParseException {
+	public Apartment updateApartment(ApartmentDTO apartmentParameters) throws FileNotFoundException, IOException, ParseException {
 		List<String> convertedImages = new ArrayList<String>();
 		int i = 1;
 		for (String s : apartmentParameters.getApartmentPictures()) {
@@ -598,33 +653,46 @@ public class ApartmentService {
 		
 		Apartment newApartment = new Apartment(apartmentParameters.getApartmentTitle(), apartmentParameters.getType(), apartmentParameters.getNumberOfRooms(), 
 				apartmentParameters.getNumberOfGuests(), apartmentParameters.getLocation(), new ArrayList<ApartmentComment>(), 
-				apartmentParameters.getCostForNight(), true, apartmentParameters.getCheckInTime(), apartmentParameters.getCheckOutTime(), convertedImages);
+				apartmentParameters.getCostForNight(), apartmentDao.getByID(apartmentParameters.getId()).isActive() , apartmentParameters.getCheckInTime(), apartmentParameters.getCheckOutTime(), convertedImages);
 		newApartment.setID(apartmentParameters.getId());
 		newApartment.setCommentsEnabled(apartmentParameters.isCommentsEnabled());
 		newApartment.setCostCurrency(apartmentParameters.getCurrency());
 		newApartment.setAmenities(apartmentParameters.getAmenities());
-		newApartment.setHostUsername(host.getUsername());
+		System.out.println(apartmentParameters.isCommentsEnabled());
 		List<Period> periods = apartmentDao.getByID(apartmentParameters.getId()).getPeriodsForRent();
 
 		Period p = new Period();
 		
 		if (!apartmentParameters.getStartDate().isEmpty()) {
 			p.setStartDate(new SimpleDateFormat("dd.MM.yyyy.").parse(apartmentParameters.getStartDate()));
-		} 
+		} else {
+			p = null;
+		}
 		
 
 		if (!apartmentParameters.getEndDate().isEmpty()) {
 			p.setEndDate(new SimpleDateFormat("dd.MM.yyyy.").parse(apartmentParameters.getEndDate()));
-		} 
+		} else {
+			p = null;
+		}
 		
 		
-		periods.add(p);
+		if (p != null) {
+			periods.add(p);
+		}
 		newApartment.setPeriodsForRent(periods);
+
+		System.out.println(apartmentDao.getByID(apartmentParameters.getId()).getApartmentTitle());
 		
-		apartmentDao.update(newApartment);
-		
+		System.out.println(apartmentParameters.getId());
+		System.out.println((apartmentDao.getByID(apartmentParameters.getId())).getHostUsername());
+		Host host =	(Host) userDao.getByID((apartmentDao.getByID(apartmentParameters.getId())).getHostUsername());
+		if (host == null) {
+			System.out.println("sjadjs");
+		}
 		host.updateRentApartments(newApartment);
-		
+		newApartment.setHostUsername(host.getUsername());
+		apartmentDao.update(newApartment);
 		userDao.update(host);
 		
 		return newApartment;
@@ -687,6 +755,7 @@ public class ApartmentService {
 					flagToAdd = false;
 					break;
 				}
+				System.out.println(am.getAmenityName());
 			}
 			
 			if (flagToAdd) {

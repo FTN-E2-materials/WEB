@@ -155,8 +155,7 @@ Vue.component("apartments", {
 						      appendTo: '#example',
 						      selectAll: true,
 						      onChange : function(value) {
-						    	  console.log(value);
-						    	  this.sorting();
+						    	  
 						      }
 						      
 					    }
@@ -298,11 +297,13 @@ Vue.component("apartments", {
 	        	this.apartments = [];
 	        	for (a of this.mySelect.getData()) {
 	        		objectToSend.push({
-	        			id : a - 1
+	        			id : a,
+	        			amenityName : "",
+	        			deleted : false
 	        		});
 	        		console.log(a);
 	        	}
-	        	console.log(this.descending);
+	        	//console.log(this.descending);
 	        	let send = {
 	        			list : objectToSend,
 	        			ascending : this.ascending,

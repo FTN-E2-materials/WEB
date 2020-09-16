@@ -222,7 +222,8 @@ Vue.component("apartment-details", {
 		    		}
 
 				    let lastDate = new Date();
-					for (period of this.apartment.periodsForRent) {
+					for (p in this.apartment.periodsForRent) {
+						let period = this.apartment.periodsForRent[p];
 			    		let date = moment(period.startDate).format("YYYY-MM-DD");
 			    		let toDate = new Date(date);
 				    	if (this.isAfterToday(toDate)) {
@@ -239,6 +240,7 @@ Vue.component("apartment-details", {
 					}
 					this.disabledDates["ranges"] = disabled;
 					this.disabledDates["to"] = new Date(Date.now());
+					this.disabledDates["from"] = lastDate;
 		    	})
 			});
 	    axios

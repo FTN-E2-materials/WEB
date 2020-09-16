@@ -38,7 +38,9 @@ Vue.component("search-apartment", {
 			descending : false,
 			sort_type : "",
 			apt_type : "",
-			options : []
+			options : [],
+			autocompleteInstance : []
+			
 		}
 	},
 	template: `
@@ -49,8 +51,14 @@ Vue.component("search-apartment", {
                 <div class = "row">
                     <div class = "column">
                         <label for="destination">Destinacija:</label>
-                        <input type="search" id="destination" style="width=200px;" placeholder="Mesto, Država" v-model="locationSearch" name="dest">
-                    </div>
+						 <input
+						      type="search"
+						      id="autocomplete-dataset"
+						      class="form-control"
+						      placeholder="Destinacija"
+						      v-model="locationSearch" name="dest"
+						    />
+						 </div>
                     <div class = "column2">
                         <label for="destination">Cena do (u €):</label>
                         <input type="number" id="cost" min="1"  class = "number" v-model="cost" name="dest">
@@ -165,6 +173,9 @@ Vue.component("search-apartment", {
 			.then(response => {
 				console.log("i did it");
 			})
+			
+			
+		/*
 		this.places = places({
 	        appId: 'plQ4P1ZY8JUZ',
 	        apiKey: 'bc14d56a6d158cbec4cdf98c18aced26',
@@ -182,6 +193,59 @@ Vue.component("search-apartment", {
 			document.querySelector('#destination').value = e.suggestion.value || '';
 		});
 		
+		*/
+			
+		  var placesCountry = placesAutocompleteDataset({
+          algoliasearch: algoliasearch,
+          templates: {
+            header: '<div class="ad-example-header">Države</div>',
+            footer: '<div class="ad-example-footer"/>'
+          },
+          hitsPerPage: 3,
+          type: ["country"],
+          getRankingInfo: true
+        });
+
+        // create the city dataset from places
+        // we automatically inject the default CSS
+        // all the places.js options are available
+        var placesCity = placesAutocompleteDataset({
+          algoliasearch: algoliasearch,
+          templates: {
+            header: '<div class="ad-example-header">Gradovi</div>'
+          },
+          hitsPerPage: 3,
+          type: ["city"],
+          getRankingInfo: true
+        });
+
+        // init
+        var autocompleteInstance = autocomplete(
+          document.querySelector("#autocomplete-dataset"),
+          {
+            hint: false,
+            debug: true,
+            cssClasses: { prefix: "ad-example" }
+          },
+          [placesCountry, placesCity]
+        );
+
+        var autocompleteChangeEvents = ["selected", "close"];
+
+        autocompleteChangeEvents.forEach(function(eventName) {
+          autocompleteInstance.on("autocomplete:" + eventName, function(
+            event,
+            suggestion,
+            datasetName
+          ) {
+            console.log(datasetName, suggestion);
+          });
+        });
+
+        document.querySelector("#autocomplete-dataset").on("change", evt => {
+        	document.querySelector('#autocomplete-dataset').value = e.suggestion.value || '';
+        });
+			
 		
 
 		axios 
@@ -234,7 +298,8 @@ Vue.component("search-apartment", {
 				this.cost = 0;
 			}
 
-		    this.locationSearch = cyrilicToLatinic(document.querySelector('#destination').value);
+		    this.locationSearch = cyrilicToLatinic(document.querySelector('#autocomplete-dataset').value);
+		    console.log(this.locationSearch)
 			let searchParameters = {
 				location : this.locationSearch,
 				numberOfGuests : this.guestNum,

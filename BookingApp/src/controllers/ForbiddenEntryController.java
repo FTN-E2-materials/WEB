@@ -47,7 +47,7 @@ public class ForbiddenEntryController {
 		});
 		
 
-		get("apartments/canISee", (req, res) -> {
+		get("apartmentss/canISee", (req, res) -> {
 			res.type("application/json");
 			try {
 				Session s = req.session(true);

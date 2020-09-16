@@ -31,7 +31,7 @@ Vue.component("edit_apartment", {
             formErrorMessage:'',
             imagesForBackend: [],
             imageSize: '40%',
-            width:window.screen.availWidth/7,
+            width:window.screen.availWidth/9,
             places : null,
             amenities : null,
             city : "",
@@ -69,39 +69,35 @@ Vue.component("edit_apartment", {
 <h2>Izmenite apartman</h2>
         <table align="left" width="1000px">
     		<tr v-if="imageCount < 4" style="margin-left:5px;">
-				<td v-for="(url, index) in images"  v-if="imageCount < 4" >
-					<img :src="url" :width="width" v-on:click="deleteImage(index)" />
-				</td>
-    		</tr>
-    	    <tr v-if="(imageCount >= 4) && (imageCount < 8)"  style="margin-left:5px;" width="1000px">
-				<td v-for="(url, index) in images"  >
-					<img :src="url" :width="width" v-on:click="deleteImage(index)" />
+				<td v-for="(url, index) in images"  :width="width"  style="vertical-align: middle; text-align: center;" >
+                    <button @click="deleteImage(index)" class = "button-x"> <i class="material-icons">close</i> </button>
+					<img :src="url" :width="width" />
 				</td>
     		</tr>
     	</table>
     
-            <table class="input-table" align="center">
+            <table class="input-table" align="left"  style="margin-left: 50px;">
                 <tr><td>Naziv apartmana:</td>
                 <td><input type="text" class="input-apt" v-model="apartmentName" v-on:change="signalChange"></td> 
-                <td color="red">{{errorName}}</td>
+                <td style="color:red;"">{{errorName}}</td>
                 </tr>
                 <tr><td>Tip apartmana: </td>
-                <td color="red"><input type="radio"  name="apartmentType" v-on:change="signalChange" value="soba" v-model="apartmentType">Soba 
+                <td><input type="radio"  name="apartmentType" v-on:change="signalChange" value="soba" v-model="apartmentType">Soba 
                 <input type="radio" name="apartmentType" v-on:change="signalChange" value="apartman" v-model="apartmentType">Ceo apartman</td>
-                <td color="red">{{errorType}}</td>
+                <td style="color:red;">{{errorType}}</td>
                 </tr>
                 <tr><td>Broj gostiju: </td>
                 <td><input type="number" class="input-apt" min="1" value="1" v-model="guestsNumber">
                 </td>
-                <td color="red">{{errorGuests}}</td>
+                <td style="color:red;">{{errorGuests}}</td>
                 </tr>
                 <tr><td>Broj soba: </td>
                 <td ><input type="number" class="input-apt"  min="1" value="1" v-model="numberOfRooms" ></td>
-                <td color="red">{{errorRooms}}</td>
+                <td style="color:red;">{{errorRooms}}</td>
                 </tr>
                 <tr><td>Adresa apartmana: </td>
                 <td><input type="search" id="address" v-on:change="signalChange"></td>
-                <td color="red">{{errorAddress}}</td>
+                <td style="color:red;">{{errorAddress}}</td>
                 </tr>
                 <tr><td>Grad: </td>
                 <td><input type="text" id="city" class="input-apt" disabled></td>
@@ -111,23 +107,23 @@ Vue.component("edit_apartment", {
                 </tr>
                 <tr><td>Početni datum za izdavanje: </td>
                 <td><vuejs-datepicker name="startDate" width="250px" class="input-apt" type="date" v-model="startDate" :disabledDates="disabledDates" format="dd.MM.yyyy."></vuejs-datepicker></td>
-                <td color="red">{{errorStartDate}}</td>
+                <td style="color:red;">{{errorStartDate}}</td>
                 </tr>
                 <tr><td>Krajnji datum za izdavanje: </td>
-                <td color="red"><vuejs-datepicker name="endDate" width="250px" class="input-apt" type="date" v-model="endDate" :disabledDates="disabledDates" format="dd.MM.yyyy."></vuejs-datepicker></td>
-                <td color="red">{{errorEndDate}}</td>
+                <td><vuejs-datepicker name="endDate" width="250px" class="input-apt" type="date" v-model="endDate" :disabledDates="disabledDates" format="dd.MM.yyyy."></vuejs-datepicker></td>
+                <td style="color:red;">{{errorEndDate}}</td>
                 </tr>
                 <tr><td>Vreme prijave: </td>
                 <td><input type="time" v-model="applicationTime" class="input-apt" v-on:change="signalChange"></td>
-                <td color="red">{{errorCheckIn}}</td>
+                <td style="color:red;">{{errorCheckIn}}</td>
                 </tr>
                 <tr><td>Vreme odjave: </td>
-                <td color="red"><input type="time" v-model="checkOutTime" class="input-apt" v-on:change="signalChange"></td>
-                <td color="red">{{errorCheckOut}}</td>
+                <td><input type="time" v-model="checkOutTime" class="input-apt" v-on:change="signalChange"></td>
+                <td style="color:red;">{{errorCheckOut}}</td>
                 </tr>
                 <tr><td>Cena za jednu noć: </td>
                 <td ><input type="number" min="1" v-model="price" class="input-apt" v-on:change="signalChange"></td>
-                <td color="red">{{errorCost}}</td>
+                <td style="color:red;">{{errorCost}}</td>
                 </tr>
                 <tr><td>Valuta:</td> 
                 <td><input type="radio" v-on:change="signalChange" name="valuta" value="RSD" v-model="currency">RSD
@@ -135,7 +131,7 @@ Vue.component("edit_apartment", {
                 <input type="radio" v-on:change="signalChange" name="valuta" value="Dolar" v-model="currency">Američki dolar
 
                 </td>
-                <td color="red">{{errorCurrency}}</td>
+                <td style="color:red;">{{errorCurrency}}</td>
                 </tr>
                 <tr><td>Označite slike apartmana:</td>
                 <td><input v-if="imageCount < 5" type="file" @change="imageAdded" />
@@ -147,13 +143,16 @@ Vue.component("edit_apartment", {
 		    	<div class = "check-boxes-amenity" v-if="a.deleted==false">
 					<div class = "one-check-box">
 						<input v-if="isChecked(a)" @click="checkAmenity(a)" type="checkbox" :id="a.id" :name="a.id" :value="a.amenityName" checked>
-						<input v-else="isChecked(a)" @click="checkAmenity(a)" type="checkbox" :id="a.id" :name="a.id" :value="a.amenityName">	
+						<input v-else @click="checkAmenity(a)" type="checkbox" :id="a.id" :name="a.id" :value="a.amenityName">	
 						<label class="amenity-label" for="a.amenityName"> {{a.amenityName}}</label><br>
 					</div>
 				</div>
     			</td>
     			</tr>
-    			<tr> <td> Omogući komentare: </td> <td> <input type="checkbox" v-if="isCheckedForCom"  @click="checkedComment" id = "commentsEnabled" checked> <input type="checkbox" v-else @click="checkedComment" id = "commentsEnabled"> Da </td> </tr>
+    			<tr> <td> Omogući komentare: </td> <td> 
+    			<input type="checkbox" v-if="commentsEnabled"  @click="checkedComment" id = "commentsEnabled" checked> 
+    			<input type="checkbox" v-else @click="checkedComment" id = "commentsEnabled"> Da </td>
+    			 </tr>
     			<tr><td colspan="2" align="center"> <button class="submit-add-apt" v-on:click="addApartment"> Izmeni </button></td> </tr>
             </table>
     <input id="latitude" hidden>
@@ -210,8 +209,8 @@ Vue.component("edit_apartment", {
 				this.images = response.data.apartmentPictures;
 				
 
-				this.startDate = moment(response.data.periodsForRent.startDate).format("DD.MM.YYYY.");
-				this.endDate = moment(response.data.periodsForRent.endDate).format("DD.MM.YYYY.");
+				this.startDate =  "";//moment(response.data.periodsForRent.startDate).format("DD.MM.YYYY.");
+				this.endDate = "";//moment(response.data.periodsForRent.endDate).format("DD.MM.YYYY.");
 				this.zipCode = response.data.location.zipCode;
 				this.latitude = response.data.location.latitude;
 				this.longitude = response.data.location.longitude;
@@ -224,7 +223,7 @@ Vue.component("edit_apartment", {
 			    document.querySelector('#zipCode').value = response.data.location.address.city.zipCode;
 			    
 			    this.imageCount = response.data.apartmentPictures.length;
-			    this.commentsEnabled = response.data.commentsEnabled;
+			    console.log(response.data.commentsEnabled);
 			    this.commentsEnabled = response.data.commentsEnabled;
 			    
 			    for (a of response.data.amenities) {
@@ -276,6 +275,7 @@ Vue.component("edit_apartment", {
     		this.commentsEnabled = !this.commentsEnabled;
     	},
     	isCheckedForCom : function() {
+    		console.log("komentari" + this.commentsEnabled);
     		return this.commentsEnabled;
     	},
     	isChecked : function(amenity) {
@@ -287,15 +287,20 @@ Vue.component("edit_apartment", {
     		return false;
     	},
     	checkAmenity : function(amenity) {
-    		let newAmenity = [];
-    		for (a of this.selectedAmenity) {
-    			if (!(a.id == amenity.id)) {
-    				newAmenity.push( {
-    					name : a.name,
-    					id : a.id});
-    				}
+    		let flag = true;
+    		for (a in this.selectedAmenity) {
+    			if (this.selectedAmenity[a].id == amenity.id) {
+    				flag = false;
+    				this.selectedAmenity.splice(a, 1);
+    				
     			}
-    		this.selectedAmenity = newAmenity;
+    		}
+    		if (flag) {
+    			this.selectedAmenity.push( {
+    				name : amenity.name,
+    				id : amenity.id
+    			});
+    		}
     	},
        NextButton : function()
        { 
@@ -467,7 +472,7 @@ Vue.component("edit_apartment", {
 	        	
 	        	if (this.currency === "RSD") {
 	        		this.currency = "Dinar";
-	        	} else if (this.currency === "EURO") {
+	        	} else if (this.currency === "Euro") {
 	        		this.currency = "Euro";
 	        	} else {
 	        		this.currency = "Dollar";
@@ -479,16 +484,27 @@ Vue.component("edit_apartment", {
 	        			id : amenity.id
 	        		});
 	        	}
-	        	for (i of this.imagesForBackend) {
-	        		console.log(i);
+	        	
+	        	let dateS;
+	        	let dateE;
+	        	let dateFrom;
+	        	let dateTo;
+	        	if (this.startDate != "") {
+	        		dateFrom = moment(this.startDate).format("DD.MM.YYYY.");
+			    	dateS = new Date(dateFrom);
+	        	} else {
+	        		dateS = "";
+	        		dateFrom = "";
 	        	}
 	        	
-
-			    let dateFrom = moment(this.startDate).format("DD.MM.YYYY.");
-			    let dateS = new Date(dateFrom);
-			    
-			    let dateTo = moment(this.startDate).format("DD.MM.YYYY.");
-			    let dateE = new Date(dateTo);
+	        	if (this.endDate) {
+			    	dateTo = moment(this.endDate).format("DD.MM.YYYY.");
+			    	dateE = new Date(dateTo);
+        		} else {
+        			dateE = "";
+        			dateTo = "";
+        		}
+	        	
 			    let period = {
 			    		startDate : dateS,
 			    		endDate : dateE
@@ -512,7 +528,8 @@ Vue.component("edit_apartment", {
 	                amenities : amenitiesToSend,
 	                id :  this.$route.query.id,
 	                startDate : dateFrom,
-	                endDate : dateTo
+	                endDate : dateTo,
+	                commentsEnabled : this.commentsEnabled
 	            
 	            };
 	

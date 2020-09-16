@@ -158,13 +158,12 @@ public class ApartmentController {
 				if (user == null) {
 					return "";
 				}
-				if (user.getRole() != UserRole.Host) {
+				if (user.getRole() == UserRole.Guest) {
 					return "";
 				}
-				Host host = (Host) user;
 				System.out.println(req.body());
 				ApartmentDTO apartment = gs.fromJson(req.body(), ApartmentDTO.class);
-				return gs.toJson(apartmentService.updateApartment(apartment, host));
+				return gs.toJson(apartmentService.updateApartment(apartment));
 			} catch (Exception e) {
 				e.printStackTrace();
 				return "";
