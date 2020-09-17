@@ -11,7 +11,8 @@ Vue.component("profile-view", {
             profileImageForBackend : "",
             isThisMe : false,
             errorMessage:'',
-            role:''
+            role:'',
+            genderTxt : ""
         }
     },
 
@@ -70,19 +71,19 @@ Vue.component("profile-view", {
                 <label class="username2">Pol:</label>
                 <div class = "col-filters">
                     <div class = "col-username2">
-                        <p v-bind:hidden="editMode==true">{{gender}}</p>
+                        <p v-bind:hidden="editMode==true">{{genderTxt}}</p>
                     </div>
                     <tr v-bind:hidden="editMode!=true" class="radio_button">
                     <td>
-                    <input type="radio" id="male" name="gender" value="Muško" v-bind:checked="gender=='Muško'" style="width:70px;">
+                    <input type="radio" id="male" name="gender" value="Male" v-model="gender" v-bind:checked="gender=='Male'" style="width:70px;">
                     <span for="male" style="width:70px;">Muško</span>
                     </td>
                     <td>
-                    <input type="radio" id="female" name="gender" value="Žensko" v-bind:checked="gender=='Žensko'"   style="width:70px;">
+                    <input type="radio" id="female" name="gender" value="Female" v-model="gender" v-bind:checked="gender=='Female'"   style="width:70px;">
                     <span for="female"  style="width:70px;">Žensko</span>
                     </td>
                     <td>
-                    <input type="radio" id="other" name="gender" value="Ostalo" v-bind:checked="gender=='Ostalo '"  style="width:70px;">
+                    <input type="radio" id="other" name="gender" value="Other" v-model="gender" v-bind:checked="gender=='Other '"  style="width:70px;">
                     <span for="other"  style="width:70px;">Ostalo</span>
                     </td>
                     </tr>
@@ -157,13 +158,16 @@ Vue.component("profile-view", {
                 
                 this.profileImage=response.data.currentUser.profilePicture;
                 if (response.data.currentUser.gender == 'Female') {
-                	this.gender = "Žensko";
+                	this.gender = "Female";
+                	this.genderTxt = "Žensko";
                 } else if(response.data.currentUser.gender == 'Male'){
-                	this.gender = "Muško";
+                	this.gender = "Male";
+                	this.genderTxt = "Muško";
                 }
                 else
                 {
-                    this.gender = "Ostalo";
+                    this.gender = "Other";
+                	this.genderTxt = "Ostalo";
                 }
                 if (response.data.isThisMe) {
                 	this.isThisMe = true;
@@ -236,10 +240,9 @@ Vue.component("profile-view", {
             .then(response => {
                 if (response.data !=null && response.data!="") {
                     toast("Uspesno ste izmenili profil!");
-                    window.location.href = "#/profile_view";
+					this.$router.go(-1);
                 } else {
                     toast("Doslo je do neke greske!");
-                    window.location.href = "#/profile_view";
                 }
             })
             this.editMode=false;

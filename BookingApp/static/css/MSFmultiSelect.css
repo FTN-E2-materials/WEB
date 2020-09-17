@@ -5,23 +5,28 @@
   padding: 0;
   position: absolute;
   z-index: 240;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .msf_multiselect li:hover, .sb_multiselect li:active, .sb_multiselect li:focus{
   background-color: #e5e5e5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .msf_multiselect li.active{
   background-color: #e5e5e5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .msf_multiselect li{
   padding-left: 4px;
   background-color: #ffffff;
   cursor: pointer;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .msf_multiselect_container textarea{
   resize: none;
   padding-left: 2px;
   padding-top: 2px;
   overflow: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .msf_multiselect_container .msf_multiselect{
   height: 200px;
@@ -29,8 +34,10 @@
   background-color: white;
   display: grid;
   text-align: left;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .msf_multiselect label{
   display: block;
   margin-bottom: 1px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

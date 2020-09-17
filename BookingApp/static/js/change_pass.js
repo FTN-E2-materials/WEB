@@ -98,7 +98,7 @@ Vue.component("change_pass",{
 	            .then(response => {
 	                if (response.data != null) {
 	                	toast("Uspešno ste promenili vašu lozinku!")
-	                    window.location.href = "#/profile_view";
+						this.$router.go(-1);
 	                } else {
 	                	toast("Došlo je do greške prilikom promene lozinke.");
 	                    window.location.href = "http://localhost:8088/#/profile-view";

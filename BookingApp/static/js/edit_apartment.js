@@ -509,7 +509,11 @@ Vue.component("edit_apartment", {
 			    		startDate : dateS,
 			    		endDate : dateE
 			    }
-			    
+			    if (this.apartmentType === 'soba') {
+			    	this.apartmentType = "Room";
+			    } else {
+			    	this.apartmentType = "FullApartment";
+			    }
 	            let apartmentParameters= {
 	                apartmentTitle:this.apartmentName,
 	                type:this.apartmentType,
@@ -538,7 +542,7 @@ Vue.component("edit_apartment", {
 				    .then(response => {
 				    	if (response.data != null && response.data != "") {
 				    		toast("Uspesno ste izmenili apartman!");
-				    		window.location.href = "#/";
+							this.$router.go(-1);
 				    		
 				    	} else if (response.status == 404) {
 				    		toast("Došlo je do neke greške!");

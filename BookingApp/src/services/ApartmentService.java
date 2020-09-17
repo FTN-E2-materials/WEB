@@ -532,9 +532,11 @@ public class ApartmentService {
 			Host host = (Host) user;
 			for (Reservation r : allReservations) {
 				Apartment a = apartmentDao.getByID(r.getApartment().getID());
-				r.getApartment().setActive(a.isActive());
-				if (host.isApartmentMine(r.getApartment())) {
-					filteredByUser.add(r);
+				if (a != null) {
+					r.getApartment().setActive(a.isActive());
+					if (host.isApartmentMine(r.getApartment())) {
+						filteredByUser.add(r);
+					}
 				}
 			}
 			System.out.println(filteredByUser.size());
@@ -543,9 +545,11 @@ public class ApartmentService {
 			Guest guest = (Guest) user;
 			for (Reservation r : allReservations) {
 				Apartment a = apartmentDao.getByID(r.getApartment().getID());
-				r.getApartment().setActive(a.isActive());
-				if (r.getGuest().getUsername().equals(guest.getUsername())) {
-					filteredByUser.add(r);
+				if (a != null) {
+					r.getApartment().setActive(a.isActive());
+					if (r.getGuest().getUsername().equals(guest.getUsername())) {
+						filteredByUser.add(r);
+					}
 				}
 			}
 			return filteredByUser;
@@ -747,25 +751,37 @@ public class ApartmentService {
 				}
 			}
 		}
+		System.out.println(amenities.size());
 		
 		for (Apartment a : getActive())  {
-			boolean flagToAdd = true;
-			for (Amenity am : amenities) {
-				if (!a.doIHaveAmenity(am)) {
-					flagToAdd = false;
-					break;
-				}
-				System.out.println(am.getAmenityName());
-			}
-			
-			if (flagToAdd) {
+
+			if (amenities.size() == 0) {
 				if (type != null) {
 					if (a.getType() == type) {
 						filtered.add(a);
 					}
 				} else {
 					filtered.add(a);
-					System.out.println("aa");
+				}
+			} else {
+				boolean flagToAdd = true;
+				for (Amenity am : amenities) {
+					if (!a.doIHaveAmenity(am)) {
+						flagToAdd = false;
+						break;
+					}
+					System.out.println(am.getAmenityName());
+				}
+				
+				if (flagToAdd) {
+					if (type != null) {
+						if (a.getType() == type) {
+							filtered.add(a);
+						}
+					} else {
+						filtered.add(a);
+						System.out.println("aa");
+					}
 				}
 			}
  		}
@@ -899,18 +915,40 @@ public class ApartmentService {
 		} else {
 			reservations = this.getReservationsByUser(u.getUsername());
 		}
-		
-		for (Reservation r : reservations) {
-			boolean flag = true;
-			for (ReservationStatus status : fromJson.getStatus()) {
-				if ((r.getStatus() == status)) {
-					retVal.add(r);
+		List<Reservation> filtered2 = new ArrayList<Reservation>();
+		if (!fromJson.getUsername().isEmpty()) {
+			User user = userDao.getByID(fromJson.getUsername());
+			if (user != null) {
+				for (Reservation r : reservations) {
+					if (r.getGuest().compareTo(user.getUsername())) {
+						filtered2.add(r);
+
+						System.out.println(fromJson.getUsername());
+					}
 				}
+			} else {
+				filtered2 = reservations;
+			}
+		} else {
+			filtered2 = reservations;
+		}
+		
+		if (fromJson.getStatus().size() != 0) {
+			for (Reservation r : filtered2) {
+				boolean flag = true;
+				for (ReservationStatus status : fromJson.getStatus()) {
+					if ((r.getStatus() == status)) {
+						retVal.add(r);
+					}
+					
+				}
+				System.out.println("asdsa" + fromJson.getStatus().size());
 				
 			}
-			System.out.println("asdsa" + fromJson.getStatus().size());
-			
+		} else {
+			retVal = filtered2;
 		}
+		
 		
 		if (fromJson.isAscending()) {
 			Collections.sort(retVal, new ReservationAscendingComparator());
@@ -925,6 +963,7 @@ public class ApartmentService {
 		for (Reservation r : reservationDao.getAllNonDeleted()) {
 			if (a.isCommentsEnabled()) {
 				if (r.getApartment().compareTo(a.getID()) && r.getGuest().compareTo(g.getID())) {
+					System.out.println("Mogu li");
 					if (r.getStatus() == ReservationStatus.Accepted || r.getStatus() == ReservationStatus.Finished) {
 						return true;
 					}

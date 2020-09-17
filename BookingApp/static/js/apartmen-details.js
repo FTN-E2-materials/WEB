@@ -33,7 +33,9 @@ Vue.component("apartment-details", {
 	        canDeleteComment : false,
 			mode : "",
 			numOfNights : "",
-			message : ""
+			message : "",
+			address : "",
+			isThereAnyComment : false
 		}
 	},
 	template: `
@@ -71,6 +73,7 @@ Vue.component("apartment-details", {
                 <p class="title-desc">OPIS APARTMANA</p>
                 <p>{{apartmentDesc}}</p>
                 <p>Sadržaj apartmana: {{amenityDetails}}</p>
+                <p>Adresa : {{address}} </p>
                 </div>
         </div>
 
@@ -114,7 +117,7 @@ Vue.component("apartment-details", {
         	<button v-on:click="deleteApartment" class="submit">Obriši apartman?</button>
 		</div> 
         <div class = "comments" id="comment-section">
-            <p>Komentari:</p>
+            <p v-bind:hidden="isThereAnyComment">Komentari:</p>
             <div class = "comment-row"  v-for="c in comments">
             	<div v-if="canSeeDeleted(c)">
 	                <div class = "comment-from">
@@ -172,6 +175,7 @@ Vue.component("apartment-details", {
 			.then(response => {
 				this.apartment = response.data;
 				this.id = response.data.id;
+				this.address = response.data.location.address.address;
 				this.mainPicture = response.data.apartmentPictures[0];
 				this.checkInTime = response.data.checkInTime;
 				this.checkOutTime = response.data.checkOutTime;
@@ -199,10 +203,6 @@ Vue.component("apartment-details", {
 					this.numOfEl = 3;
 					console.log("aSdasdsa");
 				}
-				
-				console.log(this.numOfEl);
-				console.log(this.numOfRows);
-				
 				for (a of response.data.amenities) {
 					this.amenityDetails = this.amenityDetails + a.amenityName + " ";
 				}
@@ -232,12 +232,18 @@ Vue.component("apartment-details", {
 					    		to : toDate
 					    	});
 					    	lastDate = new Date(moment(period.endDate).format("YYYY-MM-DD"));
+				    	} else {
+					    	lastDate = new Date(moment(period.endDate).format("YYYY-MM-DD"));
+				    		if (this.isAfterToday(lastDate)) {
+					    		disabled.push({
+						    		from : new Date(),
+						    		to : toDate
+						    	});
+						    	lastDate = new Date(moment(period.endDate).format("YYYY-MM-DD"));
+				    		}
 				    	}
 				    }
 					
-					for (a of disabled) {
-						console.log(a.from + " " + a.to);
-					}
 					this.disabledDates["ranges"] = disabled;
 					this.disabledDates["to"] = new Date(Date.now());
 					this.disabledDates["from"] = lastDate;
@@ -271,6 +277,7 @@ Vue.component("apartment-details", {
 							.get("apartment/canIComment/" + this.$route.query.id)
 							.then(response => {
 								this.canComment = response.data;
+								console.log(this.canComment);
 							})
  	    			} else if (response.data.role === "Host") {
 		    			this.canReserve = false;
@@ -347,7 +354,7 @@ Vue.component("apartment-details", {
 						this.comments = response.data.comments;
 						this.apartmentDesc = response.data.shortDescription;
 						this.numOfRows = response.data.apartmentPictures.length / 3 + 1;
-						
+					
 					
 					} else {
 						toast("Došlo je do neke greške!");
@@ -389,6 +396,7 @@ Vue.component("apartment-details", {
 					} else {
 						if (response.data != null) {
 							toast("Uspešno ste rezervisalil apartman!");
+							this.$router.go(-1)
 						} else {
 							toast("Nemoguće je rezervisati apartman u tom periodu!");
 						}

@@ -13,7 +13,7 @@ public class FilterDTO {
 	private String type;
 	private List<ReservationStatus> status;
 	private List<String> apartments;
-	
+	private String username;
 	public FilterDTO() {
 		// TODO Auto-generated constructor stub
 	}
@@ -52,6 +52,12 @@ public class FilterDTO {
 	}
 	public void setApartments(List<String> apartments) {
 		this.apartments = apartments;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 	

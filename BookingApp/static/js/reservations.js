@@ -10,7 +10,8 @@ Vue.component("reservations", {
 			mode : "notLogged",
 			mySelect : null,
 			options : [],
-			sort_type : ""
+			sort_type : "",
+			byUsername : ""
 		}
 	},
 	
@@ -41,6 +42,13 @@ Vue.component("reservations", {
 						  </select>
 						</div>
 
+            </div>
+            <div  v-bind:hidden="mode=='guest'">
+            <div class = "bystatus">
+                <h1 class="filter-reservations">Korisničkom imenu:</h1>
+              	<input type="text" v-model="byUsername">
+
+            </div>
             </div>
             
             <button class = "submit" @click="search"> Pretraži </button>
@@ -378,7 +386,8 @@ Vue.component("reservations", {
 			let parameters = {
 					ascending : ascending,
 					descending : descending, 
-					status : statuses
+					status : statuses,
+					username : this.byUsername
 			}
 			axios
 				.post("apartment/filterReservations", JSON.stringify(parameters))
