@@ -7,6 +7,9 @@ import static spark.Spark.staticFiles;
 import java.io.File;
 import java.io.IOException;
 
+import beans.Administrator;
+import beans.Gender;
+import beans.UserRole;
 import controllers.AmenityController;
 import controllers.ApartmentController;
 import controllers.ForbiddenEntryController;
@@ -53,6 +56,7 @@ public class Application {
 		get("/test", (req, res) -> {
 			return "Works";
 		});
+		
 	}
 
 }

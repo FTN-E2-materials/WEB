@@ -123,8 +123,14 @@ Vue.component("apartment-details", {
 	                <div class = "comment-from">
 	                    <a :href = "'#/profile-view?id=' + c.guest.username">{{c.guest.username}} </a>
 	                </div>
+	                
 	                <div class = "comment-desc">
 	                 	<p> {{c.text}} </p>
+	                 	<p v-if="c.grade=='Excellent'"> Ocena 5/5 </p>
+	                 	<p v-if="c.grade=='VeryGood'"> Ocena 4/5 </p>
+	                 	<p v-if="c.grade=='Good'"> Ocena 3/5 </p>
+	                 	<p v-if="c.grade=='Poor'"> Ocena 2/5 </p>
+	                 	<p v-if="c.grade=='VeryPoor'"> Ocena 1/5 </p>
 	                 </div>
 	                 <div v-bind:hidden="canDeleteComment==false">
 	                 	<a v-if="c.hidden==false" href="#" @click="deleteComment(c)" class="hide-comment"> Sakrij komentar </a>
@@ -334,27 +340,7 @@ Vue.component("apartment-details", {
 				.then(response => {
 					if (response.data != null) {
 						toast("Uspešno ste komentarisali!");
-						this.textComment = "";
-						this.grade = "";
-						this.apartment = response.data;
-						this.checkInTime = response.data.checkInTime;
-						this.checkOutTime = response.data.checkOutTime;
-						this.numOfGuests = response.data.numberOfGuests;
-						this.titleOfApartment= response.data.apartmentTitle;
-						this.numOfRooms = response.data.numberOfRooms;
-						this.costForNight = response.data.costForNight;
-						this.pictures = response.data.apartmentPictures;
-						if (response.data.costCurrency == "Euro") {
-							this.currency = "€";
-						} else if (response.data.costCurrency == "Dollar") {
-							this.currency = "$";
-						} else {
-							this.currency = "RSD";
-						}
 						this.comments = response.data.comments;
-						this.apartmentDesc = response.data.shortDescription;
-						this.numOfRows = response.data.apartmentPictures.length / 3 + 1;
-					
 					
 					} else {
 						toast("Došlo je do neke greške!");

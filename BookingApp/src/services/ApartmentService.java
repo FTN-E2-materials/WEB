@@ -663,6 +663,7 @@ public class ApartmentService {
 		newApartment.setCostCurrency(apartmentParameters.getCurrency());
 		newApartment.setAmenities(apartmentParameters.getAmenities());
 		System.out.println(apartmentParameters.isCommentsEnabled());
+		newApartment.setComments(apartmentDao.getByID(apartmentParameters.getId()).getComments());
 		List<Period> periods = apartmentDao.getByID(apartmentParameters.getId()).getPeriodsForRent();
 
 		Period p = new Period();
@@ -903,7 +904,17 @@ public class ApartmentService {
 	}
 
 	public List<Reservation> getReservationsForAdmin() throws JsonSyntaxException, IOException {
-		return reservationDao.getAllNonDeleted();
+		List<Reservation> reservations = reservationDao.getAllNonDeleted();
+		List<Reservation> retVal = new ArrayList<Reservation>();
+		for (Reservation r: reservations) {
+			Apartment a = apartmentDao.getByID(r.getApartment().getID());
+			if (a != null) {
+				if (!a.isDeleted()) {
+					retVal.add(r);
+				}
+			}
+		}
+		return retVal;
 	}
 
 	public List<Reservation> filterReservations(FilterDTO fromJson, User u) throws JsonSyntaxException, IOException {

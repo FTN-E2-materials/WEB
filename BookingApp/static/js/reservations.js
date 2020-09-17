@@ -45,7 +45,7 @@ Vue.component("reservations", {
             </div>
             <div  v-bind:hidden="mode=='guest'">
             <div class = "bystatus">
-                <h1 class="filter-reservations">Korisničkom imenu:</h1>
+                <h1 class="filter-reservations">Korisničko ime:</h1>
               	<input type="text" v-model="byUsername">
 
             </div>
