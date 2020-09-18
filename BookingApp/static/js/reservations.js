@@ -74,6 +74,7 @@ Vue.component("reservations", {
                     <h1 class = "info-reservation" v-if="r.apartment.costCurrency == 'Euro'">Ukupna cena: {{r.cost}} eura</h1>
                     <h1 class = "info-reservation" v-if="r.apartment.costCurrency == 'Dollar'">Ukupna cena: {{r.cost}} dolara</h1>
                     <h1 class = "info-reservation" v-if="r.apartment.costCurrency == 'Dinar'">Ukupna cena: {{r.cost}} dinara</h1>
+                    <h1 class = "info-reservation">{{r.apartment.location.address.address}}, {{r.apartment.location.address.city.city}}, {{r.apartment.location.address.city.state.state}}  </h1>
 
                     <h1 class = "info-reservation" v-if="mode!='guest'">Korisničko ime gosta: {{r.guest.username}}</h1>
                     <h1 class = "info-reservation" v-if="mode!='host'">Korisničko ime domaćina: {{r.apartment.hostUsername}}</h1>

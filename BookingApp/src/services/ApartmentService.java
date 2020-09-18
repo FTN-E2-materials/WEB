@@ -80,6 +80,7 @@ public class ApartmentService {
 		newApartment.setID(nextID);
 		newApartment.setHostUsername(host.getUsername());
 		newApartment.setCommentsEnabled(apartmentParameters.isCommentsEnabled());
+		System.out.println(apartmentParameters.getCurrency());
 		newApartment.setCostCurrency(apartmentParameters.getCurrency());
 		newApartment.setAmenities(apartmentParameters.getAmenities());
 		
@@ -374,6 +375,7 @@ public class ApartmentService {
 		try {
 			List<Apartment> filtered = filterApartments(fromJson);
 			List<Apartment> retVal = new ArrayList<Apartment>();
+			System.out.println(filtered.size());
 			if (filtered.size() > 0) {
 
 				Date startDate = null;
@@ -386,35 +388,116 @@ public class ApartmentService {
 				if (fromJson.getDateTo() != null) {
 					endDate = new SimpleDateFormat("dd.MM.yyyy.").parse(fromJson.getDateTo());
 				} 
-
-		    	List<Reservation> reservationsByApartment = filterReservationsByApartments(filtered);
-		    	List<Apartment> available = new ArrayList<Apartment>();
 		    	
-		    	if (endDate != null && startDate != null) {
-			    	for (Apartment a : filtered) {
-			    		boolean addToList = false;
-			    		for (Reservation r : reservationsByApartment) {
-			    			if (r.getApartment().compareTo(a.getID())) {
-			    				if (!r.isDateInIntersection(startDate, endDate)) {
-			    					addToList = true;
-			    				} else {
-			    					addToList = false;
-			    				}
-			    			}
-			    			
-			    			if (!addToList)
-			    				break;
-			    		}
-			    		
-			    		if (addToList) {
-			    			retVal.add(a);
-			    		}
+		    	if (startDate != null) {
+		    		if (endDate != null) {
+				    	for (Apartment a : filtered) {
+				    		boolean addToList = false;
+				    		if (!a.isValidPeriod(startDate, endDate)) {
+				    			addToList = false;
+				    		} else {
+				    			addToList = true;
+				    		}
+				    		if (addToList) {
+				    			retVal.add(a);
+				    		}
+				    	}
+
+				    		
+		    		} else {
+				    	for (Apartment a : filtered) {
+				    		boolean addToList = false;
+				    		if (!a.isOneDateValid(startDate)) {
+				    			addToList = false;
+				    		} else {
+				    			addToList = true;
+				    		}
+				    		if (addToList) {
+				    			retVal.add(a);
+				    		}
+				    	}
+		    		}
+			   } else if (fromJson.getCity().isEmpty() && fromJson.getCountry().isEmpty() && 
+					   fromJson.getNumberOfGuests().isEmpty() && fromJson.getNumberOfRooms().isEmpty() && fromJson.getCost() == 0)
+			   {
+				   if (endDate != null) {
+				    	for (Apartment a : filtered) {
+				    		boolean addToList = false;
+				    		if (!a.isOneDateValid(endDate)) {
+				    			addToList = false;
+				    		} else {
+				    			addToList = true;
+				    		}
+				    		if (addToList) {
+				    			retVal.add(a);
+				    		}
+				    	}
+				   
+			    	} else {
+			    		retVal = filtered;
 			    	}
-		    	} else {
-		    		retVal = filtered;
-		    	}
-			}
+			   } else {
+				   retVal = filtered;
+			   }
+			} else {
+
+				Date startDate = null;
+				
+				if (fromJson.getDateFrom() != null) {
+					startDate = new SimpleDateFormat("dd.MM.yyyy.").parse(fromJson.getDateFrom());
+				} 				
 			
+				Date endDate = null;
+				if (fromJson.getDateTo() != null) {
+					endDate = new SimpleDateFormat("dd.MM.yyyy.").parse(fromJson.getDateTo());
+				} 
+		    	
+		    	if (startDate != null) {
+		    		if (endDate != null) {
+				    	for (Apartment a : apartmentDao.getAllNonDeleted()) {
+				    		boolean addToList = false;
+				    		if (!a.isValidPeriod(startDate, endDate)) {
+				    			addToList = false;
+				    		} else {
+				    			addToList = true;
+				    		}
+				    		if (addToList) {
+				    			retVal.add(a);
+				    		}
+				    	}
+
+				    		
+		    		} else {
+				    	for (Apartment a : apartmentDao.getAllNonDeleted()) {
+				    		boolean addToList = false;
+				    		if (!a.isOneDateValid(startDate)) {
+				    			addToList = false;
+				    		} else {
+				    			addToList = true;
+				    		}
+				    		if (addToList) {
+				    			retVal.add(a);
+				    		}
+				    	}
+		    		}
+			   } else {
+				   if (endDate != null) {
+				    	for (Apartment a : apartmentDao.getAllNonDeleted()) {
+				    		boolean addToList = false;
+				    		if (!a.isOneDateValid(endDate)) {
+				    			addToList = false;
+				    		} else {
+				    			addToList = true;
+				    		}
+				    		if (addToList) {
+				    			retVal.add(a);
+				    		}
+				    	}
+				   
+			    	}
+				
+			   }
+			}
 			return retVal;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -446,12 +529,22 @@ public class ApartmentService {
 			Host h = (Host) userDao.getByID(a.getHostUsername());
 			if (a.isActive() && !h.isBlocked()) {
 				addAp = false;
-				if (!fromJson.getLocation().isEmpty()) {
-					if (fromJson.getLocation().toLowerCase().contains(a.getLocation().getAddress().getCity().getCity().toLowerCase())
-							|| fromJson.getLocation().toLowerCase().contains(a.getLocation().getAddress().getCity().getState().getState().toLowerCase()) ) {
-						addAp = true;
-					} else {
-						continue;
+				if (fromJson.getCity().isEmpty()) {
+					if (!fromJson.getCountry().isEmpty()) {
+						if (fromJson.getCountry().toLowerCase().equals(a.getLocation().getAddress().getCity().getState().getState().toLowerCase())) {
+							addAp = true;
+						} else {
+							continue;
+						}
+					}
+				} else if (!fromJson.getCity().isEmpty()) {
+					if (!fromJson.getCountry().isEmpty()) {
+						if (fromJson.getCountry().toLowerCase().equals(a.getLocation().getAddress().getCity().getState().getState().toLowerCase())
+								&& fromJson.getCity().toLowerCase().equals(a.getLocation().getAddress().getCity().getCity().toLowerCase())) {
+							addAp = true;
+						} else {
+							continue;
+						}
 					}
 				}
 				
@@ -938,7 +1031,7 @@ public class ApartmentService {
 					}
 				}
 			} else {
-				filtered2 = reservations;
+				filtered2 = new ArrayList<Reservation>();
 			}
 		} else {
 			filtered2 = reservations;

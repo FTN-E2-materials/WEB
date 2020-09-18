@@ -154,14 +154,9 @@ Vue.component("amenities", {
 				.then(response => {
 					if (response.data != null) {
 						toast("Uspešno ste obrisali postojeći sadržaj!");
-		    			for(let a of this.amenities){
-		    				if(a.id === this.selectedAmenity.id){
-		    					const index = this.amenities.indexOf(a);
-		    					this.amenities.splice(index, 1);
-		    					break;
-		    				}
-		    			}
-					}
+						this.amenities = response.data;
+		    		}
+					
 				})
 			this.addMode = true;
 			this.currentAmenity = "";
@@ -175,10 +170,11 @@ Vue.component("amenities", {
 				this.error = "Naziv sadržaja je obavezno polje";
 			} else {
 				axios 
-					.put("amenities/addAmenity", JSON.stringify(this.currentAmenity))
+					.post("amenities/addAmenity", JSON.stringify(this.currentAmenity))
 					.then(response => {
 					if (response.data != null) {
 						toast("Uspešno ste dodali sadržaj!");
+						this.amenities = response.data;
 					}
 				})
 				this.addMode = true;

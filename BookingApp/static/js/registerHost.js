@@ -1,17 +1,14 @@
- Vue.component("login", {
+Vue.component("registerHost", {
 
 	data: function () {
 		    return {
-		    	logged : null,
 		    	error:'',
-		    	usernameLog: '',
 		    	usernameRegister: '',
 		    	passwordRegister: '',
 		    	nameRegister: '',
 				surnameRegister: '',
 				genderRegister:'',
 		    	passwordRepeat: '',
-			    passwordLog:'',
 				errorMessage:'',
 				registrationError: '',
 				roleRegister : ""
@@ -21,34 +18,17 @@
     template: `
 <div class = "bg-login">
 <div class = "page-login">
-    <div class = "form sign-in">
-        <h2 class = "login-h1">Prijava</h2>
-        <label class = "login-label">
-            <span> Korisničko ime </span>
-			<input class = "login-input" type="text" name = "username" v-on:change="signalChange" v-model="usernameLog">
-        </label>
-        <label class = "login-label">
-            <span> Lozinka </span>
-			<input class = "login-input" type="password" name="password" v-model="passwordLog" v-on:change="signalChange">
-			<p style="color:red;text-transform:none;">{{errorMessage}}</p>
-			<button class="submit-login" v-on:click="tryToLogin"> Prijavi se </button>
-        </label>
-        
-    </div>
-
-
 <div class="sub-page">
     <div class = "bground">
         <div class = "bground-text m-up">
-            <h1 class = "login-h1">Nemate <br> nalog?</h1>
-            <p class = "login-p">Registrujte se i <br> rezervišite sebi apartman!</p>
+            <p class = "login-p">Registrujte se <br> novog domaćina!</p>
         </div>
     
-        <div class="bground-text m-in">
+        <div hidden class="bground-text m-in">
             <h1 class = "login-h1" >Već imate nalog?</h1>
             <p class = "login-p">Ako već imate nalog, prijavite se i rezervišite sebi apartman!</p>
         </div>
-        <div class="bground-btn"  v-on:click="slideToOther">
+        <div hidden class="bground-btn"  v-on:click="slideToOther">
             <span class="m-up">Registrujte se</span>
             <span class="m-in">Prijavite se</span>
         </div>
@@ -96,7 +76,7 @@
 	</label>
 	
 	<p style="color:red; text-align:center;">{{registrationError}}</p>
-    <button type="button" class="submit-reg" v-on:click="registerUser">Registrujte se</button>
+    <button type="button" class="submit-reg" v-on:click="registerUser">Registrujte</button>
 </div>
 
 </div>
@@ -105,15 +85,20 @@
     `, 
     
 	mounted () {
-       axios
-        .get('/test')
-        .then(response => {
-        	if(response.data == null)
-        		this.logged = false;
-        	else
-        		this.logged = true;
-        })
+		document.querySelector('.page-login').classList.toggle('s-signup');
 
+    	axios
+    		.get("amenities/canISee")
+    		.then(response => {
+    			if (response.status == 403) {
+    				window.location.href = "#/forbidden";
+    			}
+    		})
+    		.catch(function(error) {
+    			if (error.response.status == 403) {
+    				window.location.href = "#/forbidden";
+    			}
+    		});
     }, 
     methods : {
     	slideToOther : function() {
@@ -145,7 +130,7 @@
 					} 
 					
 					else {
-						window.location.href = "http://localhost:8088";
+    					window.location.href = "http://localhost:8088/";
     				}
 				})
 			}
@@ -154,20 +139,22 @@
     		
     	}, 
     	registerUser : function() {
+			console.log("wut");
 			let flag=true;
 			
 			if(this.nameRegister=="" ||this.surnameRegister=="" ||this.usernameRegister=="" ||this.passwordRegister=="" || this.genderRegister=="")
 			{
-				registrationError="Morate popuniti sva polja u formi.";
+				this.registrationError="Morate popuniti sva polja u formi.";
 				flag=false;
 			}
 			else if(this.passwordRegister!=this.passwordRepeat)
 			{
-				registrationError="Lozinke se ne slažu.";
+				this.registrationError="Lozinke se ne slažu.";
 				flag=false;
 			}
 			if(flag)
 			{
+				console.log("wuuut");
 				let genderReg;
 				if (this.genderRegister == 'Musko') {
 					genderReg = 'Male';
@@ -176,7 +163,7 @@
 				} else {
 					genderReg = 'Other';
 				}
-				this.roleRegister = "Guest";
+				this.roleRegister = "Host";
 				let registrationParameters = {
     				name : this.nameRegister,
     				surname : this.surnameRegister,
@@ -187,12 +174,15 @@
     		};
 
     		axios 
-    			.post('/user/register', JSON.stringify(registrationParameters))
+    			.post('/user/registerHost', JSON.stringify(registrationParameters))
     			.then(response => {
     				if (response.data == null) {
-    					window.location.href = "#/login";
+    					console.log("wut");
+    					toast("Došlo je do neke greške");
+    					window.location.href = "#/registerHost";
     				} else {
-						window.location.href = "http://localhost:8088";
+    					console.log("wut");
+    					this.$router.go(-1);
     				}
     			})
 			}
@@ -204,4 +194,4 @@
 			this.errorMessage="";
 		}
     }
-});
+})

@@ -12,6 +12,8 @@ public class SearchDTO {
 	private String dateTo;
 	private int cost;
 	private List<Apartment> apartments;
+	private String city;
+	private String country;
 	
 	public SearchDTO() {
 		// TODO Auto-generated constructor stub
@@ -26,6 +28,30 @@ public class SearchDTO {
 		this.numberOfRooms = numberOfRooms;
 		this.dateFrom = dateFrom;
 		this.dateTo = dateTo;
+	}
+
+
+
+	public String getCity() {
+		return city;
+	}
+
+
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+
+
+	public String getCountry() {
+		return country;
+	}
+
+
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
 

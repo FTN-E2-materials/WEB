@@ -14,6 +14,7 @@ const edit_apartment = { template : "<edit_apartment></edit_apartment>"}
 const homepage = { template : "<homepage></homepage>" }
 const add_nonWorkingDays={template:"<add_nonWorkingDays></add_nonWorkingDays>"}
 const forbidden = { template: "<forbidden></forbidden>" }
+const registerHost = { template: "<registerHost></registerHost>" }
 
 const router = new VueRouter({
     mode : 'hash',
@@ -33,7 +34,8 @@ const router = new VueRouter({
 		{ path : "/amenities", component: amenities },
 		{ path : "/edit_apartment", component: edit_apartment },
 		{ path : "/add_nonWorkingDays", component: add_nonWorkingDays },
-		{ path : "/forbidden", component: forbidden }
+		{ path : "/forbidden", component: forbidden },
+		{ path : "/registerHost", component: registerHost } 
     ]
 });
 

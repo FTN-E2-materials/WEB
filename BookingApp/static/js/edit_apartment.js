@@ -110,7 +110,7 @@ Vue.component("edit_apartment", {
                 <td style="color:red;">{{errorStartDate}}</td>
                 </tr>
                 <tr><td>Krajnji datum za izdavanje: </td>
-                <td><vuejs-datepicker name="endDate" width="250px" class="input-apt" type="date" v-model="endDate" :disabledDates="disabledDates" format="dd.MM.yyyy."></vuejs-datepicker></td>
+                <td><vuejs-datepicker name="endDate" width="250px" class="input-apt" type="date" v-model="endDate" :disabledDates="disableSecond" format="dd.MM.yyyy."></vuejs-datepicker></td>
                 <td style="color:red;">{{errorEndDate}}</td>
                 </tr>
                 <tr><td>Vreme prijave: </td>
@@ -269,6 +269,21 @@ Vue.component("edit_apartment", {
 		    
 		    console.log(this.address);
 		  });
+    },
+    computed : {
+    	disableSecond() {
+    		if (this.startDate == "") {
+    			return {
+  		          to: new Date(Date.now() - 8640000)
+    	        }
+    		} else {
+    			return {
+    				to: new Date(this.startDate + 8640000)
+    		
+    			}
+    		}
+    	}
+    	
     },
     methods : {
     	checkedComment : function() {

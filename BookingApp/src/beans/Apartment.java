@@ -251,4 +251,14 @@ public class Apartment implements IIdentifiable<Integer> {
 		}
 		return flag;
 	}
+	
+	public boolean isOneDateValid(Date date) {
+		boolean flag = false;
+		for (Period p : periodsForRent) {
+			if (p.getStartDate().compareTo(date) <= 0 && p.getEndDate().compareTo(date) >= 0) {
+				flag = true;
+			}
+		}
+		return flag;
+	}
 }

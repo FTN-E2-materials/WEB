@@ -35,7 +35,9 @@ Vue.component("apartment-details", {
 			numOfNights : "",
 			message : "",
 			address : "",
-			isThereAnyComment : false
+			isThereAnyComment : false,
+			city : "",
+			state : ""
 		}
 	},
 	template: `
@@ -73,7 +75,7 @@ Vue.component("apartment-details", {
                 <p class="title-desc">OPIS APARTMANA</p>
                 <p>{{apartmentDesc}}</p>
                 <p>Sadržaj apartmana: {{amenityDetails}}</p>
-                <p>Adresa : {{address}} </p>
+                <p>Adresa : {{address}}, {{city}}, {{state}} </p>
                 </div>
         </div>
 
@@ -182,6 +184,8 @@ Vue.component("apartment-details", {
 				this.apartment = response.data;
 				this.id = response.data.id;
 				this.address = response.data.location.address.address;
+				this.city = response.data.location.address.city.city;
+				this.state = response.data.location.address.city.state.state;
 				this.mainPicture = response.data.apartmentPictures[0];
 				this.checkInTime = response.data.checkInTime;
 				this.checkOutTime = response.data.checkOutTime;

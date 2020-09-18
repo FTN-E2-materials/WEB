@@ -88,6 +88,7 @@ Vue.component("apartments", {
                     <h1 class = "info-reservation" v-if="a.costCurrency=='Euro'">Cena po noći: {{a.costForNight}} € </h1>
                     <h1 class = "info-reservation" v-if="a.costCurrency=='Dollar'">Cena po noći: {{a.costForNight}} $ </h1>
                     <h1 class = "info-reservation" v-if="a.costCurrency=='Dinar'">Cena po noći: {{a.costForNight}} RSD</h1>
+                    <h1 class = "info-reservation">{{a.location.address.address}}, {{a.location.address.city.city}}, {{a.location.address.city.state.state}}  </h1>
 
                     <div class="more-buttons">
                     		<div hidden>

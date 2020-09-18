@@ -45,6 +45,9 @@ Vue.component("add_apartment", {
             disabledDates: {
 		          to: new Date(Date.now() - 8640000)
 	        },
+	        disabledDates2: {
+		          to: new Date(Date.now() - 8640000)
+	        },
 	        currentlyAdded : "",
 	        startDate : "",
 	        endDate : "",
@@ -113,7 +116,7 @@ Vue.component("add_apartment", {
                 <td style="color:red;">{{errorStartDate}}</td>
                 </tr>
                 <tr><td>Krajnji datum za izdavanje: </td>
-                <td><vuejs-datepicker name="endDate" width="250px" class="input-apt" type="date" v-model="endDate" :disabledDates="disabledDates" format="dd.MM.yyyy."></vuejs-datepicker></td>
+                <td><vuejs-datepicker name="endDate" width="250px" class="input-apt" type="date" v-model="endDate" :disabledDates="disableSecond" format="dd.MM.yyyy."></vuejs-datepicker></td>
                 <td style="color:red;">{{errorEndDate}}</td>
                 </tr>
                 <tr><td>Vreme prijave: </td>
@@ -302,6 +305,21 @@ Vue.component("add_apartment", {
 		    
 		    
 		  });
+    }, 
+    computed : {
+    	disableSecond() {
+    		if (this.startDate == "") {
+    			return {
+  		          to: new Date(Date.now() - 8640000)
+    	        }
+    		} else {
+    			return {
+    				to: new Date(this.startDate + 8640000)
+    		
+    			}
+    		}
+    	}
+    	
     },
     methods : {
     	checkedComment : function() {
@@ -339,6 +357,7 @@ Vue.component("add_apartment", {
 		   this.latitude = document.querySelector('#latitude').value;
 		   this.city = document.querySelector('#city').value;
            let flag=true;
+           console.log(this.currency);
            if (this.apartmentName=='') {
         	   this.errorName = "Ime apartmana je obavezno polje!";
         	   return false;
@@ -503,7 +522,7 @@ Vue.component("add_apartment", {
 	               // state:'',
 	                location: locationCurr,
 	                costForNight:this.price,
-	                costCurrency:this.currency,
+	                currency:this.currency,
 	                active: false,
 	                checkInTime:this.applicationTime,
 	                checkOutTime:this.checkOutTime,
@@ -514,7 +533,7 @@ Vue.component("add_apartment", {
 	                
 	            
 	            };
-	
+	            console.log(this.currency);
 	            axios
 					.post('/apartments/addApartment', JSON.stringify(apartmentParameters))
 				    .then(response => {

@@ -93,6 +93,31 @@ public class UsersController {
 				return "";
 			}
 		});
+		
+
+		post("/user/registerHost", (req, res) -> {
+			res.type("application/json");
+
+			try {
+				Session ss = req.session(true);
+				User u = ss.attribute("user"); 
+				if (u == null) {
+					res.status(403);
+					return "";
+				}
+				
+				if (u.getRole() != UserRole.Administrator) {
+					res.status(403);
+					return "";
+				}
+					
+				User tryRegister = usersService.register(gs.fromJson(req.body(), RegisterDTO.class));
+				return gs.toJson(tryRegister);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
 
 		post("/user/updateUser", (req, res) -> {
 			try {

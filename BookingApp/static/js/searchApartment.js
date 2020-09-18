@@ -39,7 +39,7 @@ Vue.component("search-apartment", {
 			sort_type : "",
 			apt_type : "",
 			options : [],
-			autocompleteInstance : []
+			autocompleteInstance : [],
 			
 		}
 	},
@@ -56,7 +56,7 @@ Vue.component("search-apartment", {
 						      id="autocomplete-dataset"
 						      class="form-control"
 						      placeholder="Destinacija"
-						      v-model="locationSearch" name="dest"
+						      name="dest"
 						    />
 						 </div>
                     <div class = "column2">
@@ -149,8 +149,12 @@ Vue.component("search-apartment", {
                 <div class="col-informations">
                     <h1 class = "info-reservation">Broj soba: {{a.numberOfRooms}}</h1>
                     <h1 class = "info-reservation">Broj osoba: {{a.numberOfGuests}}</h1>
-                    <p hidden class = "reservation-date">Poruka o rezervaciji</p>
-                    <h1 class = "info-reservation">Cena po noći: {{a.costForNight}}</h1>
+                    <p hidden class = "reservation-date">Poruka o rezervaciji</p>                   
+					<h1 class = "info-reservation" v-if="a.costCurrency=='Euro'">Cena po noći: {{a.costForNight}} € </h1>
+                    <h1 class = "info-reservation" v-if="a.costCurrency=='Dollar'">Cena po noći: {{a.costForNight}} $ </h1>
+                    <h1 class = "info-reservation" v-if="a.costCurrency=='Dinar'">Cena po noći: {{a.costForNight}} RSD</h1>
+                    <h1 class = "info-reservation">{{a.location.address.address}}, {{a.location.address.city.city}}, {{a.location.address.city.state.state}}  </h1>
+
 
                     <div class="more-buttons">
                             <div class = "one-button">
@@ -165,6 +169,9 @@ Vue.component("search-apartment", {
                 
 
         </div>
+        <input type="text" id="city" hidden>
+        <input type="text" id="country" hidden>
+        
         </div>
 	`,
 	mounted () {
@@ -239,8 +246,19 @@ Vue.component("search-apartment", {
             datasetName
           ) {
             console.log(datasetName, suggestion);
+
+            if (suggestion.type === 'city') {
+            	document.querySelector("#city").value = suggestion.name || '';
+            	document.querySelector("#country").value = suggestion.country || '';
+            } else if (suggestion.type === 'country') {
+            	document.querySelector("#city").value = '';
+            	document.querySelector("#country").value = suggestion.value || '';
+            }
+
+        	document.querySelector('#autocomplete-dataset').value = suggestion.value || '';
           });
         });
+        
 
         document.querySelector("#autocomplete-dataset").on("change", evt => {
         	document.querySelector('#autocomplete-dataset').value = e.suggestion.value || '';
@@ -299,6 +317,8 @@ Vue.component("search-apartment", {
 			}
 
 		    this.locationSearch = cyrilicToLatinic(document.querySelector('#autocomplete-dataset').value);
+		    let city = cyrilicToLatinic(document.querySelector('#city').value);
+		    let country = cyrilicToLatinic(document.querySelector('#country').value);
 		    console.log(this.locationSearch)
 			let searchParameters = {
 				location : this.locationSearch,
@@ -306,7 +326,9 @@ Vue.component("search-apartment", {
 				numberOfRooms : this.roomNum,
 				dateFrom : start,
 				dateTo : end,
-				cost : this.cost
+				cost : this.cost,
+				city : city,
+				country : country
 			}
 			console.log(searchParameters.dateFrom);
 				
@@ -314,7 +336,10 @@ Vue.component("search-apartment", {
 					.post("/apartments/getAvailable", JSON.stringify(searchParameters))
 					.then(response => {
 						this.apartments = response.data;
-					})
+						if (response.data.length == 0) {
+							this.apartments = [];
+						}
+ 					})
 				this.showResults = true;
 			},
 		showFilters : function() {

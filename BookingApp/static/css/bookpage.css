@@ -839,6 +839,7 @@ input:focus {
     opacity: 0.9;
     border-radius: 10px;
     align-content: center;
+    z-index: -1;
     background-color: #fff;
     box-shadow: 0 19px 40px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
 }

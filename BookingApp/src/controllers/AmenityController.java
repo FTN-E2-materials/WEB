@@ -47,10 +47,11 @@ public class AmenityController {
 			}
 		});
 		
-		put("/amenities/addAmenity", (req, res) -> {
+		post("/amenities/addAmenity", (req, res) -> {
 			try {
+				res.type("application/json");
 				amenityService.addAmenity(gs.fromJson(req.body(), String.class));
-				return "Success";
+				return gs.toJson(amenityService.getAllAmenities());
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
@@ -59,8 +60,9 @@ public class AmenityController {
 		
 		delete("/amenities/deleteAmenity/:id", (req, res) -> {
 			try {
+				res.type("application/json");
 				amenityService.deleteAmenity(gs.fromJson(req.params("id"), String.class));
-				return "Success";
+				return gs.toJson(amenityService.getAllAmenities());
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;

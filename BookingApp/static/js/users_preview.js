@@ -19,7 +19,7 @@ Vue.component("users_preview" , {
     <div class="profile-view-part2">
     <h2>Pregled korisnika</h2>
     <div style="display:flex;">
-    <div v-bind:hidden="canBlock==false">
+   <div v-bind:hidden="canBlock==false">
     <select style="margin-left:300px;border:none;" v-on:change="FilterChanged" id="roleFilter" >
     <option value="All" >Svi tipovi korisnika</option>
     <option value="Administrator" >Admini</option>
@@ -35,6 +35,11 @@ Vue.component("users_preview" , {
     </select>
     <input type="search" placeholder="Pretraži..." style="margin-left:130px;" v-on:input="searchActive(this.value)" v-on:blur="searchUnactive" v-model="searchInput" />
     </div>
+    
+    <div v-bind:hidden="canBlock==false">
+    	<button class = "submit" @click="addHost"> Dodajte domaćina </button>
+    </div>
+ 
     <div    v-bind:hidden="searchMode!=false">
     <div class = "row-reservations" v-for = "user in users">
         <div class="row-reservations">
@@ -226,13 +231,16 @@ Vue.component("users_preview" , {
     		        })
     				
     			} else {
-    				window.location.href = "#/";
+    				
     				this.canBlock = false;
     			}
     		});
 
     },
     methods : {
+    	addHost : function() {
+    		this.$router.push("/registerHost");
+    	},
        searchActive: function(){
            this.searchMode=true;
            this.searchedUsers=[];
